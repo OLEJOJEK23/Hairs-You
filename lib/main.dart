@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/features/HomeScreen/view/Home.dart';
 import 'package:hairs_and_you/features/LoginScreen/view/Login.dart';
-
-import 'features/InputOTPCode/InputOTPCodeScreen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -16,11 +16,20 @@ Future<void> main() async {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
+  User? user;
+
+  @override
+  void initState() {
+    user = FirebaseAuth.instance.currentUser;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,9 +39,8 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
-      routes: {
-      },
+      home: user == null ? const LoginScreen() : const HomeScreen(),
+
     );
   }
 }

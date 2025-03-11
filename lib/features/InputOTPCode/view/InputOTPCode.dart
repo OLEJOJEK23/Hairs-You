@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:pinput/pinput.dart';
 
 class InputOTPCodeScreen extends  StatefulWidget {
@@ -52,6 +53,7 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
                     child: Pinput(
                       length: 6,
                       onCompleted: (value) {
+                        PhoneAuthController.virifyOTP(context, value, widget.verificationID);
 
                       },
                     ),

@@ -8,8 +8,8 @@ import '../features/InputOTPCode/InputOTPCodeScreen.dart';
 class PhoneAuthController {
 
   static final _auth = FirebaseAuth.instance;
-  static Future<void> sendOTP(BuildContext context, String phoneNumber) async {
 
+  static Future<void> sendOTP(BuildContext context, String phoneNumber) async {
     try {
       await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
@@ -72,10 +72,9 @@ class PhoneAuthController {
       final credential = PhoneAuthProvider.credential(verificationId: verificationID, smsCode: smsCode);
       await _auth.signInWithCredential(credential);
       if(!context.mounted) return;
+
       Navigator.of(context).push( MaterialPageRoute(
           builder: (context) => const HomeScreen()));
-
-
     }
     on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
@@ -88,6 +87,10 @@ class PhoneAuthController {
             )
         );
     }
+  }
+
+  static Future<void> signOut() async {
+    await _auth.signOut();
   }
 
 }

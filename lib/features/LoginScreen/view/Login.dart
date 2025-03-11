@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-import '../../InputOTPCode/InputOTPCodeScreen.dart';
 
 class LoginScreen extends  StatefulWidget {
   const LoginScreen({super.key});
@@ -14,7 +14,11 @@ class LoginScreen extends  StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   bool _enableInterButton = false;
-  String? phoneNumber = "";
+  String phoneNumber = "";
+
+  getOTP() {
+    PhoneAuthController.sendOTP(context, phoneNumber);
+  }
 
   @override
   void initState() {
@@ -40,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: InternationalPhoneNumberInput(
                         onInputChanged: (value) {
                           setState(() {
-                            debugPrint(phoneNumber);
+                            phoneNumber = value.phoneNumber!;
                           });
                         },
                       onInputValidated: (value) {
@@ -79,9 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       child:  SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed:  _enableInterButton? () {
-                            Navigator.pushNamed(context, "code",arguments: phoneNumber);
-                          } : null ,
+                          onPressed:   () {
+                            getOTP();
+                          }  ,
                           style: ElevatedButton.styleFrom(
                             disabledBackgroundColor: Colors.black12,
                             disabledForegroundColor: Colors.black,

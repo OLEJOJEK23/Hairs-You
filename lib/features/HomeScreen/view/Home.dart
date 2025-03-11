@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
+import '../../LoginScreen/LoginScreen.dart';
 
 class HomeScreen extends  StatefulWidget {
   const HomeScreen({super.key});
@@ -18,10 +20,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
         body: SafeArea(
           child: Center(
-            child: Text("home")
+            child: ElevatedButton(
+                onPressed: () {
+                  PhoneAuthController.signOut();
+                  Navigator.of(context).push( MaterialPageRoute(
+                      builder: (context) => const LoginScreen()));
+                },
+                child: const Text("LogOut"))
           )
         ),
     );
