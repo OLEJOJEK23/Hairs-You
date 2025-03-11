@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "191893163138",
+    "project_id": "hairsyou-149cc",
+    "storage_bucket": "hairsyou-149cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191893163138:android:cbc46213a6520d474f389b",
+        "android_client_info": {
+          "package_name": "com.example.hairs_and_you"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARsGto-k-ZjitO7x5c28oRlHOwxZkN8EI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
