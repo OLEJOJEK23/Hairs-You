@@ -83,9 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child:  SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed:   () {
-                            getOTP();
-                          }  ,
+                          onPressed: _enableInterButton ? () {getOTP();} : null,
                           style: ElevatedButton.styleFrom(
                             disabledBackgroundColor: Colors.black12,
                             disabledForegroundColor: Colors.black,
