@@ -28,8 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Center(
+      body: Center(
             child: Padding(
               padding:  const EdgeInsets.all(16.0),
               child: Column(
@@ -101,11 +100,42 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       )
                   ),
+                  const Divider(),
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child:  SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed:  () async {
+                            await GoogleAuthController().loginWithGoogle(context);
+                          } ,
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.black,
+                            backgroundColor: Colors.yellow.shade400,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )
+                          ),
+                          icon: Image.asset(
+                            "assets/images/google_logo.png",
+                            width: 20,
+                            height: 20,
+                          ),
+                          label: const Text(
+                            "Войти с помощью Google",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      )
+                  ),
                 ],
               ),
             ),
           ),
-      )
     );
   }
 }

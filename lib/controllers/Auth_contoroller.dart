@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../features/HomeScreen/HomeScreen.dart';
 import '../features/InputOTPCode/InputOTPCodeScreen.dart';
@@ -94,3 +95,41 @@ class PhoneAuthController {
   }
 
 }
+
+class GoogleAuthController {
+
+  static final _auth = FirebaseAuth.instance;
+
+  Future<void> loginWithGoogle(BuildContext context) async {
+    try {
+      final googleUser = await GoogleSignIn().signIn();
+      final googleAuth = await googleUser?.authentication;
+      final credential = GoogleAuthProvider.credential(
+          idToken:googleAuth?.idToken,
+          accessToken: googleAuth?.accessToken
+      );
+      await _auth.signInWithCredential(credential);
+      if(!context.mounted) return;
+
+      Navigator.of(context).push( MaterialPageRoute(
+          builder: (context) => const HomeScreen()));
+    }
+    on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+            SnackBar(
+                content: Text
+                  (e.message ?? "Что-то пошло не так"
+                )
+            )
+        );
+    }
+  }
+
+}
+
+
+
+
+
