@@ -51,6 +51,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             _enableInterButton = value;
                           });
                       },
+                      selectorTextStyle: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      spaceBetweenSelectorAndTextField: 0,
+                      searchBoxDecoration: const InputDecoration(
+                        focusColor: Colors.black,
+                        focusedBorder: OutlineInputBorder(
+                        ),
+                        labelText: "Телефонный код страны",
+                        hintStyle:  TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        labelStyle:  TextStyle(
+                            color: Colors.black
+                        ),
+                      ),
                       formatInput: true,
                       autoFocus: true,
                       selectorConfig: const SelectorConfig(
