@@ -1,7 +1,9 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import '../../LoginScreen/LoginScreen.dart';
 
+@RoutePage()
 class ProfileScreen extends  StatefulWidget {
   const ProfileScreen({super.key});
 

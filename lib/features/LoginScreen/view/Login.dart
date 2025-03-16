@@ -1,8 +1,9 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
-
+@RoutePage()
 class LoginScreen extends  StatefulWidget {
   const LoginScreen({super.key});
 
