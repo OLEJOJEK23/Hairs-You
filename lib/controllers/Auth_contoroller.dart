@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -73,9 +74,7 @@ class AuthController {
       final credential = PhoneAuthProvider.credential(verificationId: verificationID, smsCode: smsCode);
       await _auth.signInWithCredential(credential);
       if(!context.mounted) return;
-
-      Navigator.of(context).push( MaterialPageRoute(
-          builder: (context) => const HomeScreen()));
+      context.router.replaceNamed("/");
     }
     on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
@@ -100,9 +99,7 @@ class AuthController {
       );
       await _auth.signInWithCredential(credential);
       if(!context.mounted) return;
-
-      Navigator.of(context).push( MaterialPageRoute(
-          builder: (context) => const HomeScreen()));
+      context.router.replaceNamed("/");
     }
     on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)

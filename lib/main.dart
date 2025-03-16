@@ -45,7 +45,6 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
         useMaterial3: true,
       ),
       routerConfig: _router.config(),
-
     );
   }
 }

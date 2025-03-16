@@ -5,6 +5,7 @@ import '../features/FavoriteScreen/FavoriteScreen.dart';
 import '../features/HomeScreen/HomeScreen.dart';
 import '../features/LoginScreen/LoginScreen.dart';
 import '../features/MapScreen/MapScreen.dart';
+import '../features/PrimaryScreen/PrimaryScreen.dart';
 import '../features/ProfileScreen/ProfileScreen.dart';
 
 part 'router.gr.dart';
@@ -17,23 +18,30 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       guards: [AuthGuard()],
       page: HomeRoute.page,
+      initial: true,
       path: '/',
-    ),
-    AutoRoute(
-      page: AIRoute.page,
-      path: '/ai',
-    ),
-    AutoRoute(
-      page: MapRoute.page,
-      path: '/map',
-    ),
-    AutoRoute(
-      page: FavoriteRoute.page,
-      path: '/favorite',
-    ),
-    AutoRoute(
-      page: ProfileRoute.page,
-      path: '/profile',
+      children: [
+        AutoRoute(
+          page: PrimaryRoute.page,
+          path: 'primary',
+        ),
+        AutoRoute(
+          page: AIRoute.page,
+          path: 'ai',
+        ),
+        AutoRoute(
+          page: MapRoute.page,
+          path: 'map',
+        ),
+        AutoRoute(
+          page: FavoriteRoute.page,
+          path: 'favorite',
+        ),
+        AutoRoute(
+          page: ProfileRoute.page,
+          path: 'profile',
+        ),
+      ]
     ),
     AutoRoute(
       page: LoginRoute.page,
