@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String phoneNumber = "";
 
   getOTP() {
-    PhoneAuthController.sendOTP(context, phoneNumber);
+    AuthController.sendOTP(context, phoneNumber);
   }
 
   @override
@@ -54,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       selectorTextStyle: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.normal,
+                        fontSize: 16
                       ),
                       spaceBetweenSelectorAndTextField: 0,
                       searchBoxDecoration: const InputDecoration(
@@ -81,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintStyle: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.normal,
+                            fontSize: 16
                           ),
                           labelStyle: const TextStyle(
                               color: Colors.black
@@ -125,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: double.infinity,
                         child: ElevatedButton.icon(
                           onPressed:  () async {
-                            await GoogleAuthController().loginWithGoogle(context);
+                            await AuthController().loginWithGoogle(context);
                           } ,
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black,

@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Center(
             child: ElevatedButton(
                 onPressed: () {
-                  PhoneAuthController.signOut();
+                  AuthController.signOut();
                   Navigator.of(context).push( MaterialPageRoute(
                       builder: (context) => const LoginScreen()));
                 },

@@ -53,7 +53,7 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
                     child: Pinput(
                       length: 6,
                       onCompleted: (value) {
-                        PhoneAuthController.virifyOTP(context, value, widget.verificationID);
+                        AuthController.virifyOTP(context, value, widget.verificationID);
 
                       },
                     ),

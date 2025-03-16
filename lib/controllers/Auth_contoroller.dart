@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../features/HomeScreen/HomeScreen.dart';
 import '../features/InputOTPCode/InputOTPCodeScreen.dart';
 
-class PhoneAuthController {
+class AuthController {
 
   static final _auth = FirebaseAuth.instance;
 
@@ -90,16 +90,6 @@ class PhoneAuthController {
     }
   }
 
-  static Future<void> signOut() async {
-    await _auth.signOut();
-  }
-
-}
-
-class GoogleAuthController {
-
-  static final _auth = FirebaseAuth.instance;
-
   Future<void> loginWithGoogle(BuildContext context) async {
     try {
       final googleUser = await GoogleSignIn().signIn();
@@ -127,7 +117,14 @@ class GoogleAuthController {
     }
   }
 
+  static Future<void> signOut() async {
+    await _auth.signOut();
+  }
+
 }
+
+
+
 
 
 
