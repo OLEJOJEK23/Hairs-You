@@ -13,6 +13,7 @@ class MapScreen extends  StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
 
 
+
   @override
   void initState() {
     super.initState();
@@ -20,11 +21,13 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  const  Scaffold(
-      body: SafeArea(
-          child: Center(
-              child:   Text("Map"))
-          )
+    return  Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Center(
+          child: Text("map")
+        )
+      )
     );
   }
 }
