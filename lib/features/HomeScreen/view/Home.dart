@@ -39,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
           final tabsRouter = AutoTabsRouter.of(context);
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               title: const Text("Hairs&You"),
+              centerTitle: true,
             ),
             body: child,
             bottomNavigationBar: BottomNavigationBar(
@@ -50,23 +50,23 @@ class _HomeScreenState extends State<HomeScreen> {
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
-                  label: 'Home',
+                  label: 'Главная',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.map),
-                  label: 'Map',
+                  label: 'Запись',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.biotech),
-                  label: 'AI',
+                  label: 'Генерация',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.favorite),
-                  label: 'Favorite',
+                  label: 'Избранное',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
-                  label: 'Profile',
+                  label: 'Профиль',
                 ),
               ],
               onTap: (index) => _openPage(index, tabsRouter),
