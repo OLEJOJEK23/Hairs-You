@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../../../router/router.dart';
 
@@ -32,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
           PrimaryRoute(),
           MapRoute(),
           AIRoute(),
-          FavoriteRoute(),
           ProfileRoute(),
         ],
         builder: (context, child) {
@@ -43,33 +43,32 @@ class _HomeScreenState extends State<HomeScreen> {
               centerTitle: true,
             ),
             body: child,
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: tabsRouter.activeIndex,
-              unselectedItemColor: theme.hintColor,
-              selectedItemColor: theme.primaryColor,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Главная',
+            bottomNavigationBar: GNav(
+              gap: 5,
+              rippleColor: Colors.grey.shade400, // Цвет при нажатии
+              selectedIndex: tabsRouter.activeIndex,
+              padding: const EdgeInsets.all(20),
+              color: theme.hintColor,
+              activeColor: theme.primaryColor,
+              tabs: const [
+                GButton(
+                  icon: Icons.home,
+                  text: 'Главная',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.map),
-                  label: 'Запись',
+                GButton(
+                  icon: Icons.map,
+                  text: 'Запись',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.biotech),
-                  label: 'Генерация',
+                GButton(
+                  icon: Icons.biotech,
+                  text: 'Генерация',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
-                  label: 'Избранное',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: 'Профиль',
+                GButton(
+                  icon: Icons.person,
+                  text: 'Профиль',
                 ),
               ],
-              onTap: (index) => _openPage(index, tabsRouter),
+              onTabChange: (index) => _openPage(index, tabsRouter),
             ),
           );
         },

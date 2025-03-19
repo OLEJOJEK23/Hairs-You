@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.hairs_and_you"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

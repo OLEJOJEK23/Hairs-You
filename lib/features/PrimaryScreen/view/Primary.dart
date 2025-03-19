@@ -37,6 +37,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
       'image': 'assets/images/google_logo.png' // Replace with actual asset path
     }, // Add more offers as needed
   ];
+
   final List<Map<String, String>> _bestOffers = [
     {
       'title': 'Суперскидка',
@@ -198,7 +199,6 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
   }
 }
 
-// Custom Widget for Offer Cards
 class OfferCard extends StatelessWidget {
   final String title;
   final String description;
