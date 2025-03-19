@@ -172,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         const SizedBox(width: 4),
-        Icon(Icons.star, color: Colors.amber[400], size: 30),
+        Icon(Icons.star, color: Colors.amber[400], size: 20),
       ],
     );
   }
