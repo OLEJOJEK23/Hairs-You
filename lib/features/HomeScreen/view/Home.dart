@@ -38,10 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, child) {
           final tabsRouter = AutoTabsRouter.of(context);
           return Scaffold(
-            appBar: AppBar(
-              title: const Text("Hairs&You"),
-              centerTitle: true,
-            ),
             body: child,
             bottomNavigationBar: GNav(
               gap: 5,

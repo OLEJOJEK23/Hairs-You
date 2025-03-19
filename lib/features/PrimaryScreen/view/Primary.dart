@@ -74,96 +74,139 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Search Bar
-              TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+      body:  CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: const Text("Hairs&You"),
+              snap: true,
+              pinned: true,
+              floating: true,
+              centerTitle: true,
+              surfaceTintColor: Colors.transparent,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(55),
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 10),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(15),
                   ),
+                  child: const Row(
+                    children: [
+                      Icon(Icons.search),
+                      SizedBox(width: 12),
+                      Text(
+                        "Поиск заведений",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ) ,
+                      ),
+                    ],
+                  )
                 ),
               ),
-              const SizedBox(height: 20),
-              // Special Offers Title
-              const Text(
-                'Специальные предложения',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              // Special Offers List (Horizontal Scroll)
-              SizedBox(
-                height: 250, // Adjust height as needed
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _specialOffers.length,
-                  itemBuilder: (context, index) {
-                    final offer = _specialOffers[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 20.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          // Handle tap on Special Offer
-                          _onOfferTapped(context, offer);
-                        },
-                        child: OfferCard(
-                          title: offer['title']!,
-                          description: offer['description']!,
-                          imagePath: offer['image']!,
-                          address: offer['address']!,
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.only(top: 16),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Container(
+                        width: double.infinity,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const Text("Активная запись если есть"),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Special Offers Title
+                    const Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 16),
+                      child:  Text(
+                        'Специальные предложения',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Лучшие предложения',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 250,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _bestOffers.length,
-                  itemBuilder: (context, index) {
-                    final offer = _bestOffers[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 20.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          _onOfferTapped(context, offer);
+                    ),
+                    const SizedBox(height: 10),
+                    // Special Offers List (Horizontal Scroll)
+                    SizedBox(
+                      height: 250, // Adjust height as needed
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _specialOffers.length,
+                        itemBuilder: (context, index) {
+                          final offer = _specialOffers[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                // Handle tap on Special Offer
+                                _onOfferTapped(context, offer);
+                              },
+                              child: OfferCard(
+                                title: offer['title']!,
+                                description: offer['description']!,
+                                imagePath: offer['image']!,
+                                address: offer['address']!,
+                              ),
+                            ),
+                          );
                         },
-                        child: OfferCard(
-                          title: offer['title']!,
-                          description: offer['description']!,
-                          imagePath: offer['image']!,
-                          address: offer['address']!,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 16),
+                      child:  Text(
+                        'Лучшие предложения',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: 250,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _bestOffers.length,
+                        itemBuilder: (context, index) {
+                          final offer = _bestOffers[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                _onOfferTapped(context, offer);
+                              },
+                              child: OfferCard(
+                                title: offer['title']!,
+                                description: offer['description']!,
+                                imagePath: offer['image']!,
+                                address: offer['address']!,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ]
+                )
+              )
+            )
+          ],
         ),
-      ),
     );
   }
 
@@ -215,7 +258,7 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,7 +267,7 @@ class OfferCard extends StatelessWidget {
             imagePath,
             width: double.infinity,
             height: 150, // Adjust height as needed
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
