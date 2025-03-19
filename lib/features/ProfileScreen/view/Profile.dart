@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
-import 'package:hairs_and_you/router/router.dart';
+import 'package:hairs_and_you/features/ProfileScreen/widgets/ProfileMenuWidget.dart';
+import '../../../controllers/Auth_contoroller.dart';
+import '../../../router/router.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -21,6 +22,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final user = _auth.currentUser;
@@ -30,33 +33,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: SingleChildScrollView(
-            child: Center(
+          child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Profile Picture (Placeholder for Now)
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 10,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: const CircleAvatar(
-                      radius: 80,
-                      backgroundImage: AssetImage(
-                          'assets/images/profile_placeholder.png'), // Replace with actual asset
-                      backgroundColor: Colors.grey,
-                    ),
+                  Stack(
+                    children:[
+                      Stack(
+                        children: [
+                          Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 2,
+                                blurRadius: 10,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                            child: const CircleAvatar(
+                            radius: 90,
+                            backgroundImage: AssetImage(
+                                'assets/images/google_logo.png'
+                            ),
+                          ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration:
+                              BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: Colors.grey
+                              ),
+                              child: IconButton(
+                                  onPressed: () {
+                                    
+                                  }, 
+                                  icon: Icon(
+                                    Icons.photo_camera,
+                                    color: theme.primaryColor,
+                                  )
+                              )
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]
                   ),
                   const SizedBox(height: 24),
-
                   // User Name
                   Text(
                     user?.displayName ?? "User Name", // Display name if available
@@ -65,7 +96,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
                   // User Email
                   Text(
                     user?.email ?? "user@example.com", // Display email if available
@@ -74,26 +104,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: theme.hintColor,
                     ),
                   ),
-                  const SizedBox(height: 16),
                   // User Rating
                   _buildRatingDisplay(theme),
-                  const SizedBox(height: 30),
-                  // Logout Button
-                  ElevatedButton(
-                    onPressed: () async {
-                      await AuthController.signOut();
-                      // ignore: use_build_context_synchronously
-                      context.router.replaceAll([const LoginRoute()]);
-                    },
-                    child: const Text("Выйти"),
+                  const SizedBox(height: 20),
+                  // Edit Profile Button
+                  SizedBox(
+                    width: 300,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                          "Редактировать профиль",
+                          style: TextStyle(color: Colors.black)
+                      ),
+                    ),
                   ),
-                  // Add more profile details or options below here
+                  const SizedBox(height: 20),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  ProfileMenuWidget(
+                      title: "Избранное",
+                      icon: Icons.favorite,
+                      onPress: () {}
+                  ),
+                  ProfileMenuWidget(
+                      title: "История генераций",
+                      icon: Icons.history,
+                      onPress: () {
+
+                      }
+                  ),
+                  ProfileMenuWidget(
+                      title: "Настройки",
+                      icon: Icons.settings,
+                      onPress: () {
+
+                      }
+                  ),
+                  ProfileMenuWidget(
+                      title: "Выйти",
+                      icon: Icons.logout,
+                      textColor: Colors.red,
+                      endIcon: false,
+                      onPress: () async {
+                        await AuthController.signOut();
+                        context.router.replaceAll([const LoginRoute()]);;
+                      }
+                  ),
                 ],
               ),
             ),
           ),
         ),
-      ),
     );
   }
 
@@ -108,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         const SizedBox(width: 8),
         Text(
           _userRating.toStringAsFixed(1),
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         const SizedBox(width: 4),
         Icon(Icons.star, color: Colors.amber[400], size: 30),

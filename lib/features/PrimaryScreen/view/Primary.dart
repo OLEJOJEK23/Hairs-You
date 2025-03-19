@@ -117,13 +117,40 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Container(
+                        padding: const EdgeInsets.all(8),
+                        alignment: Alignment.topLeft,
                         width: double.infinity,
-                        height: 100,
+                        height: 150,
                         decoration: BoxDecoration(
-                          color: Colors.grey,
+                          border: Border.all(color: Colors.black),
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: const Text("Активная запись если есть"),
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Активная запись",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.green
+                                  ),
+                                ),
+                                Text(" 13.12.2043 12:13 "),
+                              ],
+                            ),
+                            Text(
+                              "У марии",
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text("Санкт-Петербург, Каменноостровский проспект 30"),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -143,6 +170,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                     SizedBox(
                       height: 250, // Adjust height as needed
                       child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemCount: _specialOffers.length,
                         itemBuilder: (context, index) {
@@ -180,6 +208,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                     SizedBox(
                       height: 250,
                       child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemCount: _bestOffers.length,
                         itemBuilder: (context, index) {
