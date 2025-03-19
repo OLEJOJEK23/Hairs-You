@@ -29,6 +29,25 @@ class AIRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ChangeProfileScreen]
+class ChangeProfileRoute extends PageRouteInfo<void> {
+  const ChangeProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          ChangeProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChangeProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ChangeProfileScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [FavoriteScreen]
 class FavoriteRoute extends PageRouteInfo<void> {
   const FavoriteRoute({List<PageRouteInfo>? children})
@@ -43,6 +62,25 @@ class FavoriteRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const FavoriteScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [HistoryScreen]
+class HistoryRoute extends PageRouteInfo<void> {
+  const HistoryRoute({List<PageRouteInfo>? children})
+      : super(
+          HistoryRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HistoryRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const HistoryScreen();
     },
   );
 }
@@ -138,6 +176,25 @@ class ProfileRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const ProfileScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [SettingsScreen]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const SettingsScreen();
     },
   );
 }

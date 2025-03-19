@@ -111,7 +111,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     width: 300,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.router.pushNamed("/changeProfile");
+                      },
                       child: const Text(
                           "Редактировать профиль",
                           style: TextStyle(color: Colors.black)
@@ -124,20 +126,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ProfileMenuWidget(
                       title: "Избранное",
                       icon: Icons.favorite,
-                      onPress: () {}
+                      onPress: () {
+                        context.router.pushNamed("/favorite");
+                      }
                   ),
                   ProfileMenuWidget(
                       title: "История генераций",
                       icon: Icons.history,
                       onPress: () {
-
+                        context.router.pushNamed("/history");
                       }
                   ),
                   ProfileMenuWidget(
                       title: "Настройки",
                       icon: Icons.settings,
                       onPress: () {
-
+                        context.router.pushNamed("/settings");
                       }
                   ),
                   ProfileMenuWidget(

@@ -10,31 +10,30 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  // Sample data for favorite establishments/masters
   final List<Map<String, dynamic>> _favorites = [
     {
       'name': 'У Марии',
       'address': 'Санкт-Петербург, Ленинский проспект 147',
       'rating': 4.8,
-      'image': 'assets/images/google_logo.png', // Replace with actual image path
+      'image': 'assets/images/google_logo.png',
     },
     {
       'name': 'Стрижка',
       'address': 'Санкт-Петербург, Ленинский проспект 148',
       'rating': 4.5,
-      'image': 'assets/images/google_logo.png', // Replace with actual image path
+      'image': 'assets/images/google_logo.png',
     },
     {
       'name': 'Барбершоп',
       'address': 'Санкт-Петербург, Ленинский проспект 149',
       'rating': 4.9,
-      'image': 'assets/images/google_logo.png', // Replace with actual image path
+      'image': 'assets/images/google_logo.png',
     },
     {
       'name': 'Подстирижися',
       'address': 'Санкт-Петербург, Ленинский проспект 1410',
       'rating': 4.2,
-      'image': 'assets/images/google_logo.png', // Replace with actual image path
+      'image': 'assets/images/google_logo.png',
     },
   ];
 
@@ -48,6 +47,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Избранное"),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
