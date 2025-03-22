@@ -28,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: Center(
             child: Padding(
@@ -52,49 +53,28 @@ class _LoginScreenState extends State<LoginScreen> {
                             _enableInterButton = value;
                           });
                       },
-                      selectorTextStyle: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 16
-                      ),
+                      selectorTextStyle: theme.textTheme.bodyMedium,
                       spaceBetweenSelectorAndTextField: 0,
-                      searchBoxDecoration: const InputDecoration(
-                        focusColor: Colors.black,
-                        focusedBorder: OutlineInputBorder(
-                        ),
+                      searchBoxDecoration:  InputDecoration(
+                        focusColor: theme.inputDecorationTheme.focusColor,
+                        focusedBorder: theme.inputDecorationTheme.focusedBorder,
                         labelText: "Телефонный код страны",
-                        hintStyle:  TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        labelStyle:  TextStyle(
-                            color: Colors.black
-                        ),
+                        hintStyle:  theme.inputDecorationTheme.hintStyle,
+                        labelStyle: theme.inputDecorationTheme.labelStyle,
                       ),
                       formatInput: true,
                       autoFocus: true,
                       selectorConfig: const SelectorConfig(
-                        selectorType: PhoneInputSelectorType.DIALOG,
+                        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                         useEmoji: true
                       ),
                       inputDecoration: InputDecoration(
                           labelText: "Номер телефона",
                           hintText: "Введите номер телефона",
-                          hintStyle: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 16
-                          ),
-                          labelStyle: const TextStyle(
-                              color: Colors.black
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.black),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                          hintStyle: theme.textTheme.bodyMedium,
+                          labelStyle: theme.textTheme.labelLarge,
+                          focusedBorder: theme.inputDecorationTheme.focusedBorder,
+                          border: theme.inputDecorationTheme.border,
                       ),
                     )
                   ),
@@ -103,20 +83,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       child:  SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: _enableInterButton ? () {getOTP();} : null,
-                          style: ElevatedButton.styleFrom(
-                            disabledBackgroundColor: Colors.black12,
-                            disabledForegroundColor: Colors.black,
-                            foregroundColor: Colors.black,
-                            backgroundColor: Colors.amber,
-                          ),
-                          child: const Text(
+                          onPressed: _enableInterButton ? ()
+                          {
+                            getOTP();
+                          }
+                          : null,
+                          style: theme.elevatedButtonTheme.style,
+                          child:  Text(
                               "Получить код",
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
+                            style: theme.textTheme.bodyMedium,
                           ),
                         ),
                       )
@@ -130,25 +105,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed:  () async {
                             await AuthController().loginWithGoogle(context);
                           } ,
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.black,
-                            backgroundColor: Colors.yellow.shade400,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            )
+                          style: theme.elevatedButtonTheme.style?.copyWith(
+                            backgroundColor: MaterialStateProperty.all(theme.focusColor),
                           ),
                           icon: Image.asset(
                             "assets/images/google_logo.png",
                             width: 20,
                             height: 20,
                           ),
-                          label: const Text(
+                          label:  Text(
                             "Войти с помощью Google",
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
+                            style: theme.textTheme.bodyMedium,
                           ),
                         ),
                       )

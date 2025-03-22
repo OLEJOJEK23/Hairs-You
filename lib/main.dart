@@ -1,8 +1,7 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/router/router.dart';
+import 'package:hairs_and_you/theme/theme.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -35,15 +34,7 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Hairs&You',
-      theme: ThemeData(
-        textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: Colors.black,
-          selectionColor: Colors.black,
-          selectionHandleColor: Colors.black,
-        ),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: lightTheme,
       routerConfig: _router.config(),
     );
   }

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/features/ProfileScreen/widgets/ProfileMenuWidget.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../controllers/Auth_contoroller.dart';
 import '../../../router/router.dart';
 
@@ -16,13 +19,22 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   double _userRating = 4.5;
+  File? _users_image;
+  final _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
   }
 
-
+  void pickImage() async{
+    final pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    if(pickedImage != null){
+      setState(() {
+        _users_image = File(pickedImage.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +49,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Profile Picture (Placeholder for Now)
                   Stack(
                     children:[
                       Stack(
@@ -54,11 +65,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ],
                           ),
-                            child: const CircleAvatar(
+                            child:  CircleAvatar(
                             radius: 90,
-                            backgroundImage: AssetImage(
-                                'assets/images/google_logo.png'
-                            ),
+                            backgroundImage: _users_image != null
+                                ?FileImage(_users_image!)
+                                :const AssetImage( "assets/images/google_logo.png")
                           ),
                           ),
                           Positioned(
@@ -74,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               child: IconButton(
                                   onPressed: () {
-                                    
+                                    pickImage();
                                   }, 
                                   icon: Icon(
                                     Icons.photo_camera,

@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             body: child,
             bottomNavigationBar: GNav(
               gap: 5,
-              rippleColor: Colors.grey.shade400, // Цвет при нажатии
+              rippleColor: Colors.grey.shade300, // Цвет при нажатии
               selectedIndex: tabsRouter.activeIndex,
               padding: const EdgeInsets.all(20),
               color: theme.hintColor,
