@@ -48,7 +48,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Избранное"),
+        title:  Text(
+          "Избранное",
+          style: theme.textTheme.titleLarge,
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -58,7 +61,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ? Center(
             child: Text(
               "Нет избранных заведений",
-              style: TextStyle(color: theme.hintColor, fontSize: 16),
+              style: theme.textTheme.bodyMedium,
             ),
           )
               : ListView.separated(
@@ -102,9 +105,9 @@ class FavoriteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Card(
-      elevation: 2,
+      elevation: 20,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -133,15 +136,12 @@ class FavoriteCard extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: theme.textTheme.titleMedium,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     address,
-                    style: TextStyle(fontSize: 14, color: theme.hintColor),
+                    style: theme.textTheme.bodySmall,
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -150,9 +150,7 @@ class FavoriteCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         rating.toStringAsFixed(1),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: theme.textTheme.bodyMedium,
                       ),
                     ],
                   ),

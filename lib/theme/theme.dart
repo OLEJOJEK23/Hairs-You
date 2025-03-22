@@ -24,6 +24,11 @@ final lightTheme = ThemeData(
       fontSize: 18,
       fontWeight: FontWeight.normal,
     ),
+    bodySmall: TextStyle(
+      color: Colors.black,
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+    ),
     bodyLarge: TextStyle(
       color: Colors.green,
       fontSize: 20,
