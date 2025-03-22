@@ -35,9 +35,6 @@ class _HistoryState extends State<HistoryScreen> {
   ];
 
   void _goToDetails(Map<String, dynamic> item) {
-    // Implement navigation to details screen here
-    // For example: context.router.push(DetailsRoute(item: item));
-    // ignore: avoid_print
     print("Go to details for: ${item['parameters']}");
   }
 
@@ -60,7 +57,7 @@ class _HistoryState extends State<HistoryScreen> {
             ? Center(
           child: Text(
             "История пуста",
-            style: TextStyle(color: theme.hintColor, fontSize: 16),
+            style: theme.textTheme.bodyMedium,
           ),
         )
             : ListView.separated(
@@ -100,9 +97,9 @@ class HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Card(
-      elevation: 2,
+      elevation: 10,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -127,16 +124,13 @@ class HistoryCard extends StatelessWidget {
             // Parameters
             Text(
               parameters,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: theme.textTheme.titleMedium
             ),
             const SizedBox(height: 8),
             // Date and Time
             Text(
               "dd.MM.yyyy HH:mm",
-              style: TextStyle(fontSize: 14, color: theme.hintColor),
+              style: theme.textTheme.bodySmall,
             ),
             const SizedBox(height: 12),
             // Details Button
@@ -145,6 +139,9 @@ class HistoryCard extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: onDetailsPressed,
                 child: const Text("Подробнее"),
+                style: theme.elevatedButtonTheme.style?.copyWith(
+                  backgroundColor: MaterialStateProperty.all(theme.focusColor),
+                ),
               ),
             ),
           ],
