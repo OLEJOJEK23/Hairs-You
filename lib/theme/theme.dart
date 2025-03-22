@@ -24,15 +24,25 @@ final lightTheme = ThemeData(
       fontSize: 18,
       fontWeight: FontWeight.normal,
     ),
+    bodyLarge: TextStyle(
+      color: Colors.green,
+      fontSize: 20,
+      fontWeight: FontWeight.normal,
+    ),
+    titleLarge: TextStyle(
+      color: Colors.black,
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     fillColor: Colors.black,
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(15),
       borderSide: const BorderSide(color: Colors.black),
     ),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(15),
     ),
     hintStyle: const TextStyle(
       color: Colors.black,
@@ -51,7 +61,6 @@ final lightTheme = ThemeData(
     )
   ),
 
-
 );
 
 final darkTheme = ThemeData(
@@ -65,4 +74,7 @@ final darkTheme = ThemeData(
   ),
 );
 
-
+final boxDecoration = BoxDecoration(
+  border: Border.all(color: primaryColor),
+  borderRadius: BorderRadius.circular(15),
+);

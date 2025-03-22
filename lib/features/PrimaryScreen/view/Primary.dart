@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/theme/theme.dart';
 
 @RoutePage()
 class PrimaryScreen extends StatefulWidget {
@@ -73,6 +74,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body:  CustomScrollView(
           slivers: [
@@ -84,24 +86,19 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               centerTitle: true,
               surfaceTintColor: Colors.transparent,
               bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(55),
+                preferredSize: const Size.fromHeight(56),
                 child: Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 10),
                   padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: const Row(
+                  decoration: boxDecoration,
+                  child:  Row(
                     children: [
-                      Icon(Icons.search),
-                      SizedBox(width: 12),
+                      const Icon(Icons.search),
+                      const SizedBox(width: 12),
                       Text(
                         "Поиск заведений",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ) ,
+                        style: theme.textTheme.bodyMedium,
                       ),
                     ],
                   )
@@ -121,11 +118,8 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                         alignment: Alignment.topLeft,
                         width: double.infinity,
                         height: 150,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: const Column(
+                        decoration: boxDecoration,
+                        child:  Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
@@ -134,38 +128,32 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                                 Text(
                                   "Активная запись",
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.green
-                                  ),
+                                  style: theme.textTheme.bodyLarge,
                                 ),
-                                Text(" 13.12.2043 12:13 "),
+                                const Text(" 13.12.2043 12:13 "),
                               ],
                             ),
-                            Text(
+                             Text(
                               "У марии",
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
+                              style: theme.textTheme.bodyMedium,
                             ),
-                            Text("Санкт-Петербург, Каменноостровский проспект 30"),
+                            const Text(
+                                "Санкт-Петербург, Каменноостровский проспект 30"
+                            ),
                           ],
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
                     // Special Offers Title
-                    const Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 16),
+                     Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child:  Text(
                         'Специальные предложения',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: theme.textTheme.titleLarge,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     // Special Offers List (Horizontal Scroll)
                     SizedBox(
                       height: 250, // Adjust height as needed
@@ -194,17 +182,14 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 16),
+                     Padding(
+                      padding:  const EdgeInsets.symmetric(horizontal: 16),
                       child:  Text(
                         'Лучшие предложения',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: theme.textTheme.titleLarge,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     SizedBox(
                       height: 250,
                       child: ListView.builder(

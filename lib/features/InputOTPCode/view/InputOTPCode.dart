@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:pinput/pinput.dart';
@@ -25,6 +24,7 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -43,11 +43,7 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
                   ),
                    Text(
                        "Шестизначный код был отправлен на номер - ${widget.phoneNumber} , введите его ниже",
-                     style: const TextStyle(
-                       fontWeight: FontWeight.normal,
-                       fontSize: 16,
-                       color: Colors.black,
-                     ),
+                     style: theme.textTheme.bodyMedium,
                    ),
                   Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -55,7 +51,6 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
                       length: 6,
                       onCompleted: (value) {
                         AuthController.virifyOTP(context, value, widget.verificationID);
-
                       },
                     ),
                   )
