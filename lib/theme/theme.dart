@@ -70,17 +70,74 @@ final lightTheme = ThemeData(
         backgroundColor: primaryColor
     )
   ),
-
 );
 
 final darkTheme = ThemeData(
   useMaterial3: true,
+  brightness: Brightness.dark,
   primaryColor: primaryColor,
   focusColor: secondColor,
   textSelectionTheme: const TextSelectionThemeData(
     cursorColor: Colors.white,
     selectionColor: Colors.white,
     selectionHandleColor: Colors.white,
+  ),
+  textTheme: const TextTheme(
+    bodyMedium: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.normal,
+        fontSize: 16
+    ),
+    labelLarge: TextStyle(
+      color: Colors.white,
+      fontSize: 18,
+      fontWeight: FontWeight.normal,
+    ),
+    bodySmall: TextStyle(
+      color: Colors.white,
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+    ),
+    bodyLarge: TextStyle(
+      color: Colors.green,
+      fontSize: 20,
+      fontWeight: FontWeight.normal,
+    ),
+    titleMedium: TextStyle(
+      color: Colors.white,
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
+    titleLarge: TextStyle(
+      color: Colors.white,
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: Colors.white,
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15),
+      borderSide: const BorderSide(color: Colors.white),
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    hintStyle: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.normal,
+    ),
+    labelStyle: const TextStyle(
+        color: Colors.white
+    ),
+  ),
+  elevatedButtonTheme:  ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+          disabledBackgroundColor: Colors.white12,
+          disabledForegroundColor: Colors.white,
+          foregroundColor: Colors.white,
+          backgroundColor: primaryColor
+      )
   ),
 );
 

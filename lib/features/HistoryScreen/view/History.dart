@@ -48,6 +48,8 @@ class _HistoryState extends State<HistoryScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         title: const Text("История"),
         centerTitle: true,
       ),

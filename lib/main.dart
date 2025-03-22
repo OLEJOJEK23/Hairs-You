@@ -34,7 +34,7 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Hairs&You',
-      theme: lightTheme,
+      theme: darkTheme,
       routerConfig: _router.config(),
     );
   }

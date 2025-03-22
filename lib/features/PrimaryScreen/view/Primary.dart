@@ -85,6 +85,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               floating: true,
               centerTitle: true,
               surfaceTintColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(56),
                 child: Container(

@@ -53,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             _enableInterButton = value;
                           });
                       },
+                      textStyle: theme.textTheme.labelLarge,
                       selectorTextStyle: theme.textTheme.bodyMedium,
                       spaceBetweenSelectorAndTextField: 0,
                       searchBoxDecoration:  InputDecoration(
@@ -74,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintStyle: theme.textTheme.bodyMedium,
                           labelStyle: theme.textTheme.labelLarge,
                           focusedBorder: theme.inputDecorationTheme.focusedBorder,
-                          border: theme.inputDecorationTheme.border,
+                          border: theme.inputDecorationTheme.border
                       ),
                     )
                   ),

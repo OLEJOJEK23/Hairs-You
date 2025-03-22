@@ -48,14 +48,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         title:  Text(
           "Избранное",
           style: theme.textTheme.titleLarge,
         ),
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: Padding(
+      body:  Padding(
           padding: const EdgeInsets.all(16.0),
           child: _favorites.isEmpty
               ? Center(
@@ -80,7 +81,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             },
           ),
         ),
-      ),
     );
   }
 }
