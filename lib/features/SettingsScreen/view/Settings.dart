@@ -39,7 +39,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ? Icons.dark_mode
                     : Icons.light_mode,
               ),
-              title: const Text("Включить тёмную тему"),
+              title:  Text(
+                "Включить тёмную тему",
+                style: theme.textTheme.labelLarge,
+              ),
               trailing: Switch(
                 value: themeProvider,
                 onChanged: (value) {
@@ -47,12 +50,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     themeProvider = value;
                   });
                 },
+
               ),
             ),
             // History Saving Switch
             ListTile(
               leading: const Icon(Icons.history),
-              title: const Text("Сохранять историю"),
+              title:  Text(
+                  "Сохранять историю",
+                  style:theme.textTheme.labelLarge
+              ),
               trailing: Switch(
                 value: _isHistorySavingEnabled,
                 onChanged: (value) {
@@ -67,10 +74,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Center(
               child: Text(
                 "Версия приложения: 1.0.0",
-                style: TextStyle(color: theme.hintColor),
+                style: theme.textTheme.bodySmall,
               ),
             ),
-            const SizedBox(height: 10),
           ],
         ),
       ),

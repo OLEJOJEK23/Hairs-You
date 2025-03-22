@@ -138,10 +138,10 @@ class HistoryCard extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 onPressed: onDetailsPressed,
-                child: const Text("Подробнее"),
                 style: theme.elevatedButtonTheme.style?.copyWith(
-                  backgroundColor: MaterialStateProperty.all(theme.focusColor),
+                  backgroundColor: WidgetStatePropertyAll(theme.focusColor),
                 ),
+                child: const Text("Подробнее"),
               ),
             ),
           ],

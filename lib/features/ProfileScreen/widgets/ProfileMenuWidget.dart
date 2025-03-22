@@ -18,6 +18,7 @@ class ProfileMenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ListTile(
       onTap: onPress,
       leading: Container(
@@ -29,7 +30,10 @@ class ProfileMenuWidget extends StatelessWidget {
         ),
         child: Icon(icon, color: Colors.grey),
       ),
-      title: Text(title, style: TextStyle(color: textColor),),
+      title: Text(title, style: theme.textTheme.labelLarge?.copyWith(
+          color: textColor,
+      ),
+      ),
       trailing: endIcon? Container(
           width: 30,
           height: 30,

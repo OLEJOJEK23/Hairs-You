@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             await AuthController().loginWithGoogle(context);
                           } ,
                           style: theme.elevatedButtonTheme.style?.copyWith(
-                            backgroundColor: MaterialStateProperty.all(theme.focusColor),
+                            backgroundColor: WidgetStatePropertyAll(theme.focusColor),
                           ),
                           icon: Image.asset(
                             "assets/images/google_logo.png",
