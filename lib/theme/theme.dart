@@ -29,9 +29,14 @@ final lightTheme = ThemeData(
       fontSize: 20,
       fontWeight: FontWeight.normal,
     ),
-    titleLarge: TextStyle(
+    titleMedium: TextStyle(
       color: Colors.black,
       fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
+    titleLarge: TextStyle(
+      color: Colors.black,
+      fontSize: 24,
       fontWeight: FontWeight.bold,
     ),
   ),
@@ -77,4 +82,5 @@ final darkTheme = ThemeData(
 final boxDecoration = BoxDecoration(
   border: Border.all(color: primaryColor),
   borderRadius: BorderRadius.circular(15),
+
 );

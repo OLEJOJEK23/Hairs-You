@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
+                                color: Colors.red.withOpacity(0.2),
                                 spreadRadius: 2,
                                 blurRadius: 10,
                                 offset: const Offset(0, 3),
@@ -78,10 +78,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Container(
                               width: 40,
                               height: 40,
-                              decoration:
-                              BoxDecoration(
+                              decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
-                                  color: Colors.grey
+                                  color: theme.focusColor
                               ),
                               child: IconButton(
                                   onPressed: () {
@@ -102,18 +101,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // User Name
                   Text(
                     user?.displayName ?? "User Name", // Display name if available
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: theme.textTheme.titleLarge,
                   ),
                   // User Email
                   Text(
                     user?.email ?? "user@example.com", // Display email if available
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: theme.hintColor,
-                    ),
+                    style: theme.textTheme.bodyMedium,
                   ),
                   // User Rating
                   _buildRatingDisplay(theme),
@@ -125,9 +118,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onPressed: () {
                         context.router.pushNamed("/changeProfile");
                       },
-                      child: const Text(
+                      child:  Text(
                           "Редактировать профиль",
-                          style: TextStyle(color: Colors.black)
+                          style: theme.textTheme.bodyMedium,
                       ),
                     ),
                   ),
@@ -179,12 +172,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         Text(
           "Рейтинг:",
-          style: TextStyle(fontSize: 18, color: theme.hintColor),
+          style: theme.textTheme.bodyMedium,
         ),
         const SizedBox(width: 8),
         Text(
           _userRating.toStringAsFixed(1),
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: theme.textTheme.bodyMedium,
         ),
         const SizedBox(width: 4),
         Icon(Icons.star, color: Colors.amber[400], size: 20),

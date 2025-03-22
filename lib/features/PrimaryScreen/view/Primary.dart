@@ -150,7 +150,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child:  Text(
                         'Специальные предложения',
-                        style: theme.textTheme.titleLarge,
+                        style: theme.textTheme.titleMedium,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -186,7 +186,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                       padding:  const EdgeInsets.symmetric(horizontal: 16),
                       child:  Text(
                         'Лучшие предложения',
-                        style: theme.textTheme.titleLarge,
+                        style: theme.textTheme.titleMedium,
                       ),
                     ),
                     const SizedBox(height: 20),
