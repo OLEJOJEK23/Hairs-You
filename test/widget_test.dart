@@ -7,6 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hairs_and_you/Hairs_and_you_app.dart';
 
 import 'package:hairs_and_you/main.dart';
 

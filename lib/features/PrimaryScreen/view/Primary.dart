@@ -85,7 +85,6 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               floating: true,
               centerTitle: true,
               surfaceTintColor: Colors.transparent,
-              backgroundColor: Colors.transparent,
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(56),
                 child: Container(
@@ -93,13 +92,12 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                   margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 10),
                   padding: const EdgeInsets.all(10),
                   decoration: boxDecoration,
-                  child:  Row(
+                  child: const Row(
                     children: [
-                      const Icon(Icons.search),
-                      const SizedBox(width: 12),
+                       Icon(Icons.search),
+                       SizedBox(width: 12),
                       Text(
                         "Поиск заведений",
-                        style: theme.textTheme.bodyMedium,
                       ),
                     ],
                   )
@@ -129,14 +127,15 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                                 Text(
                                   "Активная запись",
                                   textAlign: TextAlign.center,
-                                  style: theme.textTheme.bodyLarge,
+                                  style: theme.textTheme.bodyLarge?.copyWith(
+                                    color: Colors.green
+                                  ),
                                 ),
                                 const Text(" 13.12.2043 12:13 "),
                               ],
                             ),
-                             Text(
+                             const Text(
                               "У марии",
-                              style: theme.textTheme.bodyMedium,
                             ),
                             const Text(
                                 "Санкт-Петербург, Каменноостровский проспект 30"

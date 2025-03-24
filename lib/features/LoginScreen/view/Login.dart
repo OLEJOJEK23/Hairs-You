@@ -54,20 +54,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                       },
                       textStyle: theme.textTheme.labelLarge,
-                      selectorTextStyle: theme.textTheme.bodyMedium,
+                      selectorTextStyle: theme.textTheme.labelLarge,
                       spaceBetweenSelectorAndTextField: 0,
                       searchBoxDecoration:  InputDecoration(
                         focusColor: theme.inputDecorationTheme.focusColor,
                         focusedBorder: theme.inputDecorationTheme.focusedBorder,
                         labelText: "Телефонный код страны",
-                        hintStyle:  theme.inputDecorationTheme.hintStyle,
-                        labelStyle: theme.inputDecorationTheme.labelStyle,
+                        hintStyle: theme.textTheme.bodyMedium,
+                        labelStyle: theme.textTheme.labelLarge,
                       ),
                       formatInput: true,
                       autoFocus: true,
                       selectorConfig: const SelectorConfig(
                         selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                        useEmoji: true
+                        showFlags: true
                       ),
                       inputDecoration: InputDecoration(
                           labelText: "Номер телефона",

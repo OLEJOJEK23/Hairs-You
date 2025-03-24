@@ -30,7 +30,7 @@ final lightTheme = ThemeData(
       fontWeight: FontWeight.normal,
     ),
     bodyLarge: TextStyle(
-      color: Colors.green,
+      color: Colors.black,
       fontSize: 20,
       fontWeight: FontWeight.normal,
     ),
@@ -46,7 +46,7 @@ final lightTheme = ThemeData(
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
-    fillColor: Colors.black,
+    focusColor: Colors.black,
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(15),
       borderSide: const BorderSide(color: Colors.black),

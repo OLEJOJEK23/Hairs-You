@@ -50,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     themeProvider = value;
                   });
                 },
-
+                activeTrackColor: Colors.green,
               ),
             ),
             // History Saving Switch
@@ -67,6 +67,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _isHistorySavingEnabled = value;
                   });
                 },
+                activeTrackColor: Colors.green,
               ),
             ),
             const Spacer(),
