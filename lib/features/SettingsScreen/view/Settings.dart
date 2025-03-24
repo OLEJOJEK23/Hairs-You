@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hairs_and_you/blocks/theme_block/theme_cubit.dart';
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -22,6 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDarkTheme = context.watch<ThemeCubit>().state.isDark;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Настройки"),
@@ -44,10 +47,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 style: theme.textTheme.labelLarge,
               ),
               trailing: Switch(
-                value: themeProvider,
+                value: isDarkTheme,
                 onChanged: (value) {
                   setState(() {
-                    themeProvider = value;
+                    context.read<ThemeCubit>().changeTheme(
+                        value ? Brightness.dark
+                            : Brightness.light
+                    );
                   });
                 },
                 activeTrackColor: Colors.green,
