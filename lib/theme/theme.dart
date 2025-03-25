@@ -99,7 +99,7 @@ final darkTheme = ThemeData(
       fontWeight: FontWeight.normal,
     ),
     bodyLarge: TextStyle(
-      color: Colors.green,
+      color: Colors.white,
       fontSize: 20,
       fontWeight: FontWeight.normal,
     ),

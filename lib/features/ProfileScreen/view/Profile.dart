@@ -99,9 +99,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(height: 24),
                   // User Name
-                  Text(
-                    user?.displayName ?? "User Name", // Display name if available
-                    style: theme.textTheme.titleLarge,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        user?.displayName ?? "User Name", // Display name if available
+                        style: theme.textTheme.titleLarge,
+                      ),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.change_circle)
+                      )
+                    ],
                   ),
                   // User Email
                   Text(
@@ -112,19 +121,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   _buildRatingDisplay(theme),
                   const SizedBox(height: 20),
                   // Edit Profile Button
-                  SizedBox(
-                    width: 300,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.router.pushNamed("/changeProfile");
-                      },
-                      child:  Text(
-                          "Редактировать профиль",
-                          style: theme.textTheme.bodyMedium,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
                   const Divider(),
                   const SizedBox(height: 10),
                   ProfileMenuWidget(

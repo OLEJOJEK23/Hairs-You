@@ -4,22 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../features/InputOTPCode/InputOTPCodeScreen.dart';
+import '../router/router.dart';
 
-class AuthController {
+class LinkAccountController {
 
   static final _auth = FirebaseAuth.instance;
+  final user = _auth.currentUser;
 
   static Future<void> sendOTP(BuildContext context, String phoneNumber) async {
     try {
       await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
+          phoneNumber: phoneNumber,
 
-        verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {
+          verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {
 
-        },
+          },
 
-        verificationFailed: (FirebaseAuthException error) {
-          ScaffoldMessenger.of(context)
+          verificationFailed: (FirebaseAuthException error) {
+            ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                   SnackBar(
@@ -28,22 +30,22 @@ class AuthController {
                       )
                   )
               );
-        },
+          },
 
-        codeSent: (String verificationId, int? forceResendingToken) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => InputOTPCodeScreen(
-            phoneNumber:phoneNumber,
-            verificationID: verificationId,
+          codeSent: (String verificationId, int? forceResendingToken) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => InputOTPCodeScreen(
+                  phoneNumber:phoneNumber,
+                  verificationID: verificationId,
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
 
-        codeAutoRetrievalTimeout: (String verificationId) {
+          codeAutoRetrievalTimeout: (String verificationId) {
 
-        }
+          }
 
       );
     }
@@ -67,12 +69,12 @@ class AuthController {
 
   }
 
-  static Future<void> virifyOTP(BuildContext context, String smsCode, String verificationID) async {
+   Future<void> virifyOTP(BuildContext context, String smsCode, String verificationID) async {
     try {
       final credential = PhoneAuthProvider.credential(verificationId: verificationID, smsCode: smsCode);
-      await _auth.signInWithCredential(credential);
+      await user?.linkWithCredential(credential);
       if(!context.mounted) return;
-      context.router.replaceNamed("/");
+      context.router.replaceNamed("/settings");
     }
     on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
@@ -87,7 +89,7 @@ class AuthController {
     }
   }
 
-  Future<void> loginWithGoogle(BuildContext context) async {
+  Future<void> linkWithGoogle(BuildContext context) async {
     try {
       final googleUser = await GoogleSignIn().signIn();
       final googleAuth = await googleUser?.authentication;
@@ -95,9 +97,7 @@ class AuthController {
           idToken:googleAuth?.idToken,
           accessToken: googleAuth?.accessToken
       );
-      await _auth.signInWithCredential(credential);
-      if(!context.mounted) return;
-      context.router.replaceNamed("/");
+      await user?.linkWithCredential(credential);
     }
     on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
@@ -110,11 +110,6 @@ class AuthController {
         );
     }
   }
-
-  static Future<void> signOut() async {
-    await _auth.signOut();
-  }
-
 }
 
 

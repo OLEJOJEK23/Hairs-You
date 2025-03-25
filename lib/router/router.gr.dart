@@ -29,25 +29,6 @@ class AIRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ChangeProfileScreen]
-class ChangeProfileRoute extends PageRouteInfo<void> {
-  const ChangeProfileRoute({List<PageRouteInfo>? children})
-      : super(
-          ChangeProfileRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ChangeProfileRoute';
-
-  static PageInfo page = PageInfo(
-    name,
-    builder: (data) {
-      return const ChangeProfileScreen();
-    },
-  );
-}
-
-/// generated route for
 /// [FavoriteScreen]
 class FavoriteRoute extends PageRouteInfo<void> {
   const FavoriteRoute({List<PageRouteInfo>? children})
@@ -100,6 +81,25 @@ class HomeRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const HomeScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [LinkPhoneNumber]
+class LinkPhoneNumberRoute extends PageRouteInfo<void> {
+  const LinkPhoneNumberRoute({List<PageRouteInfo>? children})
+      : super(
+          LinkPhoneNumberRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LinkPhoneNumber';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const LinkPhoneNumber();
     },
   );
 }

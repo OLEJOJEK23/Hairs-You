@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
+import 'package:hairs_and_you/controllers/Link_account_controller.dart';
 import 'package:pinput/pinput.dart';
 
 class InputOTPCodeScreen extends  StatefulWidget {
@@ -14,7 +16,8 @@ class InputOTPCodeScreen extends  StatefulWidget {
 }
 
 class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
-
+  static final _auth = FirebaseAuth.instance;
+  final user = _auth.currentUser;
 
   @override
   void initState() {
@@ -49,8 +52,13 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
                       padding: const EdgeInsets.all(16.0),
                     child: Pinput(
                       length: 6,
-                      onCompleted: (value) {
-                        AuthController.virifyOTP(context, value, widget.verificationID);
+                      onCompleted: (value) async {
+                        if(user != null){
+                          await LinkAccountController().virifyOTP(context, value, widget.verificationID);
+                        }
+                        else{
+                          AuthController.virifyOTP(context, value, widget.verificationID);
+                        }
                       },
                     ),
                   )
