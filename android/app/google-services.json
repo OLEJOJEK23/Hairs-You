@@ -12,7 +12,20 @@
           "package_name": "com.example.hairs_and_you"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "191893163138-6bmr3esgpffhulr2jrruhi4jvgcmfos7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hairs_and_you",
+            "certificate_hash": "35081f9d12e184401f4b0720ee4c25e2386112d8"
+          }
+        },
+        {
+          "client_id": "191893163138-1ofs37qgc6u5qfkcvrsmijpnavs1b9ho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyARsGto-k-ZjitO7x5c28oRlHOwxZkN8EI"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191893163138-1ofs37qgc6u5qfkcvrsmijpnavs1b9ho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "191893163138-q4i7bv21sjr5d5btbet1ubqk5tkht4g9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hairsAndYou"
+              }
+            }
+          ]
         }
       }
     }

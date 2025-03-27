@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hairs_and_you/blocks/theme_block/theme_cubit.dart';
 import 'package:hairs_and_you/repositories/settings_repository/settings.dart';
@@ -24,6 +25,11 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
 
   @override
   void initState() {
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
     super.initState();
   }
   @override

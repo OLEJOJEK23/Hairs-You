@@ -55,10 +55,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             // Theme Switch
             ListTile(
-              leading: Icon(
-                themeProvider == true
-                    ? Icons.dark_mode
-                    : Icons.light_mode,
+              leading: const Icon(
+                Icons.dark_mode,
               ),
               title:  Text(
                 "Включить тёмную тему",
