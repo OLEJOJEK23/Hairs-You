@@ -64,7 +64,8 @@ class _AIScreenState extends State<AIScreen> {
                       child: const Row(
                         children: [
                           Icon(Icons.camera_alt),
-                          Text("Сделать фото фото")
+                          SizedBox(width: 10),
+                          Text("Сделать фото")
                         ],
                       )
                   ),
@@ -75,6 +76,7 @@ class _AIScreenState extends State<AIScreen> {
                       child: const Row(
                         children: [
                           Icon(Icons.photo_library),
+                          SizedBox(width: 10),
                           Text("Выбрать фото")
                         ],
                       )

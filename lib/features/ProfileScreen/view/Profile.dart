@@ -153,7 +153,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       endIcon: false,
                       onPress: () async {
                         await AuthController.signOut();
-                        context.router.replaceAll([const LoginRoute()]);;
+                        if(!context.mounted) return;
+                        context.router.replaceAll([const LoginRoute()]);
                       }
                   ),
                 ],

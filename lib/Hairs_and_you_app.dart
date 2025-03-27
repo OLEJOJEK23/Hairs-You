@@ -41,7 +41,8 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
             create: (context) =>
                 ThemeCubit(
                    settingsRepository: settingsRepository,
-                )
+                ),
+
         )
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

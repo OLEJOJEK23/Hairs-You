@@ -92,12 +92,13 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                   margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 10),
                   padding: const EdgeInsets.all(10),
                   decoration: boxDecoration,
-                  child: const Row(
+                  child:  Row(
                     children: [
-                       Icon(Icons.search),
-                       SizedBox(width: 12),
+                       const Icon(Icons.search),
+                       const SizedBox(width: 12),
                       Text(
                         "Поиск заведений",
+                        style: theme.textTheme.bodyMedium,
                       ),
                     ],
                   )

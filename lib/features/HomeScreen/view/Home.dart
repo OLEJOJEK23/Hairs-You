@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   text: 'Главная',
                 ),
                 GButton(
-                  icon: Icons.map,
+                  icon: Icons.edit_calendar,
                   text: 'Запись',
                 ),
                 GButton(
