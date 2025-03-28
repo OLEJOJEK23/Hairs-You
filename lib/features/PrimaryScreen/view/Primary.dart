@@ -11,6 +11,7 @@ class PrimaryScreen extends StatefulWidget {
 }
 
 class _PrimaryScreenState extends State<PrimaryScreen> {
+  final _activeRecord = false;
   final List<Map<String, String>> _specialOffers = [
     {
       'title': 'У Марии',
@@ -105,117 +106,125 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
             ),
           ),
           SliverPadding(
-              padding: const EdgeInsets.only(top: 16),
-              sliver: SliverToBoxAdapter(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.only(top: 16),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (_activeRecord == false)
+                    //* Active record
+                    Column(
                       children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        alignment: Alignment.topLeft,
-                        width: double.infinity,
-                        height: 150,
-                        decoration: boxDecoration,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            alignment: Alignment.topLeft,
+                            width: double.infinity,
+                            height: 150,
+                            decoration: boxDecoration,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Активная запись",
-                                  textAlign: TextAlign.center,
-                                  style: theme.textTheme.bodyLarge
-                                      ?.copyWith(color: Colors.green),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Активная запись",
+                                      textAlign: TextAlign.center,
+                                      style: theme.textTheme.bodyLarge
+                                          ?.copyWith(color: Colors.green),
+                                    ),
+                                    const Text(" 13.12.2043 12:13 "),
+                                  ],
                                 ),
-                                const Text(" 13.12.2043 12:13 "),
+                                const Text(
+                                  "У марии",
+                                ),
+                                const Text(
+                                    "Санкт-Петербург, Каменноостровский проспект 30"),
                               ],
                             ),
-                            const Text(
-                              "У марии",
-                            ),
-                            const Text(
-                                "Санкт-Петербург, Каменноостровский проспект 30"),
-                          ],
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 20),
+                      ],
                     ),
-                    const SizedBox(height: 20),
-                    // Special Offers Title
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        'Специальные предложения',
-                        style: theme.textTheme.titleMedium,
-                      ),
+                  //* Special Offers Title
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Специальные предложения',
+                      style: theme.textTheme.titleMedium,
                     ),
-                    const SizedBox(height: 20),
-                    // Special Offers List (Horizontal Scroll)
-                    SizedBox(
-                      height: 250, // Adjust height as needed
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _specialOffers.length,
-                        itemBuilder: (context, index) {
-                          final offer = _specialOffers[index];
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                // Handle tap on Special Offer
-                                _onOfferTapped(context, offer);
-                              },
-                              child: OfferCard(
-                                title: offer['title']!,
-                                description: offer['description']!,
-                                imagePath: offer['image']!,
-                                address: offer['address']!,
-                              ),
+                  ),
+                  const SizedBox(height: 20),
+                  //* Special Offers List (Horizontal Scroll)
+                  SizedBox(
+                    height: 250, // Adjust height as needed
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _specialOffers.length,
+                      itemBuilder: (context, index) {
+                        final offer = _specialOffers[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              // Handle tap on Special Offer
+                              _onOfferTapped(context, offer);
+                            },
+                            child: OfferCard(
+                              title: offer['title']!,
+                              description: offer['description']!,
+                              imagePath: offer['image']!,
+                              address: offer['address']!,
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        'Лучшие предложения',
-                        style: theme.textTheme.titleMedium,
-                      ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Лучшие предложения',
+                      style: theme.textTheme.titleMedium,
                     ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 250,
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _bestOffers.length,
-                        itemBuilder: (context, index) {
-                          final offer = _bestOffers[index];
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                _onOfferTapped(context, offer);
-                              },
-                              child: OfferCard(
-                                title: offer['title']!,
-                                description: offer['description']!,
-                                imagePath: offer['image']!,
-                                address: offer['address']!,
-                              ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 250,
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _bestOffers.length,
+                      itemBuilder: (context, index) {
+                        final offer = _bestOffers[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              _onOfferTapped(context, offer);
+                            },
+                            child: OfferCard(
+                              title: offer['title']!,
+                              description: offer['description']!,
+                              imagePath: offer['image']!,
+                              address: offer['address']!,
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
-                  ])))
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
