@@ -1,21 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/controllers/Link_account_controller.dart';
 import 'package:pinput/pinput.dart';
 
-class InputOTPCodeScreen extends  StatefulWidget {
-  const InputOTPCodeScreen ({super.key, required this.phoneNumber,required this.verificationID});
+class InputOTPCodeScreen extends StatefulWidget {
+  const InputOTPCodeScreen(
+      {super.key, required this.phoneNumber, required this.verificationID});
 
   final String phoneNumber;
   final String verificationID;
 
-
   @override
-  State<InputOTPCodeScreen > createState() => _InputOTPCodeScreenState();
+  State<InputOTPCodeScreen> createState() => _InputOTPCodeScreenState();
 }
 
-class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
+class _InputOTPCodeScreenState extends State<InputOTPCodeScreen> {
   static final _auth = FirebaseAuth.instance;
   final user = _auth.currentUser;
 
@@ -28,14 +29,14 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Введите код"),
-      ),
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Введите код"),
+        ),
         body: SafeArea(
           child: Center(
             child: Padding(
-              padding:  const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
                   SizedBox(
@@ -43,20 +44,21 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
                     height: 300,
                     child: Image.asset("assets/images/logo.png"),
                   ),
-                   Text(
-                       "Шестизначный код был отправлен на номер - ${widget.phoneNumber} , введите его ниже",
-                     style: theme.textTheme.bodyMedium,
-                   ),
+                  Text(
+                    "Шестизначный код был отправлен на номер - ${widget.phoneNumber} , введите его ниже",
+                    style: theme.textTheme.bodyMedium,
+                  ),
                   Padding(
-                      padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Pinput(
                       length: 6,
                       onCompleted: (value) async {
-                        if(user != null){
-                          await LinkAccountController().virifyOTP(context, value, widget.verificationID);
-                        }
-                        else{
-                          AuthController.virifyOTP(context, value, widget.verificationID);
+                        if (user != null) {
+                          await GetIt.I<LinkAccountController>()
+                              .virifyOTP(context, value, widget.verificationID);
+                        } else {
+                          GetIt.I<AuthController>()
+                              .virifyOTP(context, value, widget.verificationID);
                         }
                       },
                     ),
@@ -65,7 +67,6 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
               ),
             ),
           ),
-        )
-    );
+        ));
   }
 }

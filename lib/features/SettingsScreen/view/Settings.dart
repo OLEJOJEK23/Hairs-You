@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/blocks/theme_block/theme_cubit.dart';
 
 import '../../../controllers/Link_account_controller.dart';
@@ -9,7 +10,6 @@ import '../../../controllers/Link_account_controller.dart';
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
-
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -23,16 +23,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? user;
 
-
   @override
   void initState() {
     user = _auth.currentUser;
     debugPrint(user?.phoneNumber);
-    if(user?.phoneNumber != null && user?.phoneNumber != "") {
+    if (user?.phoneNumber != null && user?.phoneNumber != "") {
       _isPhoneLinked = true;
       debugPrint(user?.phoneNumber);
     }
-    if(user?.email != null && user?.email != "") {
+    if (user?.email != null && user?.email != "") {
       _isGoogleLinked = true;
     }
     super.initState();
@@ -57,7 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               leading: const Icon(
                 Icons.dark_mode,
               ),
-              title:  Text(
+              title: Text(
                 "Включить тёмную тему",
                 style: theme.textTheme.labelLarge,
               ),
@@ -66,9 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onChanged: (value) {
                   setState(() {
                     context.read<ThemeCubit>().changeTheme(
-                        value ? Brightness.dark
-                            : Brightness.light
-                    );
+                        value ? Brightness.dark : Brightness.light);
                   });
                 },
                 activeTrackColor: Colors.green,
@@ -77,10 +74,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // History Saving Switch
             ListTile(
               leading: const Icon(Icons.history),
-              title:  Text(
-                  "Сохранять историю",
-                  style:theme.textTheme.labelLarge
-              ),
+              title:
+                  Text("Сохранять историю", style: theme.textTheme.labelLarge),
               trailing: Switch(
                 value: _isHistorySavingEnabled,
                 onChanged: (value) {
@@ -97,19 +92,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
               "Способы входа",
               style: theme.textTheme.bodyLarge,
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             ListTile(
               leading: const Icon(Icons.phone),
               title: const Text("Телефон"),
               trailing: _isPhoneLinked
                   ? const Icon(Icons.check, color: Colors.green)
                   : ElevatedButton(
-                onPressed: () async {
-                  context.router.replaceNamed("/linkPhoneNumber");
-
-                },
-                child: const Text("Связать"),
-              ),
+                      onPressed: () async {
+                        context.router.replaceNamed("/linkPhoneNumber");
+                      },
+                      child: const Text("Связать"),
+                    ),
             ),
             // Google Linking
             ListTile(
@@ -118,11 +114,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               trailing: _isGoogleLinked
                   ? const Icon(Icons.check, color: Colors.green)
                   : ElevatedButton(
-                onPressed: () async {
-                  await LinkAccountController().linkWithGoogle(context);
-                },
-                child: const Text("Связать"),
-              ),
+                      onPressed: () async {
+                        await GetIt.I<LinkAccountController>()
+                            .linkWithGoogle(context);
+                      },
+                      child: const Text("Связать"),
+                    ),
             ),
             const Spacer(),
             // App Version
