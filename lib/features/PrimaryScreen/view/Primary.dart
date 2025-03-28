@@ -11,7 +11,6 @@ class PrimaryScreen extends StatefulWidget {
 }
 
 class _PrimaryScreenState extends State<PrimaryScreen> {
-  final TextEditingController _searchController = TextEditingController();
   final List<Map<String, String>> _specialOffers = [
     {
       'title': 'У Марии',
@@ -68,7 +67,6 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
 
   @override
   void dispose() {
-    _searchController.dispose();
     super.dispose();
   }
 
@@ -76,41 +74,42 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body:  CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              title: const Text("Hairs&You"),
-              snap: true,
-              pinned: true,
-              floating: true,
-              centerTitle: true,
-              surfaceTintColor: Colors.transparent,
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(56),
-                child: Container(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: const Text("Hairs&You"),
+            snap: true,
+            pinned: true,
+            floating: true,
+            centerTitle: true,
+            surfaceTintColor: Colors.transparent,
+            backgroundColor: theme.scaffoldBackgroundColor,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(56),
+              child: Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 10),
+                  margin: const EdgeInsets.symmetric(horizontal: 16)
+                      .copyWith(bottom: 10),
                   padding: const EdgeInsets.all(10),
                   decoration: boxDecoration,
-                  child:  Row(
+                  child: Row(
                     children: [
-                       const Icon(Icons.search),
-                       const SizedBox(width: 12),
+                      const Icon(Icons.search),
+                      const SizedBox(width: 12),
                       Text(
                         "Поиск заведений",
                         style: theme.textTheme.bodyMedium,
                       ),
                     ],
-                  )
-                ),
-              ),
+                  )),
             ),
-            SliverPadding(
+          ),
+          SliverPadding(
               padding: const EdgeInsets.only(top: 16),
               sliver: SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Container(
@@ -119,7 +118,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                         width: double.infinity,
                         height: 150,
                         decoration: boxDecoration,
-                        child:  Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
@@ -128,28 +127,26 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                                 Text(
                                   "Активная запись",
                                   textAlign: TextAlign.center,
-                                  style: theme.textTheme.bodyLarge?.copyWith(
-                                    color: Colors.green
-                                  ),
+                                  style: theme.textTheme.bodyLarge
+                                      ?.copyWith(color: Colors.green),
                                 ),
                                 const Text(" 13.12.2043 12:13 "),
                               ],
                             ),
-                             const Text(
+                            const Text(
                               "У марии",
                             ),
                             const Text(
-                                "Санкт-Петербург, Каменноостровский проспект 30"
-                            ),
+                                "Санкт-Петербург, Каменноостровский проспект 30"),
                           ],
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
                     // Special Offers Title
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child:  Text(
+                      child: Text(
                         'Специальные предложения',
                         style: theme.textTheme.titleMedium,
                       ),
@@ -165,7 +162,8 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                         itemBuilder: (context, index) {
                           final offer = _specialOffers[index];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: GestureDetector(
                               onTap: () {
                                 // Handle tap on Special Offer
@@ -183,9 +181,9 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                     Padding(
-                      padding:  const EdgeInsets.symmetric(horizontal: 16),
-                      child:  Text(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
                         'Лучшие предложения',
                         style: theme.textTheme.titleMedium,
                       ),
@@ -200,7 +198,8 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                         itemBuilder: (context, index) {
                           final offer = _bestOffers[index];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
                             child: GestureDetector(
                               onTap: () {
                                 _onOfferTapped(context, offer);
@@ -216,12 +215,9 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                         },
                       ),
                     ),
-                  ]
-                )
-              )
-            )
-          ],
-        ),
+                  ])))
+        ],
+      ),
     );
   }
 
@@ -240,7 +236,11 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               const SizedBox(height: 8),
               Text(offer['address'] ?? ""),
               const SizedBox(height: 8),
-              Image.asset(offer['image']!, width: 100, height: 100,)
+              Image.asset(
+                offer['image']!,
+                width: 100,
+                height: 100,
+              )
             ],
           ),
           actions: <Widget>[

@@ -16,7 +16,6 @@ class _AIScreenState extends State<AIScreen> {
   File? _image;
   final _picker = ImagePicker();
 
-
   @override
   void initState() {
     super.initState();

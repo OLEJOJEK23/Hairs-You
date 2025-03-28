@@ -24,7 +24,6 @@ class _InputOTPCodeScreenState extends State<InputOTPCodeScreen > {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

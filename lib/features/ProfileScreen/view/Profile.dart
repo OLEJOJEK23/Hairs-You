@@ -18,7 +18,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  double _userRating = 4.5;
+  final double _userRating = 4.5;
   File? _users_image;
   final _picker = ImagePicker();
 

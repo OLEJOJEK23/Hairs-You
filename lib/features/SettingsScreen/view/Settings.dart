@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hairs_and_you/blocks/theme_block/theme_cubit.dart';
 
-import '../../../controllers/Auth_contoroller.dart';
 import '../../../controllers/Link_account_controller.dart';
 
 @RoutePage()
