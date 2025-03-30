@@ -64,7 +64,7 @@ final lightTheme = ThemeData(
         backgroundColor: primaryColor),
   ),
   searchBarTheme: const SearchBarThemeData(
-    backgroundColor: WidgetStatePropertyAll(Colors.black26),
+    backgroundColor: WidgetStatePropertyAll(Colors.black12),
     surfaceTintColor: WidgetStatePropertyAll(Colors.transparent),
     shadowColor: WidgetStatePropertyAll(Colors.transparent),
     constraints: BoxConstraints(minHeight: 46),
