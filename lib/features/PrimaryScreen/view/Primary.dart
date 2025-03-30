@@ -92,8 +92,8 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: EstablishmentSearch(
-                  establishments: _bestOffers,
-                  onSearch: (_bestOffers) {},
+                  establishments: _specialOffers,
+                  onSearch: (_specialOffers) {},
                 ),
               ),
             ),

@@ -75,32 +75,39 @@ class _EstablishmentSearchState extends State<EstablishmentSearch> {
     return Column(
       children: [
         SearchAnchor(
+          headerTextStyle: theme.textTheme.bodyLarge,
+          viewBackgroundColor: theme.scaffoldBackgroundColor,
           searchController: _searchController,
           builder: (BuildContext context, SearchController controller) {
-            return SearchBar(
-              controller: controller,
-              hintText: widget.hintText,
-              onTap: () {
-                controller.openView();
-              },
-              onChanged: (_) {
-                controller.openView();
-              },
-              leading: const Icon(Icons.search),
-              trailing: <Widget>[
-                Tooltip(
-                  message: 'Clear',
-                  child: IconButton(
-                    isSelected: controller.text.isNotEmpty,
-                    onPressed: () {
-                      setState(() {
-                        controller.clear();
-                      });
-                    },
-                    icon: const Icon(Icons.clear),
-                  ),
-                )
-              ],
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: SearchBar(
+                controller: controller,
+                hintText: widget.hintText,
+                onTap: () {
+                  controller.openView();
+                },
+                onChanged: (_) {
+                  controller.openView();
+                },
+                leading: const Icon(Icons.search),
+                trailing: <Widget>[
+                  controller.text.isNotEmpty
+                      ? Tooltip(
+                          message: 'Clear',
+                          child: IconButton(
+                            isSelected: controller.text.isNotEmpty,
+                            onPressed: () {
+                              setState(() {
+                                controller.clear();
+                              });
+                            },
+                            icon: const Icon(Icons.clear),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ],
+              ),
             );
           },
           suggestionsBuilder:

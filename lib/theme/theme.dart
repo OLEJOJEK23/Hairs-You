@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-const primaryColor =  Color(0xFFFF6F59);
+const primaryColor = Color(0xFFFF6F59);
 const secondColor = Color(0xFFA8C686);
-
 
 final lightTheme = ThemeData(
   useMaterial3: true,
@@ -15,10 +14,7 @@ final lightTheme = ThemeData(
   ),
   textTheme: const TextTheme(
     bodyMedium: TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.normal,
-        fontSize: 16
-    ),
+        color: Colors.black, fontWeight: FontWeight.normal, fontSize: 16),
     labelLarge: TextStyle(
       color: Colors.black,
       fontSize: 18,
@@ -58,17 +54,28 @@ final lightTheme = ThemeData(
       color: Colors.black,
       fontWeight: FontWeight.normal,
     ),
-    labelStyle: const TextStyle(
-        color: Colors.black
-    ),
+    labelStyle: const TextStyle(color: Colors.black),
   ),
-  elevatedButtonTheme:  ElevatedButtonThemeData(
+  elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
         disabledBackgroundColor: Colors.black12,
         disabledForegroundColor: Colors.black,
         foregroundColor: Colors.black,
-        backgroundColor: primaryColor
-    )
+        backgroundColor: primaryColor),
+  ),
+  searchBarTheme: const SearchBarThemeData(
+    backgroundColor: WidgetStatePropertyAll(Colors.black26),
+    surfaceTintColor: WidgetStatePropertyAll(Colors.transparent),
+    shadowColor: WidgetStatePropertyAll(Colors.transparent),
+    constraints: BoxConstraints(minHeight: 46),
+    textStyle: WidgetStatePropertyAll(
+      TextStyle(
+          color: Colors.black, fontWeight: FontWeight.normal, fontSize: 16),
+    ),
+    hintStyle: WidgetStatePropertyAll(
+      TextStyle(
+          color: Colors.black, fontWeight: FontWeight.normal, fontSize: 16),
+    ),
   ),
 );
 
@@ -84,10 +91,7 @@ final darkTheme = ThemeData(
   ),
   textTheme: const TextTheme(
     bodyMedium: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.normal,
-        fontSize: 16
-    ),
+        color: Colors.white, fontWeight: FontWeight.normal, fontSize: 16),
     labelLarge: TextStyle(
       color: Colors.white,
       fontSize: 18,
@@ -127,22 +131,31 @@ final darkTheme = ThemeData(
       color: Colors.white,
       fontWeight: FontWeight.normal,
     ),
-    labelStyle: const TextStyle(
-        color: Colors.white
-    ),
+    labelStyle: const TextStyle(color: Colors.white),
   ),
-  elevatedButtonTheme:  ElevatedButtonThemeData(
+  elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
           disabledBackgroundColor: Colors.white12,
           disabledForegroundColor: Colors.white,
           foregroundColor: Colors.white,
-          backgroundColor: primaryColor
-      )
+          backgroundColor: primaryColor)),
+  searchBarTheme: const SearchBarThemeData(
+    backgroundColor: WidgetStatePropertyAll(Colors.white10),
+    surfaceTintColor: WidgetStatePropertyAll(Colors.transparent),
+    shadowColor: WidgetStatePropertyAll(Colors.transparent),
+    constraints: BoxConstraints(minHeight: 46),
+    textStyle: WidgetStatePropertyAll(
+      TextStyle(
+          color: Colors.white, fontWeight: FontWeight.normal, fontSize: 16),
+    ),
+    hintStyle: WidgetStatePropertyAll(
+      TextStyle(
+          color: Colors.white, fontWeight: FontWeight.normal, fontSize: 16),
+    ),
   ),
 );
 
 final boxDecoration = BoxDecoration(
   border: Border.all(color: primaryColor),
   borderRadius: BorderRadius.circular(15),
-
 );
