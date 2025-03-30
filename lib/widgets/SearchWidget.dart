@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchWidget extends StatefulWidget {
@@ -20,7 +21,7 @@ class SearchWidget extends StatefulWidget {
 class _SearchWidgetState extends State<SearchWidget> {
   final SearchController _searchController = SearchController();
   List<String> _searchHistory = [];
-  late SharedPreferences _prefs;
+  SharedPreferences _prefs = GetIt.I.get<SharedPreferences>();
 
   @override
   void initState() {

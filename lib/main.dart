@@ -14,9 +14,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final sharedPreferences = await SharedPreferences.getInstance();
+  GetIt.I.registerLazySingleton(() => sharedPreferences);
   GetIt.I.registerLazySingleton(() => AuthController());
   GetIt.I.registerLazySingleton(() => LinkAccountController());
-  runApp(HairsAndYouApp(
-    sharedPreferences: sharedPreferences,
-  ));
+  runApp(const HairsAndYouApp());
 }

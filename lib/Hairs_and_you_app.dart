@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/blocks/theme_block/theme_cubit.dart';
 import 'package:hairs_and_you/repositories/settings_repository/settings.dart';
 import 'package:hairs_and_you/router/router.dart';
@@ -8,9 +9,7 @@ import 'package:hairs_and_you/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HairsAndYouApp extends StatefulWidget {
-  const HairsAndYouApp({super.key, required this.sharedPreferences});
-
-  final SharedPreferences sharedPreferences;
+  const HairsAndYouApp({super.key});
 
   @override
   State<HairsAndYouApp> createState() => _HairsAndYouAppState();
@@ -18,6 +17,7 @@ class HairsAndYouApp extends StatefulWidget {
 
 class _HairsAndYouAppState extends State<HairsAndYouApp> {
   final _router = AppRouter();
+  final sharedPreferences = GetIt.I.get<SharedPreferences>();
 
   @override
   void initState() {
@@ -31,8 +31,7 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsRepository =
-        SettingsRepository(sharedPreferences: widget.sharedPreferences);
+    final settingsRepository = SettingsRepository();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
