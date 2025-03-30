@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/theme/theme.dart';
 
+import '../../../widgets/SearchWidget.dart';
+
 @RoutePage()
 class PrimaryScreen extends StatefulWidget {
   const PrimaryScreen({super.key});
@@ -87,22 +89,13 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
             backgroundColor: theme.scaffoldBackgroundColor,
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(56),
-              child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 16)
-                      .copyWith(bottom: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: boxDecoration,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.search),
-                      const SizedBox(width: 12),
-                      Text(
-                        "Поиск заведений",
-                        style: theme.textTheme.bodyMedium,
-                      ),
-                    ],
-                  )),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: EstablishmentSearch(
+                  establishments: _bestOffers,
+                  onSearch: (_bestOffers) {},
+                ),
+              ),
             ),
           ),
           SliverPadding(

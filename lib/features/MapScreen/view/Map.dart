@@ -149,7 +149,6 @@ class _MapScreenState extends State<MapScreen> {
                 const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 5),
             sliver: SliverToBoxAdapter(
               child: Text(
-                ""
                 "Найденные заведения (1324):",
                 style: theme.textTheme.bodyLarge,
               ),

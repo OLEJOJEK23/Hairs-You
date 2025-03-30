@@ -8,10 +8,7 @@ import 'package:hairs_and_you/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HairsAndYouApp extends StatefulWidget {
-  const HairsAndYouApp({
-    super.key,
-    required this.sharedPreferences
-  });
+  const HairsAndYouApp({super.key, required this.sharedPreferences});
 
   final SharedPreferences sharedPreferences;
 
@@ -20,7 +17,6 @@ class HairsAndYouApp extends StatefulWidget {
 }
 
 class _HairsAndYouAppState extends State<HairsAndYouApp> {
-
   final _router = AppRouter();
 
   @override
@@ -32,18 +28,18 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
     ]);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    final settingsRepository = SettingsRepository(sharedPreferences: widget.sharedPreferences);
+    final settingsRepository =
+        SettingsRepository(sharedPreferences: widget.sharedPreferences);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (context) =>
-                ThemeCubit(
-                   settingsRepository: settingsRepository,
-                ),
-
-        )
+          create: (context) => ThemeCubit(
+            settingsRepository: settingsRepository,
+          ),
+        ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
