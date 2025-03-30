@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/theme.dart';
+import '../../../widgets/SearchWidget.dart';
 
 @RoutePage()
 class MapScreen extends StatefulWidget {
@@ -36,25 +37,7 @@ class _MapScreenState extends State<MapScreen> {
             floating: true,
             surfaceTintColor: Colors.transparent,
             backgroundColor: theme.scaffoldBackgroundColor,
-            title: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(10),
-                  decoration: boxDecoration,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.search),
-                      const SizedBox(width: 12),
-                      Text(
-                        "Поиск услуг",
-                        style: theme.textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            title: SearchWidget(establishments: [{}], onSearch: (_) {}),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(60),
               child: Row(
@@ -63,42 +46,44 @@ class _MapScreenState extends State<MapScreen> {
                   Expanded(
                     flex: 1,
                     child: Container(
-                        margin: const EdgeInsets.all(5)
-                            .copyWith(left: 16)
-                            .copyWith(bottom: 9),
-                        padding: const EdgeInsets.all(10),
-                        decoration: boxDecoration,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Icon(Icons.place),
-                            const SizedBox(width: 12),
-                            Text(
-                              "Место",
-                              style: theme.textTheme.bodyMedium,
-                            ),
-                          ],
-                        )),
+                      margin: const EdgeInsets.all(5)
+                          .copyWith(left: 16)
+                          .copyWith(bottom: 9),
+                      padding: const EdgeInsets.all(10),
+                      decoration: boxDecoration,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.place),
+                          const SizedBox(width: 12),
+                          Text(
+                            "Место",
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   Expanded(
                     flex: 1,
                     child: Container(
-                        margin: const EdgeInsets.all(5)
-                            .copyWith(right: 16)
-                            .copyWith(bottom: 9),
-                        padding: const EdgeInsets.all(10),
-                        decoration: boxDecoration,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Icon(Icons.calendar_month),
-                            const SizedBox(width: 12),
-                            Text(
-                              "Дата",
-                              style: theme.textTheme.bodyMedium,
-                            ),
-                          ],
-                        )),
+                      margin: const EdgeInsets.all(5)
+                          .copyWith(right: 16)
+                          .copyWith(bottom: 9),
+                      padding: const EdgeInsets.all(10),
+                      decoration: boxDecoration,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.calendar_month),
+                          const SizedBox(width: 12),
+                          Text(
+                            "Дата",
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

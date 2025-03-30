@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class EstablishmentSearch extends StatefulWidget {
+class SearchWidget extends StatefulWidget {
   final List<Map<String, String>> establishments;
   final Function(List<Map<String, String>>) onSearch;
   final String hintText;
 
-  const EstablishmentSearch({
+  const SearchWidget({
     super.key,
     required this.establishments,
     required this.onSearch,
@@ -14,10 +14,10 @@ class EstablishmentSearch extends StatefulWidget {
   });
 
   @override
-  State<EstablishmentSearch> createState() => _EstablishmentSearchState();
+  State<SearchWidget> createState() => _SearchWidgetState();
 }
 
-class _EstablishmentSearchState extends State<EstablishmentSearch> {
+class _SearchWidgetState extends State<SearchWidget> {
   final SearchController _searchController = SearchController();
   List<String> _searchHistory = [];
   late SharedPreferences _prefs;

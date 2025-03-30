@@ -91,7 +91,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
               preferredSize: const Size.fromHeight(56),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: EstablishmentSearch(
+                child: SearchWidget(
                   establishments: _specialOffers,
                   onSearch: (_specialOffers) {},
                 ),
