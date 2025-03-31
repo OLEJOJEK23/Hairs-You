@@ -226,36 +226,7 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
   void _onOfferTapped(BuildContext context, Map<String, String> offer) {
     // Implement navigation or other actions when an offer is tapped.
     // For example, you can navigate to a new screen with offer details.
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(offer['title'] ?? "Offer"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(offer['description'] ?? ""),
-              const SizedBox(height: 8),
-              Text(offer['address'] ?? ""),
-              const SizedBox(height: 8),
-              Image.asset(
-                offer['image']!,
-                width: 100,
-                height: 100,
-              )
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+    context.router.pushNamed("/establishment");
   }
 }
 
