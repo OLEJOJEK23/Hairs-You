@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+
 import '../Guards/AuthGuard.dart';
 import '../features/AIScreen/AIScreen.dart';
+import '../features/EstablishmentScreen/view/Establishment.dart';
 import '../features/FavoriteScreen/FavoriteScreen.dart';
 import '../features/HistoryScreen/HistoryScreen.dart';
 import '../features/HomeScreen/HomeScreen.dart';
@@ -15,52 +17,54 @@ part 'router.gr.dart';
 
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
-
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(
-      guards: [AuthGuard()],
-      page: HomeRoute.page,
-      initial: true,
-      path: '/',
-      children: [
         AutoRoute(
-          page: PrimaryRoute.page,
-          path: 'primary',
+            guards: [AuthGuard()],
+            page: HomeRoute.page,
+            initial: true,
+            path: '/',
+            children: [
+              AutoRoute(
+                page: PrimaryRoute.page,
+                path: 'primary',
+              ),
+              AutoRoute(
+                page: AIRoute.page,
+                path: 'ai',
+              ),
+              AutoRoute(
+                page: MapRoute.page,
+                path: 'map',
+              ),
+              AutoRoute(
+                page: ProfileRoute.page,
+                path: 'profile',
+              ),
+            ]),
+        AutoRoute(
+          page: LoginRoute.page,
+          path: '/login',
         ),
         AutoRoute(
-          page: AIRoute.page,
-          path: 'ai',
+          page: FavoriteRoute.page,
+          path: '/favorite',
         ),
         AutoRoute(
-          page: MapRoute.page,
-          path: 'map',
+          page: HistoryRoute.page,
+          path: '/history',
         ),
         AutoRoute(
-          page: ProfileRoute.page,
-          path: 'profile',
+          page: SettingsRoute.page,
+          path: '/settings',
         ),
-      ]
-    ),
-    AutoRoute(
-      page: LoginRoute.page,
-      path: '/login',
-    ),
-    AutoRoute(
-      page: FavoriteRoute.page,
-      path: '/favorite',
-    ),
-    AutoRoute(
-      page: HistoryRoute.page,
-      path: '/history',
-    ),
-    AutoRoute(
-      page: SettingsRoute.page,
-      path: '/settings',
-    ),
-    AutoRoute(
-      page: LinkPhoneNumberRoute.page,
-      path: '/linkPhoneNumber',
-    ),
-  ];
+        AutoRoute(
+          page: LinkPhoneRoute.page,
+          path: '/linkPhoneNumber',
+        ),
+        AutoRoute(
+          page: EstablishmentRoute.page,
+          path: '/establishment',
+        ),
+      ];
 }
