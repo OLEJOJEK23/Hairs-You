@@ -75,83 +75,87 @@ class _SearchWidgetState extends State<SearchWidget> {
     final theme = Theme.of(context);
     return Column(
       children: [
-        SearchAnchor(
-          headerTextStyle: theme.textTheme.bodyLarge,
-          viewBackgroundColor: theme.scaffoldBackgroundColor,
-          searchController: _searchController,
-          viewOnSubmitted: (String value) {
-            _searchController.closeView(value);
-          },
-          builder: (BuildContext context, SearchController controller) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: SearchBar(
-                controller: controller,
-                hintText: widget.hintText,
-                onTap: () {
-                  controller.openView();
-                },
-                onChanged: (_) {
-                  controller.openView();
-                },
-                leading: const Icon(Icons.search),
-                trailing: <Widget>[
-                  controller.text.isNotEmpty
-                      ? Tooltip(
-                          message: 'Clear',
-                          child: IconButton(
-                            isSelected: controller.text.isNotEmpty,
-                            onPressed: () {
-                              setState(() {
-                                controller.clear();
-                              });
-                            },
-                            icon: const Icon(Icons.clear),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                ],
-              ),
-            );
-          },
-          suggestionsBuilder:
-              (BuildContext context, SearchController controller) {
-            final filteredEstablishments =
-                _filterEstablishments(controller.text);
-            return [
-              if (controller.text.isEmpty) ...[
-                if (_searchHistory.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      "История поиска",
-                      style: theme.textTheme.bodyLarge,
+        ExcludeFocus(
+          child: SearchAnchor(
+            headerTextStyle: theme.textTheme.bodyLarge,
+            viewBackgroundColor: theme.scaffoldBackgroundColor,
+            searchController: _searchController,
+            viewOnSubmitted: (String value) {
+              (value);
+              widget.onSearch(_filterEstablishments(value));
+              _searchController.closeView(value);
+            },
+            builder: (BuildContext context, SearchController controller) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: SearchBar(
+                  controller: controller,
+                  hintText: widget.hintText,
+                  onTap: () {
+                    controller.openView();
+                  },
+                  onChanged: (_) {
+                    controller.openView();
+                  },
+                  leading: const Icon(Icons.search),
+                  trailing: <Widget>[
+                    controller.text.isNotEmpty
+                        ? Tooltip(
+                            message: 'Clear',
+                            child: IconButton(
+                              isSelected: controller.text.isNotEmpty,
+                              onPressed: () {
+                                setState(() {
+                                  controller.clear();
+                                });
+                              },
+                              icon: const Icon(Icons.clear),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ],
+                ),
+              );
+            },
+            suggestionsBuilder:
+                (BuildContext context, SearchController controller) {
+              final filteredEstablishments =
+                  _filterEstablishments(controller.text);
+              return [
+                if (controller.text.isEmpty) ...[
+                  if (_searchHistory.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        "История поиска",
+                        style: theme.textTheme.bodyLarge,
+                      ),
                     ),
-                  ),
-                for (final historyItem in _searchHistory)
-                  ListTile(
-                    leading: const Icon(Icons.history),
-                    title: Text(historyItem),
-                    onTap: () {
-                      controller.closeView(historyItem);
-                      _searchController.text = historyItem;
-                      widget.onSearch(_filterEstablishments(historyItem));
-                    },
-                  ),
-              ] else ...[
-                for (final establishment in filteredEstablishments)
-                  ListTile(
-                    title: Text(establishment['title']!),
-                    subtitle: Text(establishment['address']!),
-                    onTap: () {
-                      controller.closeView(establishment['title']!);
-                      _addToSearchHistory(establishment['title']!);
-                      widget.onSearch([establishment]);
-                    },
-                  ),
-              ],
-            ];
-          },
+                  for (final historyItem in _searchHistory)
+                    ListTile(
+                      leading: const Icon(Icons.history),
+                      title: Text(historyItem),
+                      onTap: () {
+                        controller.closeView(historyItem);
+                        _searchController.text = historyItem;
+                        widget.onSearch(_filterEstablishments(historyItem));
+                      },
+                    ),
+                ] else ...[
+                  for (final establishment in filteredEstablishments)
+                    ListTile(
+                      title: Text(establishment['title']!),
+                      subtitle: Text(establishment['address']!),
+                      onTap: () {
+                        controller.closeView(establishment['title']!);
+                        _addToSearchHistory(establishment['title']!);
+                        widget.onSearch([establishment]);
+                      },
+                    ),
+                ],
+              ];
+            },
+          ),
         ),
       ],
     );
