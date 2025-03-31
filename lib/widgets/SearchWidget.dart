@@ -79,6 +79,9 @@ class _SearchWidgetState extends State<SearchWidget> {
           headerTextStyle: theme.textTheme.bodyLarge,
           viewBackgroundColor: theme.scaffoldBackgroundColor,
           searchController: _searchController,
+          viewOnSubmitted: (String value) {
+            _searchController.closeView(value);
+          },
           builder: (BuildContext context, SearchController controller) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
