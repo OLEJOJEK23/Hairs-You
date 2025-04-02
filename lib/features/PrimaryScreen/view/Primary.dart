@@ -15,6 +15,12 @@ class PrimaryScreen extends StatefulWidget {
 class _PrimaryScreenState extends State<PrimaryScreen>
     with SingleTickerProviderStateMixin {
   final _activeRecord = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final List<Map<String, String>> _specialOffers = [
     {
       'title': 'У Марии',
@@ -70,16 +76,6 @@ class _PrimaryScreenState extends State<PrimaryScreen>
   ];
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
@@ -111,10 +107,11 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (_activeRecord == false)
-                    const ActiveRecordCard(
+                    ActiveRecordCard(
                       institutionName: "Барбершоп",
                       address: "Санкт-Петербург, Московский проспект 30",
                       visitDate: "10.12.2141 12:40",
+                      onTap: () {},
                     ),
                   //* Special Offers Title
                   Padding(

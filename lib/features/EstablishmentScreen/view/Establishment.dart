@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 
 @RoutePage()
 class EstablishmentScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   final String _establishmentName = "Название заведения";
   final String _establishmentAddress =
       "Солнечная улица, 27, Сосновый Бор, Ленинградская область";
-  final double _establishmentRating = 4.5;
+  final double _establishmentRating = 3;
   final String _establishmentDescription =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.";
 
@@ -93,8 +94,6 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
             title: Text(_establishmentName),
             centerTitle: true,
             pinned: true,
-            snap: true,
-            floating: true,
             surfaceTintColor: Colors.transparent,
             backgroundColor: theme.scaffoldBackgroundColor,
           ),
@@ -152,16 +151,9 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
                       _establishmentName,
                       style: theme.textTheme.titleLarge,
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          _establishmentRating.toString(),
-                          style: theme.textTheme.bodyMedium,
-                        ),
-                        const SizedBox(width: 4),
-                        const Icon(Icons.star, color: Colors.amber),
-                      ],
-                    ),
+                    RatingDisplay(
+                      rating: _establishmentRating,
+                    )
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -255,15 +247,9 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
                                           ),
                                           Row(
                                             children: [
-                                              Text(
-                                                review['rating'].toString(),
-                                                style:
-                                                    theme.textTheme.bodyMedium,
-                                              ),
-                                              const SizedBox(width: 4),
-                                              const Icon(Icons.star,
-                                                  color: Colors.amber,
-                                                  size: 16),
+                                              RatingDisplay(
+                                                rating: review["rating"],
+                                              )
                                             ],
                                           ),
                                         ],

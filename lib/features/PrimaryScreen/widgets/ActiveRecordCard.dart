@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ActiveRecordCard extends StatelessWidget {
-  final String institutionName;
-  final String address;
-  final String visitDate;
-  final VoidCallback? onTap;
-
   const ActiveRecordCard({
     super.key,
     required this.institutionName,
     required this.address,
     required this.visitDate,
-    this.onTap,
+    required this.onTap,
   });
+
+  final String institutionName;
+  final String address;
+  final String visitDate;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
