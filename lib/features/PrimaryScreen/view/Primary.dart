@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:hairs_and_you/theme/theme.dart';
+import 'package:hairs_and_you/features/PrimaryScreen/widgets/ActiveRecordCard.dart';
 
 import '../../../widgets/SearchWidget.dart';
 
@@ -12,7 +12,8 @@ class PrimaryScreen extends StatefulWidget {
   State<PrimaryScreen> createState() => _PrimaryScreenState();
 }
 
-class _PrimaryScreenState extends State<PrimaryScreen> {
+class _PrimaryScreenState extends State<PrimaryScreen>
+    with SingleTickerProviderStateMixin {
   final _activeRecord = false;
   final List<Map<String, String>> _specialOffers = [
     {
@@ -74,6 +75,11 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
@@ -105,44 +111,10 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (_activeRecord == false)
-                    //* Active record
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            alignment: Alignment.topLeft,
-                            width: double.infinity,
-                            height: 150,
-                            decoration: boxDecoration,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Активная запись",
-                                      textAlign: TextAlign.center,
-                                      style: theme.textTheme.bodyLarge
-                                          ?.copyWith(color: Colors.green),
-                                    ),
-                                    const Text(" 13.12.2043 12:13 "),
-                                  ],
-                                ),
-                                const Text(
-                                  "У марии",
-                                ),
-                                const Text(
-                                    "Санкт-Петербург, Каменноостровский проспект 30"),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
+                    const ActiveRecordCard(
+                      institutionName: "Барбершоп",
+                      address: "Санкт-Петербург, Московский проспект 30",
+                      visitDate: "10.12.2141 12:40",
                     ),
                   //* Special Offers Title
                   Padding(
@@ -224,8 +196,6 @@ class _PrimaryScreenState extends State<PrimaryScreen> {
   }
 
   void _onOfferTapped(BuildContext context, Map<String, String> offer) {
-    // Implement navigation or other actions when an offer is tapped.
-    // For example, you can navigate to a new screen with offer details.
     context.router.pushNamed("/establishment");
   }
 }

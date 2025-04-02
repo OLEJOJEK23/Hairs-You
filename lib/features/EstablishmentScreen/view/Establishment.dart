@@ -205,7 +205,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
                                     : TextOverflow.ellipsis,
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 5),
                             GestureDetector(
                               onTap: () {
                                 setState(() {
