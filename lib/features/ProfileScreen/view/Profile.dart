@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/features/ProfileScreen/widgets/ProfileMenuWidget.dart';
+import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../controllers/Auth_contoroller.dart';
@@ -67,29 +68,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                         child: CircleAvatar(
-                            radius: 90,
-                            backgroundImage: _users_image != null
-                                ? FileImage(_users_image!)
-                                : const AssetImage(
-                                    "assets/images/google_logo.png")),
+                          radius: 90,
+                          backgroundImage: _users_image != null
+                              ? FileImage(_users_image!)
+                              : const AssetImage(
+                                  "assets/images/google_logo.png"),
+                        ),
                       ),
                       Positioned(
                         bottom: 0,
                         right: 0,
                         child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: theme.focusColor),
-                            child: IconButton(
-                                onPressed: () {
-                                  pickImage();
-                                },
-                                icon: Icon(
-                                  Icons.photo_camera,
-                                  color: theme.primaryColor,
-                                ))),
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: theme.focusColor),
+                          child: IconButton(
+                            onPressed: () {
+                              pickImage();
+                            },
+                            icon: Icon(
+                              Icons.photo_camera,
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -105,7 +109,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: theme.textTheme.titleLarge,
                     ),
                     IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.change_circle))
+                      onPressed: () {},
+                      icon: const Icon(Icons.change_circle),
+                    )
                   ],
                 ),
                 // User Email
@@ -115,63 +121,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: theme.textTheme.bodyMedium,
                 ),
                 // User Rating
-                _buildRatingDisplay(theme),
-                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Рейтинг: "),
+                      RatingDisplay(rating: _userRating),
+                    ],
+                  ),
+                ),
                 // Edit Profile Button
                 const Divider(),
                 const SizedBox(height: 10),
                 ProfileMenuWidget(
-                    title: "Избранное",
-                    icon: Icons.favorite,
-                    onPress: () {
-                      context.router.pushNamed("/favorite");
-                    }),
+                  title: "Избранное",
+                  icon: Icons.favorite,
+                  onPress: () {
+                    context.router.pushNamed("/favorite");
+                  },
+                ),
                 ProfileMenuWidget(
-                    title: "История генераций",
-                    icon: Icons.history,
-                    onPress: () {
-                      context.router.pushNamed("/history");
-                    }),
+                  title: "История генераций",
+                  icon: Icons.history,
+                  onPress: () {
+                    context.router.pushNamed("/history");
+                  },
+                ),
                 ProfileMenuWidget(
-                    title: "Настройки",
-                    icon: Icons.settings,
-                    onPress: () {
-                      context.router.pushNamed("/settings");
-                    }),
+                  title: "Настройки",
+                  icon: Icons.settings,
+                  onPress: () {
+                    context.router.pushNamed("/settings");
+                  },
+                ),
                 ProfileMenuWidget(
-                    title: "Выйти",
-                    icon: Icons.logout,
-                    textColor: Colors.red,
-                    endIcon: false,
-                    onPress: () async {
-                      await GetIt.I<AuthController>().signOut();
-                      if (!context.mounted) return;
-                      context.router.replaceAll([const LoginRoute()]);
-                    }),
+                  title: "Выйти",
+                  icon: Icons.logout,
+                  textColor: Colors.red,
+                  endIcon: false,
+                  onPress: () async {
+                    await GetIt.I<AuthController>().signOut();
+                    if (!context.mounted) return;
+                    context.router.replaceAll([const LoginRoute()]);
+                  },
+                ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildRatingDisplay(ThemeData theme) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "Рейтинг:",
-          style: theme.textTheme.bodyMedium,
-        ),
-        const SizedBox(width: 8),
-        Text(
-          _userRating.toStringAsFixed(1),
-          style: theme.textTheme.bodyMedium,
-        ),
-        const SizedBox(width: 4),
-        Icon(Icons.star, color: Colors.amber[400], size: 20),
-      ],
     );
   }
 }

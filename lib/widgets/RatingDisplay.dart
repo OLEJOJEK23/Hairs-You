@@ -9,6 +9,7 @@ class RatingDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
+      width: 75,
       padding: const EdgeInsets.symmetric(
         horizontal: 12,
         vertical: 6,
