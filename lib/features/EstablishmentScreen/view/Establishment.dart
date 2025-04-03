@@ -161,7 +161,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
                   Tab(text: 'Отзывы'),
                 ],
                 labelColor: theme.primaryColor,
-                unselectedLabelColor: Colors.grey[500],
+                unselectedLabelColor: Colors.grey.shade500,
                 indicatorColor: theme.primaryColor,
               ),
             ),

@@ -26,7 +26,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     user = _auth.currentUser;
-    debugPrint(user?.phoneNumber);
     if (user?.phoneNumber != null && user?.phoneNumber != "") {
       _isPhoneLinked = true;
     }

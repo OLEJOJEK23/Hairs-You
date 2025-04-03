@@ -14,7 +14,10 @@ final lightTheme = ThemeData(
   ),
   textTheme: const TextTheme(
     bodyMedium: TextStyle(
-        color: Colors.black, fontWeight: FontWeight.normal, fontSize: 16),
+      color: Colors.black,
+      fontWeight: FontWeight.normal,
+      fontSize: 16,
+    ),
     labelLarge: TextStyle(
       color: Colors.black,
       fontSize: 18,
@@ -39,6 +42,11 @@ final lightTheme = ThemeData(
       color: Colors.black,
       fontSize: 24,
       fontWeight: FontWeight.bold,
+    ),
+    displaySmall: TextStyle(
+      color: Colors.black54,
+      fontWeight: FontWeight.normal,
+      fontSize: 16,
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
@@ -116,6 +124,11 @@ final darkTheme = ThemeData(
       color: Colors.white,
       fontSize: 24,
       fontWeight: FontWeight.bold,
+    ),
+    displaySmall: TextStyle(
+      color: Colors.white54,
+      fontWeight: FontWeight.normal,
+      fontSize: 16,
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(

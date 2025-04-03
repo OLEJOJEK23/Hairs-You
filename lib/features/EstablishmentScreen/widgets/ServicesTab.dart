@@ -7,7 +7,13 @@ class ServicesTab extends StatelessWidget {
 
   void _onSelectService(BuildContext context, String serviceName) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Выбрана услуга: $serviceName')),
+      SnackBar(
+        content: Text('Выбрана услуга: $serviceName'),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        backgroundColor: Theme.of(context).primaryColor,
+        duration: const Duration(milliseconds: 1500),
+      ),
     );
   }
 
@@ -17,62 +23,64 @@ class ServicesTab extends StatelessWidget {
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: 8.0,
+        ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: services.map((service) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          service['name'],
-                          style: theme.textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          service['duration'],
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
+              child: Card(
+                elevation: 3,
+                // Увеличил elevation для большей заметности
+                shadowColor: theme.shadowColor.withOpacity(0.3),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                color: theme.colorScheme.surfaceContainerHighest,
+                // Более заметный фон
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        "${service['price']} ₽",
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              service['name'],
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              service['duration'],
+                              style: theme.textTheme.displaySmall,
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 8),
                       ElevatedButton(
                         onPressed: () =>
                             _onSelectService(context, service['name']),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: theme.primaryColor,
-                          foregroundColor: Colors.white,
-                          minimumSize: const Size(80, 36),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                        style: theme.elevatedButtonTheme.style,
+                        child: Text(
+                          "${service['price']} ₽",
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
-                          elevation: 2,
-                        ),
-                        child: const Text(
-                          'Выбрать',
-                          style: TextStyle(fontSize: 14),
                         ),
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             );
           }).toList(),
