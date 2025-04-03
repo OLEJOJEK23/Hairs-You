@@ -27,7 +27,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     'assets/images/google_logo.png',
     'assets/images/google_logo.png',
   ];
-  final String _establishmentName = "Название заведения";
+  final String _establishmentName = "У марии";
   final String _establishmentAddress =
       "Солнечная улица, 27, Сосновый Бор, Ленинградская область";
   final double _establishmentRating = 3;
@@ -132,9 +132,11 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            _establishmentName,
-                            style: theme.textTheme.titleLarge,
+                          Expanded(
+                            child: Text(
+                              _establishmentName,
+                              style: theme.textTheme.titleLarge,
+                            ),
                           ),
                           RatingDisplay(rating: _establishmentRating),
                         ],
@@ -156,9 +158,15 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
               TabBar(
                 controller: _tabController,
                 tabs: const [
-                  Tab(text: 'Описание'),
-                  Tab(text: 'Услуги'),
-                  Tab(text: 'Отзывы'),
+                  Tab(
+                    text: 'Описание',
+                  ),
+                  Tab(
+                    text: 'Услуги',
+                  ),
+                  Tab(
+                    text: 'Отзывы',
+                  ),
                 ],
                 labelColor: theme.primaryColor,
                 unselectedLabelColor: Colors.grey.shade500,
