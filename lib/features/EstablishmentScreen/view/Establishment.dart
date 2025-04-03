@@ -1,5 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/features/EstablishmentScreen/widgets/DescriptionTab.dart';
+import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ImageScroll.dart';
+import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ReviewsTab.dart';
+import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ServicesTab.dart';
 import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 
 @RoutePage()
@@ -12,10 +16,8 @@ class EstablishmentScreen extends StatefulWidget {
 
 class _EstablishmentScreenState extends State<EstablishmentScreen>
     with SingleTickerProviderStateMixin {
-  final PageController _pageController = PageController();
   late TabController _tabController;
-  int _currentPage = 0;
-  bool _isExpanded = false;
+  late ScrollController _scrollController;
 
   final List<String> _imageUrls = [
     'assets/images/google_logo.png',
@@ -32,7 +34,6 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   final String _establishmentDescription =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.";
 
-  // Sample reviews
   final List<Map<String, dynamic>> _reviews = [
     {
       'author': 'Алексей П.',
@@ -66,30 +67,50 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     },
   ];
 
+  final List<Map<String, dynamic>> _services = [
+    {'name': 'Стрижка мужская', 'price': 1000, 'duration': '30 мин'},
+    {'name': 'Стрижка женская', 'price': 1500, 'duration': '45 мин'},
+    {'name': 'Окрашивание', 'price': 3000, 'duration': '2 часа'},
+    {'name': 'Укладка', 'price': 800, 'duration': '20 мин'},
+    {'name': 'Маникюр', 'price': 1200, 'duration': '1 час'},
+  ];
+
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page?.round() ?? 0;
-      });
+    _scrollController = ScrollController();
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        _scrollToTop();
+      }
     });
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     _tabController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void _scrollToTop() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
+      body: NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
             title: Text(_establishmentName),
             centerTitle: true,
@@ -97,183 +118,31 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
             surfaceTintColor: Colors.transparent,
             backgroundColor: theme.scaffoldBackgroundColor,
           ),
-          // Photos
           SliverToBoxAdapter(
             child: Column(
               children: [
-                SizedBox(
-                  height: 200,
-                  child: PageView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    controller: _pageController,
-                    itemCount: _imageUrls.length,
-                    itemBuilder: (context, index) {
-                      return Image.asset(
-                        _imageUrls[index],
-                        fit: BoxFit.contain,
-                        width: double.infinity,
-                      );
-                    },
-                  ),
+                ImageScroll(
+                  imageUrls: _imageUrls,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      _imageUrls.length,
-                      (index) => Container(
-                        width: 8,
-                        height: 8,
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _currentPage == index
-                              ? theme.primaryColor
-                              : Colors.grey[500],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Name, address, and tab bar
-          SliverPadding(
-            padding: const EdgeInsets.all(16),
-            sliver: SliverList.list(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _establishmentName,
-                      style: theme.textTheme.titleLarge,
-                    ),
-                    RatingDisplay(
-                      rating: _establishmentRating,
-                    )
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  _establishmentAddress,
-                  style: theme.textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 16),
-                // TabBar
-                TabBar(
-                  controller: _tabController,
-                  tabs: const [
-                    Tab(text: 'Описание'),
-                    Tab(text: 'Отзывы'),
-                  ],
-                  labelColor: theme.primaryColor,
-                  unselectedLabelColor: Colors.grey[500],
-                  indicatorColor: theme.primaryColor,
-                ),
-                const SizedBox(height: 16),
-                // TabBarView content
-                SizedBox(
-                  height: 600, // Adjust height as needed
-                  child: TabBarView(
-                    controller: _tabController,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Description Tab
-                      SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AnimatedSize(
-                              duration: const Duration(milliseconds: 600),
-                              curve: Curves.easeInOut,
-                              child: Text(
-                                _establishmentDescription,
-                                style: theme.textTheme.bodyMedium,
-                                maxLines: _isExpanded ? null : 5,
-                                overflow: _isExpanded
-                                    ? TextOverflow.visible
-                                    : TextOverflow.ellipsis,
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _isExpanded = !_isExpanded;
-                                });
-                              },
-                              child: Row(
-                                children: [
-                                  Text(
-                                    _isExpanded
-                                        ? "Скрыть"
-                                        : "Показать полностью",
-                                    style: theme.textTheme.bodyMedium?.copyWith(
-                                      color: theme.primaryColor,
-                                    ),
-                                  ),
-                                  Icon(
-                                    _isExpanded
-                                        ? Icons.arrow_drop_up
-                                        : Icons.arrow_drop_down,
-                                    color: theme.primaryColor,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            _establishmentName,
+                            style: theme.textTheme.titleLarge,
+                          ),
+                          RatingDisplay(rating: _establishmentRating),
+                        ],
                       ),
-                      // Reviews Tab
-                      SingleChildScrollView(
-                        child: Column(
-                          children: _reviews
-                              .map(
-                                (review) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            review['author'],
-                                            style: theme.textTheme.titleMedium,
-                                          ),
-                                          Row(
-                                            children: [
-                                              RatingDisplay(
-                                                rating: review["rating"],
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        review['text'],
-                                        style: theme.textTheme.bodyMedium,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        review['date'],
-                                        style:
-                                            theme.textTheme.bodySmall?.copyWith(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      const Divider(),
-                                    ],
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
+                      const SizedBox(height: 8),
+                      Text(
+                        _establishmentAddress,
+                        style: theme.textTheme.bodyMedium,
                       ),
                     ],
                   ),
@@ -281,8 +150,68 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
               ],
             ),
           ),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: _SliverAppBarDelegate(
+              TabBar(
+                controller: _tabController,
+                tabs: const [
+                  Tab(text: 'Описание'),
+                  Tab(text: 'Услуги'),
+                  Tab(text: 'Отзывы'),
+                ],
+                labelColor: theme.primaryColor,
+                unselectedLabelColor: Colors.grey[500],
+                indicatorColor: theme.primaryColor,
+              ),
+            ),
+          ),
         ],
+        body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: _tabController,
+          children: [
+            // Description Tab
+            DescriptionTab(
+              description: _establishmentDescription,
+            ),
+            // Services Tab
+            ServicesTab(
+              services: _services,
+            ),
+            // Reviews Tab
+            ReviewsTab(
+              reviews: _reviews,
+            ),
+          ],
+        ),
       ),
     );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._tabBar);
+
+  final TabBar _tabBar;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: _tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return _tabBar != oldDelegate._tabBar;
   }
 }

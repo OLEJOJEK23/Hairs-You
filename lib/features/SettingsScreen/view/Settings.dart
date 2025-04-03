@@ -29,7 +29,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     debugPrint(user?.phoneNumber);
     if (user?.phoneNumber != null && user?.phoneNumber != "") {
       _isPhoneLinked = true;
-      debugPrint(user?.phoneNumber);
     }
     if (user?.email != null && user?.email != "") {
       _isGoogleLinked = true;
