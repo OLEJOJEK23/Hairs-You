@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 
 import '../Guards/AuthGuard.dart';
 import '../features/AIScreen/AIScreen.dart';
+import '../features/BookingScreen/BookingScreen.dart';
 import '../features/EstablishmentScreen/view/Establishment.dart';
 import '../features/FavoriteScreen/FavoriteScreen.dart';
 import '../features/HistoryScreen/HistoryScreen.dart';
@@ -65,6 +66,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: EstablishmentRoute.page,
           path: '/establishment',
+        ),
+        AutoRoute(
+          page: BookingRoute.page,
+          path: '/booking',
         ),
       ];
 }

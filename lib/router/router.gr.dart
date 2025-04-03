@@ -29,6 +29,25 @@ class AIRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [BookingScreen]
+class BookingRoute extends PageRouteInfo<void> {
+  const BookingRoute({List<PageRouteInfo>? children})
+      : super(
+          BookingRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BookingRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const BookingScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [EstablishmentScreen]
 class EstablishmentRoute extends PageRouteInfo<void> {
   const EstablishmentRoute({List<PageRouteInfo>? children})
