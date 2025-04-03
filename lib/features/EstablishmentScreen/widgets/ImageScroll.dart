@@ -10,7 +10,8 @@ class ImageScroll extends StatefulWidget {
 }
 
 class _ImageScrollState extends State<ImageScroll> {
-  final PageController _pageController = PageController();
+  final PageController _pageController =
+      PageController(initialPage: 1); // Начинаем с 1
   int _currentPage = 0;
 
   @override
@@ -18,7 +19,8 @@ class _ImageScrollState extends State<ImageScroll> {
     super.initState();
     _pageController.addListener(() {
       setState(() {
-        _currentPage = _pageController.page?.round() ?? 0;
+        _currentPage = (_pageController.page?.round() ?? 1) -
+            1; // Корректируем для индикатора
       });
     });
   }
@@ -27,6 +29,32 @@ class _ImageScrollState extends State<ImageScroll> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  void _handlePageChange(int page) {
+    if (page == 0) {
+      // Переход с первой страницы на последнюю
+      Future.delayed(const Duration(milliseconds: 200), () {
+        _pageController.animateToPage(
+          widget.imageUrls.length,
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.easeInOut,
+        );
+      });
+    } else if (page == widget.imageUrls.length + 1) {
+      // Переход с последней страницы на первую
+      Future.delayed(const Duration(milliseconds: 200), () {
+        _pageController.animateToPage(
+          1,
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.easeInOut,
+        );
+      });
+    }
+    setState(() {
+      _currentPage = (page - 1)
+          .clamp(0, widget.imageUrls.length - 1); // Ограничиваем для индикатора
+    });
   }
 
   @override
@@ -39,14 +67,21 @@ class _ImageScrollState extends State<ImageScroll> {
           child: PageView.builder(
             physics: const BouncingScrollPhysics(),
             controller: _pageController,
-            itemCount: widget.imageUrls.length,
+            itemCount: widget.imageUrls.length + 2,
+            // Добавляем 2 фиктивных элемента
             itemBuilder: (context, index) {
+              if (index == 0 || index == widget.imageUrls.length + 1) {
+                // Фиктивные элементы для перехода
+                return const SizedBox.shrink();
+              }
               return Image.asset(
-                widget.imageUrls[index],
+                widget.imageUrls[index - 1],
+                // Сдвигаем индекс из-за фиктивного начала
                 fit: BoxFit.contain,
                 width: double.infinity,
               );
             },
+            onPageChanged: _handlePageChange,
           ),
         ),
         Padding(
