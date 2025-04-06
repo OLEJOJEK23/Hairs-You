@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class ServicesTab extends StatelessWidget {
@@ -6,15 +7,7 @@ class ServicesTab extends StatelessWidget {
   final List<Map<String, dynamic>> services;
 
   void _onSelectService(BuildContext context, String serviceName) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Выбрана услуга: $serviceName'),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        backgroundColor: Theme.of(context).primaryColor,
-        duration: const Duration(milliseconds: 1500),
-      ),
-    );
+    context.router.pushNamed('/booking');
   }
 
   @override

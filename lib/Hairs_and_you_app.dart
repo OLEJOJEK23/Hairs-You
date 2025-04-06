@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/blocks/theme_block/theme_cubit.dart';
 import 'package:hairs_and_you/repositories/settings_repository/settings.dart';
@@ -22,6 +23,7 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
   @override
   void initState() {
     WidgetsFlutterBinding.ensureInitialized();
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
@@ -47,6 +49,16 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
             title: 'Hairs&You',
             theme: state.isDark ? darkTheme : lightTheme,
             routerConfig: _router.config(),
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('ru', 'RU'),
+              Locale('en', 'US'),
+            ],
+            locale: const Locale('ru', 'RU'),
           );
         },
       ),
