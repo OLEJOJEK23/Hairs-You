@@ -21,6 +21,12 @@ class _BookingScreenState extends State<BookingScreen> {
   static const TimeOfDay closingTime = TimeOfDay(hour: 21, minute: 0);
   static const int timeSlotIntervalMinutes = 20;
 
+  @override
+  void dispose() {
+    _timeScrollController.dispose();
+    super.dispose();
+  }
+
   List<TimeOfDay> _generateTimeSlots() {
     List<TimeOfDay> timeSlots = [];
     TimeOfDay currentTime = openingTime;
@@ -65,13 +71,14 @@ class _BookingScreenState extends State<BookingScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          // Единый отступ слева и справа
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Calendar Section
               Card(
-                elevation: 2,
+                elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -79,7 +86,6 @@ class _BookingScreenState extends State<BookingScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: TableCalendar(
                     locale: 'ru_RU',
-                    // Русская локаль
                     firstDay: DateTime.now(),
                     lastDay: DateTime(2101),
                     focusedDay: _focusedDate,
@@ -127,11 +133,11 @@ class _BookingScreenState extends State<BookingScreen> {
               ),
               const SizedBox(height: 24),
               // Time Selection
-              Text(
-                'Выберите время',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.onSurface,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Text(
+                  'Выберите время',
+                  style: theme.textTheme.titleLarge,
                 ),
               ),
               const SizedBox(height: 12),
@@ -157,7 +163,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         decoration: BoxDecoration(
                           color: isSelected
                               ? theme.primaryColor
-                              : theme.colorScheme.surfaceContainer,
+                              : theme.colorScheme.surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isSelected
@@ -170,9 +176,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           child: Text(
                             _formatTimeOfDay(timeSlot),
                             style: TextStyle(
-                              color: isSelected
-                                  ? theme.colorScheme.onPrimary
-                                  : theme.colorScheme.onSurface,
+                              color: isSelected ? Colors.white : Colors.grey,
                               fontWeight: isSelected
                                   ? FontWeight.bold
                                   : FontWeight.normal,
@@ -184,7 +188,9 @@ class _BookingScreenState extends State<BookingScreen> {
                   },
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(
+                height: 32,
+              ),
               // Confirm Button
               Center(
                 child: ElevatedButton(
@@ -192,21 +198,21 @@ class _BookingScreenState extends State<BookingScreen> {
                     print('Selected Date: ${_selectedDate.toString()}');
                     print('Selected Time: ${_selectedTime.toString()}');
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.primaryColor,
-                    foregroundColor: theme.colorScheme.onPrimary,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    textStyle: theme.textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+                  style: theme.elevatedButtonTheme.style?.copyWith(
+                    padding: const WidgetStatePropertyAll(
+                      EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 12,
+                      ),
                     ),
                   ),
                   child: const Text('Подтвердить'),
                 ),
               ),
+              const SizedBox(
+                height: 16,
+              ),
+              // Добавлен отступ снизу для симметрии
             ],
           ),
         ),
