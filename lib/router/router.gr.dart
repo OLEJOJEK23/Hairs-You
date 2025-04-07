@@ -125,10 +125,10 @@ class HomeRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [LinkPhoneNumber]
-class LinkPhoneRoute extends PageRouteInfo<void> {
-  const LinkPhoneRoute({List<PageRouteInfo>? children})
+class LinkPhoneNumberRoute extends PageRouteInfo<void> {
+  const LinkPhoneNumberRoute({List<PageRouteInfo>? children})
       : super(
-          LinkPhoneRoute.name,
+          LinkPhoneNumberRoute.name,
           initialChildren: children,
         );
 
@@ -176,6 +176,25 @@ class MapRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const MapScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [MastersScreen]
+class MastersRoute extends PageRouteInfo<void> {
+  const MastersRoute({List<PageRouteInfo>? children})
+      : super(
+          MastersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MastersRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const MastersScreen();
     },
   );
 }

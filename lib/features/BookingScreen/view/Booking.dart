@@ -72,7 +72,6 @@ class _BookingScreenState extends State<BookingScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          // Единый отступ слева и справа
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -114,7 +113,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     headerStyle: HeaderStyle(
                       formatButtonVisible: false,
                       titleCentered: true,
-                      titleTextStyle: theme.textTheme.titleLarge!.copyWith(
+                      titleTextStyle: theme.textTheme.titleMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                       titleTextFormatter: (date, locale) =>
@@ -195,8 +194,7 @@ class _BookingScreenState extends State<BookingScreen> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    print('Selected Date: ${_selectedDate.toString()}');
-                    print('Selected Time: ${_selectedTime.toString()}');
+                    context.router.pushNamed('/masters');
                   },
                   style: theme.elevatedButtonTheme.style?.copyWith(
                     padding: const WidgetStatePropertyAll(
