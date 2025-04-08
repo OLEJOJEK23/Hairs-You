@@ -194,7 +194,7 @@ class MastersRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const MastersScreen();
+      return const MastersListScreen();
     },
   );
 }

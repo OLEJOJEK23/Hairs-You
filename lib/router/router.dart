@@ -10,7 +10,7 @@ import '../features/HomeScreen/HomeScreen.dart';
 import '../features/LinkPhoneNumberScreen/view/LinkPhoneNumber.dart';
 import '../features/LoginScreen/LoginScreen.dart';
 import '../features/MapScreen/MapScreen.dart';
-import '../features/MastersScreen/view/Masters.dart';
+import '../features/MastersListScreen/MastersListScreen.dart';
 import '../features/PrimaryScreen/PrimaryScreen.dart';
 import '../features/ProfileScreen/ProfileScreen.dart';
 import '../features/SettingsScreen/SettingsScreen.dart';

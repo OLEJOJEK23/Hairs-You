@@ -50,7 +50,7 @@ class _BookingScreenState extends State<BookingScreen> {
       final now = DateTime.now();
       final dt = DateTime(
           now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
-      final format = DateFormat.Hm('ru'); // Русская локаль для времени
+      final format = DateFormat.Hm('ru'); // Русская локализация для времени
       return format.format(dt);
     } catch (e) {
       print("Error formatting time: $e");
