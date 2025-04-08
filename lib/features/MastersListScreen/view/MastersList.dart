@@ -51,12 +51,7 @@ class _MastersListScreenState extends State<MastersListScreen> {
   }
 
   void _selectMaster(String masterName) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Выбран мастер: $masterName'),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    context.router.pushNamed('/master');
   }
 
   @override
@@ -72,7 +67,6 @@ class _MastersListScreenState extends State<MastersListScreen> {
         backgroundColor: theme.scaffoldBackgroundColor,
         surfaceTintColor: theme.scaffoldBackgroundColor,
       ),
-      extendBodyBehindAppBar: true,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -93,10 +87,10 @@ class _MastersListScreenState extends State<MastersListScreen> {
               return Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
-                  vertical: 12.0,
+                  vertical: 5.0,
                 ),
                 child: Card(
-                  elevation: 4,
+                  elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -173,7 +167,10 @@ class _MastersListScreenState extends State<MastersListScreen> {
                                 onPressed: () =>
                                     _selectMaster(master['fullName']),
                                 style: theme.elevatedButtonTheme.style,
-                                child: const Text('Подробнее'),
+                                child: Text(
+                                  'Подробнее',
+                                  style: theme.textTheme.bodyMedium,
+                                ),
                               ),
                             ),
                           ],

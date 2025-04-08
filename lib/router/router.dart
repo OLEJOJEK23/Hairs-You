@@ -10,6 +10,7 @@ import '../features/HomeScreen/HomeScreen.dart';
 import '../features/LinkPhoneNumberScreen/view/LinkPhoneNumber.dart';
 import '../features/LoginScreen/LoginScreen.dart';
 import '../features/MapScreen/MapScreen.dart';
+import '../features/MasterScreen/MasterScreen.dart';
 import '../features/MastersListScreen/MastersListScreen.dart';
 import '../features/PrimaryScreen/PrimaryScreen.dart';
 import '../features/ProfileScreen/ProfileScreen.dart';
@@ -73,8 +74,12 @@ class AppRouter extends RootStackRouter {
           path: '/booking',
         ),
         AutoRoute(
-          page: MastersRoute.page,
+          page: MastersListRoute.page,
           path: '/masters',
+        ),
+        AutoRoute(
+          page: MasterRoute.page,
+          path: '/master',
         ),
       ];
 }

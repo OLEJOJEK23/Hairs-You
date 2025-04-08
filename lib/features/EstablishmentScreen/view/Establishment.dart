@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/DescriptionTab.dart';
-import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ImageScroll.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ReviewsTab.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ServicesTab.dart';
+import 'package:hairs_and_you/widgets/ImageScroll.dart';
 import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 
 @RoutePage()

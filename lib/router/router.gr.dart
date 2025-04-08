@@ -181,15 +181,34 @@ class MapRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [MastersScreen]
-class MastersRoute extends PageRouteInfo<void> {
-  const MastersRoute({List<PageRouteInfo>? children})
+/// [MasterScreen]
+class MasterRoute extends PageRouteInfo<void> {
+  const MasterRoute({List<PageRouteInfo>? children})
       : super(
-          MastersRoute.name,
+          MasterRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'MastersRoute';
+  static const String name = 'MasterRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const MasterScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [MastersListScreen]
+class MastersListRoute extends PageRouteInfo<void> {
+  const MastersListRoute({List<PageRouteInfo>? children})
+      : super(
+          MastersListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MastersListRoute';
 
   static PageInfo page = PageInfo(
     name,
