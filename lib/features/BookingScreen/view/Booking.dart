@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/widgets/CalendarWidget.dart';
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 @RoutePage()
 class BookingScreen extends StatefulWidget {
@@ -75,60 +75,17 @@ class _BookingScreenState extends State<BookingScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Calendar Section
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TableCalendar(
-                    locale: 'ru_RU',
-                    firstDay: DateTime.now(),
-                    lastDay: DateTime(2101),
-                    focusedDay: _focusedDate,
-                    selectedDayPredicate: (day) =>
-                        isSameDay(_selectedDate, day),
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDate = selectedDay;
-                        _focusedDate = focusedDay;
-                      });
+              CalendarWidget(
+                selectedDate: _selectedDate,
+                focusedDate: _focusedDate,
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(
+                    () {
+                      _selectedDate = selectedDay;
+                      _focusedDate = focusedDay;
                     },
-                    calendarStyle: CalendarStyle(
-                      todayDecoration: BoxDecoration(
-                        color: theme.primaryColor.withOpacity(0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      selectedDecoration: BoxDecoration(
-                        color: theme.primaryColor,
-                        shape: BoxShape.circle,
-                      ),
-                      defaultTextStyle: theme.textTheme.bodyMedium!,
-                      weekendTextStyle: theme.textTheme.bodyMedium!.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    headerStyle: HeaderStyle(
-                      formatButtonVisible: false,
-                      titleCentered: true,
-                      titleTextStyle: theme.textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      titleTextFormatter: (date, locale) =>
-                          DateFormat.yMMMM(locale).format(date),
-                    ),
-                    daysOfWeekStyle: DaysOfWeekStyle(
-                      weekdayStyle: theme.textTheme.bodySmall!.copyWith(
-                        color: theme.colorScheme.onSurface,
-                      ),
-                      weekendStyle: theme.textTheme.bodySmall!.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
               const SizedBox(height: 24),
               // Time Selection
