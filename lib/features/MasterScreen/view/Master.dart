@@ -23,9 +23,6 @@ class _MasterScreenState extends State<MasterScreen> {
     'isFavorite': false,
   };
 
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-
   void _toggleFavorite() {
     setState(() {
       master['isFavorite'] = !master['isFavorite'];
@@ -54,16 +51,10 @@ class _MasterScreenState extends State<MasterScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page?.round() ?? 0;
-      });
-    });
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     super.dispose();
   }
 
