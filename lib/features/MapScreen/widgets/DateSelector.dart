@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/theme.dart';
-
 class DateSelector extends StatelessWidget {
   const DateSelector({super.key, required this.onTap});
 
@@ -13,9 +11,12 @@ class DateSelector extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.all(5).copyWith(right: 16).copyWith(bottom: 9),
+        margin: const EdgeInsets.only(left: 5),
         padding: const EdgeInsets.all(10),
-        decoration: boxDecoration,
+        decoration: BoxDecoration(
+          color: Colors.white10,
+          borderRadius: BorderRadius.circular(16),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

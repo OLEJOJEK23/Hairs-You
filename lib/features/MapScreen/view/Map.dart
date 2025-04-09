@@ -5,6 +5,7 @@ import 'package:hairs_and_you/features/MapScreen/widgets/LocationSelector.dart';
 
 import '../../../theme/theme.dart';
 import '../../../widgets/SearchWidget.dart';
+import '../widgets/DateSelectorBottomSheet.dart';
 
 @RoutePage()
 class MapScreen extends StatefulWidget {
@@ -40,37 +41,42 @@ class _MapScreenState extends State<MapScreen> {
             surfaceTintColor: Colors.transparent,
             backgroundColor: theme.scaffoldBackgroundColor,
             title: SearchWidget(
-              establishments: [{}],
+              establishments: const [{}],
               onSearch: (_) {},
             ),
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(60),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: LocationSelector(
-                      onTap: () {},
+              preferredSize: const Size.fromHeight(54),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(
+                  bottom: 10,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: LocationSelector(
+                        onTap: () {},
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: DateSelector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          isScrollControlled: true,
-                          builder: (context) => Padding(
-                            padding: const EdgeInsets.only(top: 80.0),
-                            child: DateSelectorBottomSheet(),
-                          ),
-                        );
-                      },
+                    Expanded(
+                      flex: 1,
+                      child: DateSelector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => const Padding(
+                              padding: EdgeInsets.only(top: 80.0),
+                              child: DateSelectorBottomSheet(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -135,34 +141,6 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           )
-        ],
-      ),
-    );
-  }
-}
-
-class DateSelectorBottomSheet extends StatelessWidget {
-  const DateSelectorBottomSheet({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(30),
-        ),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          SizedBox(
-            width: double.infinity,
-            child: Text("dsa"),
-          ),
         ],
       ),
     );
