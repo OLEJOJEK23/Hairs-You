@@ -5,7 +5,6 @@ import 'package:hairs_and_you/features/MapScreen/widgets/LocationSelector.dart';
 
 import '../../../theme/theme.dart';
 import '../../../widgets/SearchWidget.dart';
-import '../widgets/DateSelectorBottomSheet.dart';
 
 @RoutePage()
 class MapScreen extends StatefulWidget {
@@ -59,21 +58,9 @@ class _MapScreenState extends State<MapScreen> {
                         onTap: () {},
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       flex: 1,
-                      child: DateSelector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            backgroundColor: Colors.transparent,
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) => const Padding(
-                              padding: EdgeInsets.only(top: 100.0),
-                              child: DateSelectorBottomSheet(),
-                            ),
-                          );
-                        },
-                      ),
+                      child: DateSelector(),
                     ),
                   ],
                 ),

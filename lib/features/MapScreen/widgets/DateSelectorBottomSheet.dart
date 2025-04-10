@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../widgets/CalendarWidget.dart';
 
 class DateSelectorBottomSheet extends StatefulWidget {
-  const DateSelectorBottomSheet({super.key});
+  const DateSelectorBottomSheet({super.key, required this.onConfirm});
+
+  final Function(DateTime, String) onConfirm;
 
   @override
   State<DateSelectorBottomSheet> createState() =>
@@ -17,7 +19,6 @@ class _DateSelectorBottomSheetState extends State<DateSelectorBottomSheet> {
   bool _enableButton = false;
 
   final List<String> _categories = ["Любое время", "Утро", "День", "Вечер"];
-
   String _selectedCategory = "Любое время";
 
   @override
@@ -60,8 +61,8 @@ class _DateSelectorBottomSheetState extends State<DateSelectorBottomSheet> {
           const SizedBox(height: 16),
           _showTooltips
               ? Wrap(
-                  spacing: 10, // Горизонтальный отступ между чипами
-                  runSpacing: 10, // Вертикальный отступ между строками
+                  spacing: 10,
+                  runSpacing: 10,
                   children: _categories.map((category) {
                     final isSelected = _selectedCategory == category;
                     return ChoiceChip(
@@ -94,7 +95,7 @@ class _DateSelectorBottomSheetState extends State<DateSelectorBottomSheet> {
               child: ElevatedButton(
                 onPressed: _enableButton
                     ? () {
-                        Navigator.pop(context);
+                        widget.onConfirm(_selectedDate, _selectedCategory);
                       }
                     : null,
                 child: const Text(

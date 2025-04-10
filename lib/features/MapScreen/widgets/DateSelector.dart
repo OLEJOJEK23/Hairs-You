@@ -1,17 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/features/MapScreen/widgets/DateSelectorBottomSheet.dart';
+import 'package:intl/intl.dart';
 
 import '../../../theme/theme.dart';
 
-class DateSelector extends StatelessWidget {
-  const DateSelector({super.key, required this.onTap});
+class DateSelector extends StatefulWidget {
+  const DateSelector({super.key});
 
-  final VoidCallback onTap;
+  @override
+  State<DateSelector> createState() => _DateSelectorState();
+}
+
+class _DateSelectorState extends State<DateSelector> {
+  String _text = "";
+
+  String formatDate(DateTime date) {
+    String formatedText = "";
+    if (date.year != DateTime.now().year) {
+      formatedText = DateFormat('dd.MM.yyyy').format(date);
+    } else {
+      formatedText = DateFormat('dd.MM').format(date);
+    }
+    return formatedText;
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        showModalBottomSheet(
+          backgroundColor: Colors.transparent,
+          context: context,
+          isScrollControlled: true,
+          builder: (context) => Padding(
+            padding: const EdgeInsets.only(top: 100.0),
+            child: DateSelectorBottomSheet(
+              onConfirm: (DateTime selectedDate, String selectedCategory) {
+                setState(() {
+                  _text = '${formatDate(selectedDate)}, $selectedCategory';
+                });
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        );
+      },
       child: Container(
         margin: const EdgeInsets.only(left: 5),
         padding: const EdgeInsets.all(10),
@@ -24,7 +58,8 @@ class DateSelector extends StatelessWidget {
             const Icon(Icons.calendar_month),
             const SizedBox(width: 12),
             Text(
-              "Дата",
+              maxLines: 1,
+              _text.isEmpty ? "Дата" : _text,
               style: theme.textTheme.bodyMedium,
             ),
           ],
