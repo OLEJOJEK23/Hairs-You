@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../theme/theme.dart';
+
 class DateSelector extends StatelessWidget {
   const DateSelector({super.key, required this.onTap});
 
@@ -13,10 +15,9 @@ class DateSelector extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(left: 5),
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white10,
-          borderRadius: BorderRadius.circular(16),
-        ),
+        decoration: theme.brightness == Brightness.light
+            ? boxDecorationLight
+            : boxDecorationDark,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

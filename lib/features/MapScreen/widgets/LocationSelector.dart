@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../theme/theme.dart';
+
 class LocationSelector extends StatelessWidget {
   const LocationSelector({super.key, required this.onTap});
 
@@ -13,10 +15,9 @@ class LocationSelector extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(right: 5),
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white10,
-          borderRadius: BorderRadius.circular(16),
-        ),
+        decoration: theme.brightness == Brightness.light
+            ? boxDecorationLight
+            : boxDecorationDark,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

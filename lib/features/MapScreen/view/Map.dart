@@ -68,7 +68,7 @@ class _MapScreenState extends State<MapScreen> {
                             context: context,
                             isScrollControlled: true,
                             builder: (context) => const Padding(
-                              padding: EdgeInsets.only(top: 80.0),
+                              padding: EdgeInsets.only(top: 100.0),
                               child: DateSelectorBottomSheet(),
                             ),
                           );
@@ -136,7 +136,9 @@ class _MapScreenState extends State<MapScreen> {
               itemCount: 20,
               itemBuilder: (context, index) => Container(
                 height: 300,
-                decoration: boxDecoration,
+                decoration: theme.brightness == Brightness.light
+                    ? boxDecorationLight
+                    : boxDecorationDark,
                 margin: const EdgeInsets.symmetric(vertical: 10),
               ),
             ),

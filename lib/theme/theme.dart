@@ -85,6 +85,7 @@ final lightTheme = ThemeData(
           color: Colors.black, fontWeight: FontWeight.normal, fontSize: 16),
     ),
   ),
+  cardColor: Colors.black12,
 );
 
 final darkTheme = ThemeData(
@@ -166,9 +167,15 @@ final darkTheme = ThemeData(
           color: Colors.white, fontWeight: FontWeight.normal, fontSize: 16),
     ),
   ),
+  cardColor: Colors.white10,
 );
 
-final boxDecoration = BoxDecoration(
-  border: Border.all(color: primaryColor),
-  borderRadius: BorderRadius.circular(15),
+final boxDecorationLight = BoxDecoration(
+  color: Colors.black12,
+  borderRadius: BorderRadius.circular(16),
+);
+
+final boxDecorationDark = BoxDecoration(
+  color: Colors.white10,
+  borderRadius: BorderRadius.circular(16),
 );
