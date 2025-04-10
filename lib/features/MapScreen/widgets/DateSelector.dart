@@ -53,15 +53,37 @@ class _DateSelectorState extends State<DateSelector> {
             ? boxDecorationLight
             : boxDecorationDark,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(Icons.calendar_month),
-            const SizedBox(width: 12),
-            Text(
-              maxLines: 1,
-              _text.isEmpty ? "Дата" : _text,
-              style: theme.textTheme.bodyMedium,
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Icon(Icons.calendar_month),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      _text.isEmpty ? "Дата" : _text,
+                      style: theme.textTheme.bodyMedium,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
             ),
+            if (_text.isNotEmpty) // Показываем крестик только если есть текст
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _text = ""; // Сбрасываем текст
+                  });
+                },
+                child: const Icon(
+                  Icons.clear,
+                  size: 20,
+                ),
+              ),
           ],
         ),
       ),
