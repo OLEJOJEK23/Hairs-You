@@ -9,6 +9,7 @@ import '../features/HistoryScreen/HistoryScreen.dart';
 import '../features/HomeScreen/HomeScreen.dart';
 import '../features/LinkPhoneNumberScreen/view/LinkPhoneNumber.dart';
 import '../features/LoginScreen/LoginScreen.dart';
+import '../features/MapScreen/MapScreen.dart';
 import '../features/MasterScreen/MasterScreen.dart';
 import '../features/MastersListScreen/MastersListScreen.dart';
 import '../features/PrimaryScreen/PrimaryScreen.dart';
@@ -79,6 +80,10 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
           page: MasterRoute.page,
+          path: '/master',
+        ),
+        AutoRoute(
+          page: MapRoute.page,
           path: '/master',
         ),
       ];

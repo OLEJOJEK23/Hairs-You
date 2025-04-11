@@ -163,10 +163,10 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MapScreen]
-class RecordRoute extends PageRouteInfo<void> {
-  const RecordRoute({List<PageRouteInfo>? children})
+class MapRoute extends PageRouteInfo<void> {
+  const MapRoute({List<PageRouteInfo>? children})
       : super(
-          RecordRoute.name,
+          MapRoute.name,
           initialChildren: children,
         );
 
@@ -175,7 +175,7 @@ class RecordRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const RecordScreen();
+      return const MapScreen();
     },
   );
 }
@@ -252,6 +252,25 @@ class ProfileRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const ProfileScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [RecordScreen]
+class RecordRoute extends PageRouteInfo<void> {
+  const RecordRoute({List<PageRouteInfo>? children})
+      : super(
+          RecordRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RecordRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RecordScreen();
     },
   );
 }
