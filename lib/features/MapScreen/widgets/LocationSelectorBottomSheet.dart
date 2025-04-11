@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class LocationSelectorBottomSheet extends StatefulWidget {
   const LocationSelectorBottomSheet({super.key, required this.onConfirm});
 
-  final Function(String) onConfirm; // Изменён тип на String для передачи адреса
+  final Function(String) onConfirm;
 
   @override
   State<LocationSelectorBottomSheet> createState() =>
@@ -18,7 +18,8 @@ class _LocationSelectorBottomSheetState
   final TextEditingController _searchController = TextEditingController();
   List<String> _suggestions = [];
   String _selectedAddress = '';
-  static const String _apiKey = 'AIzaSyBgy6Dza_gIvk2IcaeItlOU9ZBwl1CykL4';
+  static const String _apiKey =
+      'AIzaSyBgy6Dza_gIvk2IcaeItlOU9ZBwl1CykL4'; //! Убрать
 
   @override
   void dispose() {
@@ -92,9 +93,8 @@ class _LocationSelectorBottomSheetState
           ),
           const SizedBox(height: 16),
           // Поле поиска
-          Container(
+          SizedBox(
             height: 60,
-            margin: const EdgeInsets.only(right: 5),
             child: TextField(
               controller: _searchController,
               style: theme.textTheme.labelLarge,
@@ -102,7 +102,7 @@ class _LocationSelectorBottomSheetState
                 labelText: "Адрес",
                 hintText: 'Введите город, улицу или адрес',
                 prefixIcon: const Icon(Icons.search),
-                hintStyle: theme.textTheme.bodyMedium,
+                hintStyle: theme.textTheme.labelLarge,
                 labelStyle: theme.textTheme.labelLarge,
                 focusedBorder: theme.inputDecorationTheme.focusedBorder,
                 suffixIcon: _searchController.text.isNotEmpty
@@ -122,7 +122,7 @@ class _LocationSelectorBottomSheetState
               onChanged: (value) {
                 _fetchSuggestions(value); // Запрос автодополнений при вводе
                 setState(() {
-                  _selectedAddress = value; // Сохраняем введённый текст
+                  _selectedAddress = value;
                 });
               },
             ),
@@ -139,6 +139,7 @@ class _LocationSelectorBottomSheetState
                     suggestion,
                     style: theme.textTheme.bodyMedium,
                   ),
+                  leading: const Icon(Icons.location_on),
                   onTap: () {
                     setState(() {
                       _searchController.text = suggestion;
@@ -150,7 +151,13 @@ class _LocationSelectorBottomSheetState
               },
             ),
           ),
-          const Spacer(),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              "Выбрать на карте",
+              style: theme.textTheme.bodyMedium,
+            ),
+          ),
           Align(
             alignment: Alignment.center,
             child: SizedBox(
