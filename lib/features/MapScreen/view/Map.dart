@@ -49,16 +49,14 @@ class _MapScreenState extends State<MapScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(
                   bottom: 10,
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       flex: 1,
-                      child: LocationSelector(
-                        onTap: () {},
-                      ),
+                      child: LocationSelector(),
                     ),
-                    const Expanded(
+                    Expanded(
                       flex: 1,
                       child: DateSelector(),
                     ),

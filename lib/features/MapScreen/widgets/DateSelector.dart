@@ -60,7 +60,7 @@ class _DateSelectorState extends State<DateSelector> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Icon(Icons.calendar_month),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       _text.isEmpty ? "Дата" : _text,
