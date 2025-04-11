@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hairs_and_you/features/MapScreen/widgets/DateSelectorBottomSheet.dart';
+import 'package:hairs_and_you/features/RecordScreen/widgets/DateSelectorBottomSheet.dart';
 import 'package:intl/intl.dart';
 
 import '../../../theme/theme.dart';

@@ -9,11 +9,11 @@ import '../features/HistoryScreen/HistoryScreen.dart';
 import '../features/HomeScreen/HomeScreen.dart';
 import '../features/LinkPhoneNumberScreen/view/LinkPhoneNumber.dart';
 import '../features/LoginScreen/LoginScreen.dart';
-import '../features/MapScreen/MapScreen.dart';
 import '../features/MasterScreen/MasterScreen.dart';
 import '../features/MastersListScreen/MastersListScreen.dart';
 import '../features/PrimaryScreen/PrimaryScreen.dart';
 import '../features/ProfileScreen/ProfileScreen.dart';
+import '../features/RecordScreen/RecordScreen.dart';
 import '../features/SettingsScreen/SettingsScreen.dart';
 
 part 'router.gr.dart';
@@ -37,7 +37,7 @@ class AppRouter extends RootStackRouter {
                 path: 'ai',
               ),
               AutoRoute(
-                page: MapRoute.page,
+                page: RecordRoute.page,
                 path: 'map',
               ),
               AutoRoute(

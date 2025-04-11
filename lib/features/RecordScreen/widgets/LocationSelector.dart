@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hairs_and_you/features/MapScreen/widgets/LocationSelectorBottomSheet.dart';
 
 import '../../../theme/theme.dart';
+import 'LocationSelectorBottomSheet.dart';
 
 class LocationSelector extends StatefulWidget {
   const LocationSelector({super.key});

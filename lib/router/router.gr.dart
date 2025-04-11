@@ -163,10 +163,10 @@ class LoginRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MapScreen]
-class MapRoute extends PageRouteInfo<void> {
-  const MapRoute({List<PageRouteInfo>? children})
+class RecordRoute extends PageRouteInfo<void> {
+  const RecordRoute({List<PageRouteInfo>? children})
       : super(
-          MapRoute.name,
+          RecordRoute.name,
           initialChildren: children,
         );
 
@@ -175,7 +175,7 @@ class MapRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const MapScreen();
+      return const RecordScreen();
     },
   );
 }

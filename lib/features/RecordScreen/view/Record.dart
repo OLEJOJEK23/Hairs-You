@@ -1,20 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:hairs_and_you/features/MapScreen/widgets/DateSelector.dart';
-import 'package:hairs_and_you/features/MapScreen/widgets/LocationSelector.dart';
+import 'package:hairs_and_you/features/RecordScreen/widgets/DateSelector.dart';
+import 'package:hairs_and_you/features/RecordScreen/widgets/LocationSelector.dart';
 
 import '../../../theme/theme.dart';
 import '../../../widgets/SearchWidget.dart';
 
 @RoutePage()
-class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+class RecordScreen extends StatefulWidget {
+  const RecordScreen({super.key});
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  State<RecordScreen> createState() => _RecordScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _RecordScreenState extends State<RecordScreen> {
   final List<String> _categories = [
     "Всё",
     "Барбершоп",
