@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -152,7 +153,9 @@ class _LocationSelectorBottomSheetState
             ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              context.router.pushNamed("/map");
+            },
             child: Text(
               "Выбрать на карте",
               style: theme.textTheme.bodyMedium,

@@ -39,7 +39,7 @@ class AppRouter extends RootStackRouter {
               ),
               AutoRoute(
                 page: RecordRoute.page,
-                path: 'map',
+                path: 'record',
               ),
               AutoRoute(
                 page: ProfileRoute.page,
@@ -84,7 +84,7 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
           page: MapRoute.page,
-          path: '/master',
+          path: '/map',
         ),
       ];
 }
