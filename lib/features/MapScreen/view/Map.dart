@@ -22,7 +22,7 @@ class _MapScreenState extends State<MapScreen> {
   static const String _apiKey = 'AIzaSyBgy6Dza_gIvk2IcaeItlOU9ZBwl1CykL4';
   String? _selectedPlaceId;
   String? _selectedAddress;
-  Timer? _debounce; // Для дебаунсинга запросов
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void dispose() {
-    _debounce?.cancel(); // Очищаем таймер при выходе
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -84,15 +84,13 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  // Создание URL для запроса к Google Places API
   String _buildRequestUrl(LatLng targetPosition) {
     const String baseUrl =
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
     return '$baseUrl?location=${targetPosition.latitude},${targetPosition.longitude}'
-        '&radius=5000&type=hair_care&key=$_apiKey';
+        '&radius=5000&type=hair_care&language=ru&key=$_apiKey';
   }
 
-  // Выполнение HTTP-запроса и получение данных
   Future<List<dynamic>?> _fetchPlacesData(String requestUrl) async {
     try {
       final response = await http.get(Uri.parse(requestUrl));
@@ -109,7 +107,6 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  // Обновление маркеров на карте
   void _updateMarkers(List<dynamic> results, {required bool isInitialLoad}) {
     setState(() {
       if (isInitialLoad) {
@@ -153,7 +150,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> _fetchNearbySalons({LatLngBounds? bounds}) async {
-    // Вычисляем целевую позицию
     final targetPosition = bounds != null
         ? LatLng(
             (bounds.northeast.latitude + bounds.southwest.latitude) / 2,
@@ -163,7 +159,6 @@ class _MapScreenState extends State<MapScreen> {
 
     if (targetPosition == null) return;
 
-    // Создаём URL и получаем данные
     final requestUrl = _buildRequestUrl(targetPosition);
     final results = await _fetchPlacesData(requestUrl);
 
@@ -186,41 +181,44 @@ class _MapScreenState extends State<MapScreen> {
         title: const Text('Ближайшие парикмахерские'),
         centerTitle: true,
       ),
-      body: Stack(
+      body: Column(
         children: [
-          _currentPosition == null
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: theme.primaryColor,
+          // Карта занимает всё доступное пространство, кроме места для кнопки
+          Expanded(
+            child: _currentPosition == null
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: theme.primaryColor,
+                    ),
+                  )
+                : GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: _currentPosition!,
+                      zoom: 14.0,
+                    ),
+                    markers: _markers,
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                    onCameraIdle: () async {
+                      if (_debounce?.isActive ?? false) _debounce!.cancel();
+                      _debounce =
+                          Timer(const Duration(milliseconds: 500), () async {
+                        final controller = await _controller.future;
+                        final bounds = await controller.getVisibleRegion();
+                        await _fetchNearbySalons(bounds: bounds);
+                      });
+                    },
                   ),
-                )
-              : GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: _currentPosition!,
-                    zoom: 14.0,
-                  ),
-                  markers: _markers,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                  },
-                  onCameraIdle: () async {
-                    if (_debounce?.isActive ?? false) _debounce!.cancel();
-                    _debounce =
-                        Timer(const Duration(milliseconds: 500), () async {
-                      final controller = await _controller.future;
-                      final bounds = await controller.getVisibleRegion();
-                      await _fetchNearbySalons(bounds: bounds);
-                    });
-                  },
-                ),
-          // Кнопка подтверждения
+          ),
+          // Контейнер для кнопки подтверждения
           if (_selectedPlaceId != null)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox(
+                width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
                     if (_selectedAddress != null) {
@@ -228,9 +226,14 @@ class _MapScreenState extends State<MapScreen> {
                     }
                   },
                   style: theme.elevatedButtonTheme.style,
-                  child: Text(
+                  child: const Text(
                     'Подтвердить',
-                    style: theme.textTheme.bodyMedium,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.1,
+                    ),
                   ),
                 ),
               ),
