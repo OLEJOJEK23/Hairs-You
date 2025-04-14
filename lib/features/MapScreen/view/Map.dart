@@ -23,17 +23,33 @@ class _MapScreenState extends State<MapScreen> {
   String? _selectedPlaceId;
   String? _selectedAddress;
   Timer? _debounce;
+  BitmapDescriptor? _usersLocationMarker;
+  BitmapDescriptor? _salonLocationMarker;
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
+    _loadMarkerIcons();
   }
 
   @override
   void dispose() {
     _debounce?.cancel();
     super.dispose();
+  }
+
+  // Загрузка кастомных иконок для маркеров
+  Future<void> _loadMarkerIcons() async {
+    _usersLocationMarker = await BitmapDescriptor.asset(
+      const ImageConfiguration(size: Size(48, 48)),
+      'assets/images/user_location.png', // Иконка для текущего местоположения
+    );
+    _salonLocationMarker = await BitmapDescriptor.asset(
+      const ImageConfiguration(size: Size(48, 48)),
+      'assets/images/6395517.png', // Иконка для парикмахерских
+    );
+    setState(() {});
   }
 
   Future<void> _getCurrentLocation() async {
@@ -119,8 +135,7 @@ class _MapScreenState extends State<MapScreen> {
             markerId: const MarkerId('current_location'),
             position: _currentPosition!,
             infoWindow: const InfoWindow(title: 'Ваше местоположение'),
-            icon:
-                BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+            icon: _usersLocationMarker!, // Иконка для текущего местоположения
           ),
         );
       }
@@ -137,6 +152,7 @@ class _MapScreenState extends State<MapScreen> {
             markerId: MarkerId(placeId),
             position: LatLng(lat, lng),
             infoWindow: InfoWindow(title: name, snippet: address),
+            icon: _salonLocationMarker!,
             onTap: () {
               setState(() {
                 _selectedPlaceId = placeId;
@@ -183,7 +199,6 @@ class _MapScreenState extends State<MapScreen> {
       ),
       body: Column(
         children: [
-          // Карта занимает всё доступное пространство, кроме места для кнопки
           Expanded(
             child: _currentPosition == null
                 ? Center(

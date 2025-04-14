@@ -153,8 +153,14 @@ class _LocationSelectorBottomSheetState
             ),
           ),
           TextButton(
-            onPressed: () {
-              context.router.pushNamed("/map");
+            onPressed: () async {
+              final address = await context.router.pushNamed("/map");
+              if (address != null && address is String) {
+                setState(() {
+                  _selectedAddress = address;
+                  _searchController.text = address;
+                });
+              }
             },
             child: Text(
               "Выбрать на карте",
