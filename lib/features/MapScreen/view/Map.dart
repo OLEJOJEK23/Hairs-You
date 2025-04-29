@@ -3,13 +3,11 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hairs_and_you/api/core/network/dio_client.dart';
-import 'package:hairs_and_you/api/data/datasources/local/cache_manager.dart';
-import 'package:hairs_and_you/api/data/datasources/remote/api_service.dart';
-import 'package:hairs_and_you/api/data/repositories/place_repository_impl.dart';
-import 'package:hairs_and_you/api/domain/entities/place.dart';
-import 'package:hairs_and_you/api/domain/usecases/get_nearby_salons.dart';
+
+import '../../../api/domain/entities/place.dart';
+import '../../../api/domain/usecases/get_nearby_salons.dart';
 
 @RoutePage()
 class MapScreen extends StatefulWidget {
@@ -29,18 +27,12 @@ class _MapScreenState extends State<MapScreen> {
   BitmapDescriptor? _usersLocationMarker;
   BitmapDescriptor? _salonLocationMarker;
 
-  // Временная инъекция зависимостей (в реальном проекте используйте GetIt)
-  late final GetNearbySalons _getNearbySalons;
+  // Получаем use case из GetIt
+  final GetNearbySalons _getNearbySalons = GetIt.I<GetNearbySalons>();
 
   @override
   void initState() {
     super.initState();
-    _getNearbySalons = GetNearbySalons(
-      PlaceRepositoryImpl(
-        apiService: ApiService(DioClient.googleMapsInstance),
-        cacheManager: CacheManagerImpl(),
-      ),
-    );
     _getCurrentLocation();
     _loadMarkerIcons();
   }

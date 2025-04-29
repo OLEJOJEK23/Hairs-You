@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 abstract class CacheManager {
   Future<void> saveData(String key, dynamic data);
 
@@ -7,19 +9,16 @@ abstract class CacheManager {
 }
 
 class CacheManagerImpl implements CacheManager {
-  @override
-  Future<void> saveData(String key, dynamic data) async {
-    // TODO: Реализовать с Hive или SharedPreferences
-  }
+  final SharedPreferences sharedPreferences;
+
+  CacheManagerImpl(this.sharedPreferences);
 
   @override
-  Future<dynamic> getData(String key) async {
-    // TODO: Реализовать
-    return null;
-  }
+  Future<void> saveData(String key, dynamic data) async {}
 
   @override
-  Future<void> clearCache() async {
-    // TODO: Реализовать
-  }
+  Future<dynamic> getData(String key) async {}
+
+  @override
+  Future<void> clearCache() async {}
 }
