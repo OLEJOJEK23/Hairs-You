@@ -1,11 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
+import 'package:hairs_and_you/api/core/network/dio_client.dart';
+import 'package:hairs_and_you/api/data/datasources/local/cache_manager.dart';
+import 'package:hairs_and_you/api/data/datasources/remote/api_service.dart';
+import 'package:hairs_and_you/api/data/repositories/place_repository_impl.dart';
+import 'package:hairs_and_you/api/domain/entities/place.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_nearby_salons.dart';
 
 @RoutePage()
 class MapScreen extends StatefulWidget {
@@ -19,16 +23,24 @@ class _MapScreenState extends State<MapScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   LatLng? _currentPosition;
   final Set<Marker> _markers = {};
-  static const String _apiKey = 'AIzaSyBgy6Dza_gIvk2IcaeItlOU9ZBwl1CykL4';
   String? _selectedPlaceId;
   String? _selectedAddress;
   Timer? _debounce;
   BitmapDescriptor? _usersLocationMarker;
   BitmapDescriptor? _salonLocationMarker;
 
+  // Временная инъекция зависимостей (в реальном проекте используйте GetIt)
+  late final GetNearbySalons _getNearbySalons;
+
   @override
   void initState() {
     super.initState();
+    _getNearbySalons = GetNearbySalons(
+      PlaceRepositoryImpl(
+        apiService: ApiService(DioClient.googleMapsInstance),
+        cacheManager: CacheManagerImpl(),
+      ),
+    );
     _getCurrentLocation();
     _loadMarkerIcons();
   }
@@ -39,15 +51,14 @@ class _MapScreenState extends State<MapScreen> {
     super.dispose();
   }
 
-  // Загрузка кастомных иконок для маркеров
   Future<void> _loadMarkerIcons() async {
     _usersLocationMarker = await BitmapDescriptor.asset(
       const ImageConfiguration(size: Size(48, 48)),
-      'assets/images/user_location.png', // Иконка для текущего местоположения
+      'assets/images/user_location.png',
     );
     _salonLocationMarker = await BitmapDescriptor.asset(
       const ImageConfiguration(size: Size(48, 48)),
-      'assets/images/6395517.png', // Иконка для парикмахерских
+      'assets/images/salon_marker.png',
     );
     setState(() {});
   }
@@ -100,71 +111,6 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  String _buildRequestUrl(LatLng targetPosition) {
-    const String baseUrl =
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
-    return '$baseUrl?location=${targetPosition.latitude},${targetPosition.longitude}'
-        '&radius=5000&type=hair_care&language=ru&key=$_apiKey';
-  }
-
-  Future<List<dynamic>?> _fetchPlacesData(String requestUrl) async {
-    try {
-      final response = await http.get(Uri.parse(requestUrl));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return data['results'] as List<dynamic>;
-      } else {
-        _showError('Ошибка загрузки парикмахерских');
-        return null;
-      }
-    } catch (e) {
-      _showError('Ошибка запроса к API: $e');
-      return null;
-    }
-  }
-
-  void _updateMarkers(List<dynamic> results, {required bool isInitialLoad}) {
-    setState(() {
-      if (isInitialLoad) {
-        _markers.clear();
-      }
-
-      if (isInitialLoad && _currentPosition != null) {
-        _markers.add(
-          Marker(
-            markerId: const MarkerId('current_location'),
-            position: _currentPosition!,
-            infoWindow: const InfoWindow(title: 'Ваше местоположение'),
-            icon: _usersLocationMarker!, // Иконка для текущего местоположения
-          ),
-        );
-      }
-
-      for (var place in results) {
-        final lat = place['geometry']['location']['lat'];
-        final lng = place['geometry']['location']['lng'];
-        final name = place['name'];
-        final address = place['vicinity'] ?? 'Адрес не указан';
-        final placeId = place['place_id'];
-
-        _markers.add(
-          Marker(
-            markerId: MarkerId(placeId),
-            position: LatLng(lat, lng),
-            infoWindow: InfoWindow(title: name, snippet: address),
-            icon: _salonLocationMarker!,
-            onTap: () {
-              setState(() {
-                _selectedPlaceId = placeId;
-                _selectedAddress = address;
-              });
-            },
-          ),
-        );
-      }
-    });
-  }
-
   Future<void> _fetchNearbySalons({LatLngBounds? bounds}) async {
     final targetPosition = bounds != null
         ? LatLng(
@@ -175,12 +121,49 @@ class _MapScreenState extends State<MapScreen> {
 
     if (targetPosition == null) return;
 
-    final requestUrl = _buildRequestUrl(targetPosition);
-    final results = await _fetchPlacesData(requestUrl);
+    final result = await _getNearbySalons(targetPosition);
+    result.fold(
+      (failure) => _showError(failure.message),
+      (places) => _updateMarkers(places, isInitialLoad: bounds == null),
+    );
+  }
 
-    if (results != null) {
-      _updateMarkers(results, isInitialLoad: bounds == null);
-    }
+  void _updateMarkers(List<Place> places, {required bool isInitialLoad}) {
+    setState(() {
+      if (isInitialLoad) {
+        _markers.clear();
+      }
+
+      if (isInitialLoad &&
+          _currentPosition != null &&
+          _usersLocationMarker != null) {
+        _markers.add(
+          Marker(
+            markerId: const MarkerId('current_location'),
+            position: _currentPosition!,
+            infoWindow: const InfoWindow(title: 'Ваше местоположение'),
+            icon: _usersLocationMarker!,
+          ),
+        );
+      }
+
+      for (var place in places) {
+        _markers.add(
+          Marker(
+            markerId: MarkerId(place.id),
+            position: LatLng(place.latitude, place.longitude),
+            infoWindow: InfoWindow(title: place.name, snippet: place.address),
+            icon: _salonLocationMarker ?? BitmapDescriptor.defaultMarker,
+            onTap: () {
+              setState(() {
+                _selectedPlaceId = place.id;
+                _selectedAddress = place.address;
+              });
+            },
+          ),
+        );
+      }
+    });
   }
 
   void _showError(String message) {
@@ -228,7 +211,6 @@ class _MapScreenState extends State<MapScreen> {
                     },
                   ),
           ),
-          // Контейнер для кнопки подтверждения
           if (_selectedPlaceId != null)
             Padding(
               padding: const EdgeInsets.all(16.0),
