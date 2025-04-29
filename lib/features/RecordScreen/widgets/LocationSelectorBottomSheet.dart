@@ -1,8 +1,9 @@
-import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:get_it/get_it.dart';
+
+import '../../../api/domain/entities/suggestion.dart';
+import '../../../api/domain/usecases/get_place_suggestions.dart';
 
 class LocationSelectorBottomSheet extends StatefulWidget {
   const LocationSelectorBottomSheet({super.key, required this.onConfirm});
@@ -17,10 +18,12 @@ class LocationSelectorBottomSheet extends StatefulWidget {
 class _LocationSelectorBottomSheetState
     extends State<LocationSelectorBottomSheet> {
   final TextEditingController _searchController = TextEditingController();
-  List<String> _suggestions = [];
+  List<Suggestion> _suggestions = [];
   String _selectedAddress = '';
-  static const String _apiKey =
-      'AIzaSyBgy6Dza_gIvk2IcaeItlOU9ZBwl1CykL4'; //! Убрать
+
+  // Получаем use case через GetIt
+  final GetPlaceSuggestions _getPlaceSuggestions =
+      GetIt.I<GetPlaceSuggestions>();
 
   @override
   void dispose() {
@@ -28,7 +31,7 @@ class _LocationSelectorBottomSheetState
     super.dispose();
   }
 
-  // Получение автодополнений от Google Places API
+  // Получение автодополнений
   Future<void> _fetchSuggestions(String input) async {
     if (input.isEmpty) {
       setState(() {
@@ -37,27 +40,13 @@ class _LocationSelectorBottomSheetState
       return;
     }
 
-    const String baseUrl =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-    final String requestUrl =
-        '$baseUrl?input=$input&types=address&language=ru&key=$_apiKey';
-
-    try {
-      final response = await http.get(Uri.parse(requestUrl));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final List<dynamic> predictions = data['predictions'];
-        setState(() {
-          _suggestions = predictions
-              .map<String>((prediction) => prediction['description'] as String)
-              .toList();
-        });
-      } else {
-        _showError('Ошибка загрузки предложений');
-      }
-    } catch (e) {
-      _showError('Ошибка запроса: $e');
-    }
+    final result = await _getPlaceSuggestions(input);
+    result.fold(
+      (failure) => _showError(failure.message),
+      (suggestions) => setState(() {
+        _suggestions = suggestions;
+      }),
+    );
   }
 
   void _showError(String message) {
@@ -111,9 +100,9 @@ class _LocationSelectorBottomSheetState
                         icon: const Icon(Icons.close),
                         onPressed: () {
                           setState(() {
-                            _searchController.clear(); // Очищаем поле ввода
-                            _selectedAddress = ''; // Сбрасываем выбранный адрес
-                            _suggestions = []; // Очищаем предложения
+                            _searchController.clear();
+                            _selectedAddress = '';
+                            _suggestions = [];
                           });
                         },
                       )
@@ -121,7 +110,7 @@ class _LocationSelectorBottomSheetState
                 border: theme.inputDecorationTheme.border,
               ),
               onChanged: (value) {
-                _fetchSuggestions(value); // Запрос автодополнений при вводе
+                _fetchSuggestions(value);
                 setState(() {
                   _selectedAddress = value;
                 });
@@ -137,15 +126,15 @@ class _LocationSelectorBottomSheetState
                 final suggestion = _suggestions[index];
                 return ListTile(
                   title: Text(
-                    suggestion,
+                    suggestion.description,
                     style: theme.textTheme.bodyMedium,
                   ),
                   leading: const Icon(Icons.location_on),
                   onTap: () {
                     setState(() {
-                      _searchController.text = suggestion;
-                      _selectedAddress = suggestion;
-                      _suggestions = []; // Скрываем предложения после выбора
+                      _searchController.text = suggestion.description;
+                      _selectedAddress = suggestion.description;
+                      _suggestions = [];
                     });
                   },
                 );

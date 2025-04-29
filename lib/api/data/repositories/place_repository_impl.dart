@@ -4,9 +4,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../core/error/failure.dart';
 import '../../domain/entities/place.dart';
+import '../../domain/entities/suggestion.dart';
 import '../../domain/repositories/place_repository.dart';
 import '../datasources/local/cache_manager.dart';
 import '../datasources/remote/api_service.dart';
+import '../models/autocomplete_response_dto.dart';
 import '../models/place_dto.dart';
 
 class PlaceRepositoryImpl implements PlaceRepository {
@@ -43,6 +45,42 @@ class PlaceRepositoryImpl implements PlaceRepository {
       );
 
       return Right(places);
+    } on DioException catch (e) {
+      return Left(ServerFailure('API error: ${e.message}'));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Suggestion>>> getPlaceSuggestions(
+      String input) async {
+    try {
+      final cachedData = await cacheManager.getData('suggestions_$input');
+      if (cachedData != null) {
+        return Right((cachedData as List)
+            .map((e) => PredictionDto.fromJson(e))
+            .map((dto) => Suggestion(
+                  description: dto.description,
+                  placeId: dto.placeId,
+                ))
+            .toList());
+      }
+
+      final response = await apiService.getPlaceSuggestions(input: input);
+      final suggestions = response.predictions
+          .map((dto) => Suggestion(
+                description: dto.description,
+                placeId: dto.placeId,
+              ))
+          .toList();
+
+      await cacheManager.saveData(
+        'suggestions_$input',
+        response.predictions.map((e) => e.toJson()).toList(),
+      );
+
+      return Right(suggestions);
     } on DioException catch (e) {
       return Left(ServerFailure('API error: ${e.message}'));
     } catch (e) {

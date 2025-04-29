@@ -13,6 +13,7 @@ import 'api/data/datasources/remote/api_service.dart';
 import 'api/data/repositories/place_repository_impl.dart';
 import 'api/domain/repositories/place_repository.dart';
 import 'api/domain/usecases/get_nearby_salons.dart';
+import 'api/domain/usecases/get_place_suggestions.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -38,5 +39,7 @@ Future<void> main() async {
   );
   GetIt.I
       .registerLazySingleton(() => GetNearbySalons(GetIt.I<PlaceRepository>()));
+  GetIt.I.registerLazySingleton(
+      () => GetPlaceSuggestions(GetIt.I<PlaceRepository>()));
   runApp(const HairsAndYouApp());
 }
