@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hairs_and_you/api/domain/entities/shortSalon.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchWidget extends StatefulWidget {
-  final List<Map<String, String>> establishments;
-  final Function(List<Map<String, String>>) onSearch;
+  final List<ShortSalon> establishments;
+  final Function(List<ShortSalon>) onSearch;
   final String hintText;
 
   const SearchWidget({
@@ -58,13 +59,13 @@ class _SearchWidgetState extends State<SearchWidget> {
     _saveSearchHistory();
   }
 
-  List<Map<String, String>> _filterEstablishments(String query) {
+  List<ShortSalon> _filterEstablishments(String query) {
     if (query.trim().isEmpty) {
       return widget.establishments;
     }
     return widget.establishments.where((establishment) {
-      final title = establishment['title']?.toLowerCase() ?? '';
-      final address = establishment['address']?.toLowerCase() ?? '';
+      final title = establishment.name.toLowerCase();
+      final address = establishment.address.toLowerCase();
       final searchQuery = query.toLowerCase();
       return title.contains(searchQuery) || address.contains(searchQuery);
     }).toList();
@@ -144,11 +145,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                 ] else ...[
                   for (final establishment in filteredEstablishments)
                     ListTile(
-                      title: Text(establishment['title']!),
-                      subtitle: Text(establishment['address']!),
+                      title: Text(establishment.name),
+                      subtitle: Text(establishment.address),
                       onTap: () {
-                        controller.closeView(establishment['title']!);
-                        _addToSearchHistory(establishment['title']!);
+                        controller.closeView(establishment.name);
+                        _addToSearchHistory(establishment.name);
                         widget.onSearch([establishment]);
                       },
                     ),

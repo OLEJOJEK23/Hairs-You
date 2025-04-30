@@ -4,6 +4,7 @@ import 'package:retrofit/retrofit.dart';
 import '../../../core/network/network_config.dart';
 import '../../models/autocomplete_response_dto.dart';
 import '../../models/nearby_response_dto.dart';
+import '../../models/short_salons_dto.dart';
 import 'endpoints.dart';
 
 part 'api_service.g.dart';
@@ -28,4 +29,7 @@ abstract class ApiService {
     @Query('language') String language = 'ru',
     @Query('key') String key = NetworkConfig.apiKey,
   });
+
+  @GET(Endpoints.getShortSalons)
+  Future<List<ShortSalonsDTO>> getShortSalons();
 }

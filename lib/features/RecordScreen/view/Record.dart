@@ -4,7 +4,6 @@ import 'package:hairs_and_you/features/RecordScreen/widgets/DateSelector.dart';
 import 'package:hairs_and_you/features/RecordScreen/widgets/LocationSelector.dart';
 
 import '../../../theme/theme.dart';
-import '../../../widgets/SearchWidget.dart';
 
 @RoutePage()
 class RecordScreen extends StatefulWidget {
@@ -39,10 +38,10 @@ class _RecordScreenState extends State<RecordScreen> {
             floating: true,
             surfaceTintColor: Colors.transparent,
             backgroundColor: theme.scaffoldBackgroundColor,
-            title: SearchWidget(
-              establishments: const [{}],
-              onSearch: (_) {},
-            ),
+            //title: SearchWidget(
+            //  establishments: const [{}],
+            // onSearch: (_) {},
+            //),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(54),
               child: Padding(

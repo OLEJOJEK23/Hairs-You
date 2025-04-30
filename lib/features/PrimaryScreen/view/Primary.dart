@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hairs_and_you/api/domain/entities/shortSalon.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
 import 'package:hairs_and_you/features/PrimaryScreen/widgets/ActiveRecordCard.dart';
 
 import '../../../widgets/SearchWidget.dart';
@@ -15,38 +18,34 @@ class PrimaryScreen extends StatefulWidget {
 class _PrimaryScreenState extends State<PrimaryScreen>
     with SingleTickerProviderStateMixin {
   final _activeRecord = false;
+  final GetShortSalons _getShortSalons = GetIt.I<GetShortSalons>();
+  List<ShortSalon> _specialOffers = [];
+  bool _isLoading = false;
+  String? _error;
 
   @override
   void initState() {
     super.initState();
+    _fetchSalons();
   }
 
-  final List<Map<String, String>> _specialOffers = [
-    {
-      'title': 'У Марии',
-      "address": "Санкт-Петербург, Ленинский проспект 147",
-      'description': 'Description for offer 1',
-      'image': 'assets/images/google_logo.png' // Replace with actual asset path
-    },
-    {
-      'title': 'Стрижка',
-      "address": "Санкт-Петербург, Ленинский проспект 148",
-      'description': 'Description for offer 2',
-      'image': 'assets/images/google_logo.png' // Replace with actual asset path
-    },
-    {
-      'title': 'Барбершоп',
-      "address": "Санкт-Петербург, Ленинский проспект 149",
-      'description': 'Description for offer 3',
-      'image': 'assets/images/google_logo.png' // Replace with actual asset path
-    },
-    {
-      'title': 'Подстирижися',
-      "address": "Санкт-Петербург, Ленинский проспект 1410",
-      'description': 'Description for offer 4',
-      'image': 'assets/images/google_logo.png' // Replace with actual asset path
-    }, // Add more offers as needed
-  ];
+  Future<void> _fetchSalons() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    final result = await _getShortSalons();
+    result.fold(
+      (failure) => setState(() {
+        _error = failure.message;
+        _isLoading = true;
+      }),
+      (services) => setState(() {
+        _specialOffers = services;
+        _isLoading = false;
+      }),
+    );
+  }
 
   final List<Map<String, String>> _bestOffers = [
     {
@@ -123,32 +122,38 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                   ),
                   const SizedBox(height: 20),
                   //* Special Offers List (Horizontal Scroll)
-                  SizedBox(
-                    height: 250, // Adjust height as needed
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _specialOffers.length,
-                      itemBuilder: (context, index) {
-                        final offer = _specialOffers[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              // Handle tap on Special Offer
-                              _onOfferTapped(context, offer);
+                  _isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                              color: theme.primaryColor),
+                        )
+                      : SizedBox(
+                          height: 250, // Adjust height as needed
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _specialOffers.length,
+                            itemBuilder: (context, index) {
+                              final offer = _specialOffers[index];
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    // Handle tap on Special Offer
+                                  },
+                                  child: OfferCard(
+                                    title: offer.name,
+                                    description: offer.description,
+                                    imagePath: "assets/images/google_logo.png",
+                                    address: offer.address,
+                                  ),
+                                ),
+                              );
                             },
-                            child: OfferCard(
-                              title: offer['title']!,
-                              description: offer['description']!,
-                              imagePath: offer['image']!,
-                              address: offer['address']!,
-                            ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
+                        ),
                   const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -175,7 +180,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                             child: OfferCard(
                               title: offer['title']!,
                               description: offer['description']!,
-                              imagePath: offer['image']!,
+                              imagePath: "assets/images/google_logo.png",
                               address: offer['address']!,
                             ),
                           ),
