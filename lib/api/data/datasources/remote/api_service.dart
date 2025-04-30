@@ -31,5 +31,7 @@ abstract class ApiService {
   });
 
   @GET(Endpoints.getShortSalons)
-  Future<List<ShortSalonsDTO>> getShortSalons();
+  Future<List<ShortSalonsDTO>> getShortSalons({
+    @Query('sort_by') String? location,
+  });
 }

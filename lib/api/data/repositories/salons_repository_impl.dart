@@ -15,7 +15,9 @@ class SalonsRepositoryImpl implements SalonsRepository {
   final CacheManager cacheManager;
 
   @override
-  Future<Either<Failure, List<ShortSalon>>> getShortSalons() async {
+  Future<Either<Failure, List<ShortSalon>>> getShortSalons({
+    String? sortBy,
+  }) async {
     try {
       final cachedData = await cacheManager.getData('services');
       if (cachedData != null) {
@@ -23,7 +25,7 @@ class SalonsRepositoryImpl implements SalonsRepository {
             .map((e) => ShortSalonsDTO.fromJson(e).toDomain())
             .toList());
       }
-      final response = await apiService.getShortSalons();
+      final response = await apiService.getShortSalons(location: sortBy);
       final shortSalons = response.map((dto) => dto.toDomain()).toList();
 
       await cacheManager.saveData(

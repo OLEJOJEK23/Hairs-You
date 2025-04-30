@@ -9,7 +9,9 @@ class GetShortSalons {
 
   GetShortSalons(this.repository);
 
-  Future<Either<Failure, List<ShortSalon>>> call() async {
-    return await repository.getShortSalons();
+  Future<Either<Failure, List<ShortSalon>>> call({
+    String? sortBy,
+  }) async {
+    return await repository.getShortSalons(sortBy: sortBy);
   }
 }

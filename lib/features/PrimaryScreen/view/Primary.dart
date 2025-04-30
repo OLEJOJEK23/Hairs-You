@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/shortSalon.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
 import 'package:hairs_and_you/features/PrimaryScreen/widgets/ActiveRecordCard.dart';
+import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 
 import '../../../widgets/SearchWidget.dart';
 
@@ -34,7 +35,9 @@ class _PrimaryScreenState extends State<PrimaryScreen>
       _isLoading = true;
       _error = null;
     });
-    final result = await _getShortSalons();
+    final result = await _getShortSalons(
+      sortBy: "rating",
+    );
     result.fold(
       (failure) => setState(() {
         _error = failure.message;
@@ -45,6 +48,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
         _isLoading = false;
       }),
     );
+    print(_error);
   }
 
   final List<Map<String, String>> _bestOffers = [
@@ -116,7 +120,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'Специальные предложения',
+                      'Лучшие предложения',
                       style: theme.textTheme.titleMedium,
                     ),
                   ),
@@ -148,6 +152,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                                     description: offer.description,
                                     imagePath: "assets/images/google_logo.png",
                                     address: offer.address,
+                                    rating: offer.rating,
                                   ),
                                 ),
                               );
@@ -158,7 +163,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'Лучшие предложения',
+                      'Специальные предложения',
                       style: theme.textTheme.titleMedium,
                     ),
                   ),
@@ -207,6 +212,7 @@ class OfferCard extends StatelessWidget {
   final String description;
   final String imagePath;
   final String address;
+  final double? rating;
 
   const OfferCard({
     super.key,
@@ -214,20 +220,27 @@ class OfferCard extends StatelessWidget {
     required this.address,
     required this.description,
     required this.imagePath,
+    this.rating,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SizedBox(
       width: 250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            imagePath,
-            width: double.infinity,
-            height: 150, // Adjust height as needed
-            fit: BoxFit.contain,
+          Stack(
+            children: [
+              Image.asset(
+                imagePath,
+                width: double.infinity,
+                height: 150, // Adjust height as needed
+                fit: BoxFit.contain,
+              ),
+              rating == null ? const SizedBox() : RatingDisplay(rating: rating!)
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
