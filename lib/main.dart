@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/repositories/salons_repository.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_special_offers.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/controllers/Link_account_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,6 +75,8 @@ Future<void> main() async {
       () => GetPlaceSuggestions(GetIt.I<PlaceRepository>()));
   GetIt.I
       .registerLazySingleton(() => GetShortSalons(GetIt.I<SalonsRepository>()));
+  GetIt.I.registerLazySingleton(
+      () => GetSpecialOffers(GetIt.I<SalonsRepository>()));
 
   runApp(const HairsAndYouApp());
 }

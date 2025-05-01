@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/shortSalon.dart';
+import 'package:hairs_and_you/api/domain/entities/special_offer.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_special_offers.dart';
 import 'package:hairs_and_you/features/PrimaryScreen/widgets/ActiveRecordCard.dart';
 import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 
@@ -20,7 +22,9 @@ class _PrimaryScreenState extends State<PrimaryScreen>
     with SingleTickerProviderStateMixin {
   final _activeRecord = false;
   final GetShortSalons _getShortSalons = GetIt.I<GetShortSalons>();
-  List<ShortSalon> _specialOffers = [];
+  final GetSpecialOffers _getSpecialOffers = GetIt.I<GetSpecialOffers>();
+  List<ShortSalon> _bestOffers = [];
+  List<SpecialOffer> _specialOffers = [];
   bool _isLoading = false;
   String? _error;
 
@@ -28,6 +32,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
   void initState() {
     super.initState();
     _fetchSalons();
+    _fetchSpecialOffers();
   }
 
   Future<void> _fetchSalons() async {
@@ -44,39 +49,29 @@ class _PrimaryScreenState extends State<PrimaryScreen>
         _isLoading = true;
       }),
       (services) => setState(() {
-        _specialOffers = services;
+        _bestOffers = services;
         _isLoading = false;
       }),
     );
-    print(_error);
   }
 
-  final List<Map<String, String>> _bestOffers = [
-    {
-      'title': 'Суперскидка',
-      "address": "Санкт-Петербург, Невский проспект 10",
-      'description': 'Лучшее предложение',
-      'image': 'assets/images/google_logo.png'
-    },
-    {
-      'title': 'Только сегодня!',
-      "address": "Санкт-Петербург, Литейный проспект 20",
-      'description': 'Скидка 50%',
-      'image': 'assets/images/google_logo.png'
-    },
-    {
-      'title': 'Эксклюзив',
-      "address": "Санкт-Петербург, Каменноостровский проспект 30",
-      'description': 'Лучшие мастера',
-      'image': 'assets/images/google_logo.png'
-    },
-    {
-      'title': 'Скидки 20%',
-      "address": "Санкт-Петербург, Московский проспект 30",
-      'description': 'Лучшие мастера',
-      'image': 'assets/images/google_logo.png'
-    },
-  ];
+  Future<void> _fetchSpecialOffers() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    final result = await _getSpecialOffers();
+    result.fold(
+      (failure) => setState(() {
+        _error = failure.message;
+        _isLoading = true;
+      }),
+      (offers) => setState(() {
+        _specialOffers = offers;
+        _isLoading = false;
+      }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +92,8 @@ class _PrimaryScreenState extends State<PrimaryScreen>
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: SearchWidget(
-                  establishments: _specialOffers,
-                  onSearch: (_specialOffers) {},
+                  establishments: _bestOffers,
+                  onSearch: (_bestOffers) {},
                 ),
               ),
             ),
@@ -136,9 +131,9 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
-                            itemCount: _specialOffers.length,
+                            itemCount: _bestOffers.length,
                             itemBuilder: (context, index) {
-                              final offer = _specialOffers[index];
+                              final offer = _bestOffers[index];
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 16.0,
@@ -173,20 +168,18 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                     child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemCount: _bestOffers.length,
+                      itemCount: _specialOffers.length,
                       itemBuilder: (context, index) {
-                        final offer = _bestOffers[index];
+                        final offer = _specialOffers[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: GestureDetector(
-                            onTap: () {
-                              _onOfferTapped(context, offer);
-                            },
+                            onTap: () {},
                             child: OfferCard(
-                              title: offer['title']!,
-                              description: offer['description']!,
+                              title: offer.title,
+                              description: offer.description,
                               imagePath: "assets/images/google_logo.png",
-                              address: offer['address']!,
+                              address: offer.address,
                             ),
                           ),
                         );
@@ -225,7 +218,6 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return SizedBox(
       width: 250,
       child: Column(

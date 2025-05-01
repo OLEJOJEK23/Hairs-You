@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hairs_and_you/api/data/models/special_offer_dto.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../../core/network/network_config.dart';
@@ -34,4 +35,7 @@ abstract class ApiService {
   Future<List<ShortSalonsDTO>> getShortSalons({
     @Query('sort_by') String? location,
   });
+
+  @GET(Endpoints.getSpecialOffers)
+  Future<List<SpecialOfferDTO>> getSpecialOffers();
 }

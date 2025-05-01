@@ -1,4 +1,4 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/controllers/Link_account_controller.dart';
@@ -30,59 +30,61 @@ class _LinkPhoneNumberState extends State<LinkPhoneNumber> {
           child: Column(
             children: [
               Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: InternationalPhoneNumberInput(
-                    onInputChanged: (value) {
-                      setState(() {
-                        phoneNumber = value.phoneNumber!;
-                      });
-                    },
-                    onInputValidated: (value) {
-                      setState(() {
-                        _enableInterButton = value;
-                      });
-                    },
-                    textStyle: theme.textTheme.labelLarge,
-                    selectorTextStyle: theme.textTheme.labelLarge,
-                    spaceBetweenSelectorAndTextField: 0,
-                    searchBoxDecoration: InputDecoration(
-                      focusColor: theme.inputDecorationTheme.focusColor,
-                      focusedBorder: theme.inputDecorationTheme.focusedBorder,
-                      labelText: "Телефонный код страны",
+                padding: const EdgeInsets.all(10.0),
+                child: InternationalPhoneNumberInput(
+                  onInputChanged: (value) {
+                    setState(() {
+                      phoneNumber = value.phoneNumber!;
+                    });
+                  },
+                  onInputValidated: (value) {
+                    setState(() {
+                      _enableInterButton = value;
+                    });
+                  },
+                  textStyle: theme.textTheme.labelLarge,
+                  selectorTextStyle: theme.textTheme.labelLarge,
+                  spaceBetweenSelectorAndTextField: 0,
+                  searchBoxDecoration: InputDecoration(
+                    focusColor: theme.inputDecorationTheme.focusColor,
+                    focusedBorder: theme.inputDecorationTheme.focusedBorder,
+                    labelText: "Телефонный код страны",
+                    hintStyle: theme.textTheme.bodyMedium,
+                    labelStyle: theme.textTheme.labelLarge,
+                  ),
+                  formatInput: true,
+                  autoFocus: true,
+                  selectorConfig: const SelectorConfig(
+                      selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                      showFlags: true),
+                  inputDecoration: InputDecoration(
+                      labelText: "Номер телефона",
+                      hintText: "Введите номер телефона",
                       hintStyle: theme.textTheme.bodyMedium,
                       labelStyle: theme.textTheme.labelLarge,
-                    ),
-                    formatInput: true,
-                    autoFocus: true,
-                    selectorConfig: const SelectorConfig(
-                        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                        showFlags: true),
-                    inputDecoration: InputDecoration(
-                        labelText: "Номер телефона",
-                        hintText: "Введите номер телефона",
-                        hintStyle: theme.textTheme.bodyMedium,
-                        labelStyle: theme.textTheme.labelLarge,
-                        focusedBorder: theme.inputDecorationTheme.focusedBorder,
-                        border: theme.inputDecorationTheme.border),
-                  )),
+                      focusedBorder: theme.inputDecorationTheme.focusedBorder,
+                      border: theme.inputDecorationTheme.border),
+                ),
+              ),
               Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _enableInterButton
-                          ? () async {
-                              await GetIt.I<LinkAccountController>()
-                                  .sendOTP(context, phoneNumber);
-                            }
-                          : null,
-                      style: theme.elevatedButtonTheme.style,
-                      child: Text(
-                        "Получить код",
-                        style: theme.textTheme.bodyMedium,
-                      ),
+                padding: const EdgeInsets.all(10.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _enableInterButton
+                        ? () async {
+                            await GetIt.I<LinkAccountController>()
+                                .sendOTP(context, phoneNumber);
+                          }
+                        : null,
+                    style: theme.elevatedButtonTheme.style,
+                    child: Text(
+                      "Получить код",
+                      style: theme.textTheme.bodyMedium,
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
