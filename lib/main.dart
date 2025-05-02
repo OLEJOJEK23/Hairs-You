@@ -39,44 +39,48 @@ Future<void> main() async {
 
   // Регистрация ApiService для Google Maps
   GetIt.I.registerLazySingleton<ApiService>(
-    () => ApiService(GetIt.I(instanceName: 'googleMapsDio'),
-        baseUrl: NetworkConfig.googleMapsBaseUrl),
+        () =>
+        ApiService(GetIt.I(instanceName: 'googleMapsDio'),
+            baseUrl: NetworkConfig.googleMapsBaseUrl),
     instanceName: 'googleMaps',
   );
 
   // Регистрация ApiService для бэкенда
   GetIt.I.registerLazySingleton<ApiService>(
-    () => ApiService(GetIt.I(instanceName: 'backendDio'),
-        baseUrl: NetworkConfig.baseUrl),
+        () =>
+        ApiService(GetIt.I(instanceName: 'backendDio'),
+            baseUrl: NetworkConfig.baseUrl),
     instanceName: 'backend',
   );
 
   GetIt.I.registerLazySingleton<CacheManager>(
-      () => CacheManagerImpl(GetIt.I<SharedPreferences>()));
+          () => CacheManagerImpl(GetIt.I<SharedPreferences>()));
 
   // Регистрация репозиториев
   GetIt.I.registerLazySingleton<PlaceRepository>(
-    () => PlaceRepositoryImpl(
-      apiService: GetIt.I<ApiService>(instanceName: 'googleMaps'),
-      cacheManager: GetIt.I<CacheManager>(),
-    ),
+        () =>
+        PlaceRepositoryImpl(
+          apiService: GetIt.I<ApiService>(instanceName: 'googleMaps'),
+          cacheManager: GetIt.I<CacheManager>(),
+        ),
   );
   GetIt.I.registerLazySingleton<SalonsRepository>(
-    () => SalonsRepositoryImpl(
-      apiService: GetIt.I<ApiService>(instanceName: 'backend'),
-      cacheManager: GetIt.I<CacheManager>(),
-    ),
+        () =>
+        SalonsRepositoryImpl(
+          apiService: GetIt.I<ApiService>(instanceName: 'backend'),
+          cacheManager: GetIt.I<CacheManager>(),
+        ),
   );
 
   // Регистрация use cases
   GetIt.I
       .registerLazySingleton(() => GetNearbySalons(GetIt.I<PlaceRepository>()));
   GetIt.I.registerLazySingleton(
-      () => GetPlaceSuggestions(GetIt.I<PlaceRepository>()));
+          () => GetPlaceSuggestions(GetIt.I<PlaceRepository>()));
   GetIt.I
       .registerLazySingleton(() => GetShortSalons(GetIt.I<SalonsRepository>()));
   GetIt.I.registerLazySingleton(
-      () => GetSpecialOffers(GetIt.I<SalonsRepository>()));
+          () => GetSpecialOffers(GetIt.I<SalonsRepository>()));
 
   runApp(const HairsAndYouApp());
 }
