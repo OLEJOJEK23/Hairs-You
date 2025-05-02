@@ -25,8 +25,10 @@ class _PrimaryScreenState extends State<PrimaryScreen>
   final GetSpecialOffers _getSpecialOffers = GetIt.I<GetSpecialOffers>();
   List<ShortSalon> _bestOffers = [];
   List<SpecialOffer> _specialOffers = [];
-  bool _isLoading = false;
-  String? _error;
+  bool _isSalonsLoading = false;
+  String? _salonsError;
+  bool _isOffersLoading = false;
+  String? _offersError;
 
   @override
   void initState() {
@@ -37,40 +39,42 @@ class _PrimaryScreenState extends State<PrimaryScreen>
 
   Future<void> _fetchSalons() async {
     setState(() {
-      _isLoading = true;
-      _error = null;
+      _isSalonsLoading = true;
+      _salonsError = null;
     });
     final result = await _getShortSalons(
       sortBy: "rating",
     );
     result.fold(
       (failure) => setState(() {
-        _error = failure.message;
-        _isLoading = true;
+        _salonsError = failure.message;
+        _isSalonsLoading = true;
       }),
       (services) => setState(() {
         _bestOffers = services;
-        _isLoading = false;
+        _isSalonsLoading = false;
       }),
     );
+    print(_salonsError);
   }
 
   Future<void> _fetchSpecialOffers() async {
     setState(() {
-      _isLoading = true;
-      _error = null;
+      _isOffersLoading = true;
+      _offersError = null;
     });
     final result = await _getSpecialOffers();
     result.fold(
       (failure) => setState(() {
-        _error = failure.message;
-        _isLoading = true;
+        _offersError = failure.message;
+        _isOffersLoading = true;
       }),
       (offers) => setState(() {
         _specialOffers = offers;
-        _isLoading = false;
+        _isOffersLoading = false;
       }),
     );
+    print(_offersError);
   }
 
   @override
@@ -121,7 +125,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                   ),
                   const SizedBox(height: 20),
                   //* Special Offers List (Horizontal Scroll)
-                  _isLoading
+                  _isSalonsLoading
                       ? Center(
                           child: CircularProgressIndicator(
                               color: theme.primaryColor),
@@ -163,29 +167,35 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                     ),
                   ),
                   const SizedBox(height: 20),
-                  SizedBox(
-                    height: 250,
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _specialOffers.length,
-                      itemBuilder: (context, index) {
-                        final offer = _specialOffers[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: OfferCard(
-                              title: offer.title,
-                              description: offer.description,
-                              imagePath: "assets/images/google_logo.png",
-                              address: offer.address,
-                            ),
+                  _isOffersLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                              color: theme.primaryColor),
+                        )
+                      : SizedBox(
+                          height: 250,
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _specialOffers.length,
+                            itemBuilder: (context, index) {
+                              final offer = _specialOffers[index];
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: OfferCard(
+                                    title: offer.title,
+                                    description: offer.description,
+                                    imagePath: "assets/images/google_logo.png",
+                                    address: offer.address,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  ),
+                        ),
                 ],
               ),
             ),
