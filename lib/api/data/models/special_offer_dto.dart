@@ -13,6 +13,7 @@ class SpecialOfferDTO {
     required this.photo_url,
     required this.title,
     required this.address,
+    required this.city,
   });
 
   final String id;
@@ -21,6 +22,7 @@ class SpecialOfferDTO {
   final String photo_url;
   final String title;
   final String address;
+  final String city;
 
   factory SpecialOfferDTO.fromJson(Map<String, dynamic> json) =>
       _$SpecialOfferDTOFromJson(json);
@@ -28,10 +30,12 @@ class SpecialOfferDTO {
   Map<String, dynamic> toJson() => _$SpecialOfferDTOToJson(this);
 
   SpecialOffer toDomain() => SpecialOffer(
-      id: id,
-      salonID: salon_id,
-      description: description,
-      title: title,
-      photoURL: photo_url,
-      address: address);
+        id: id,
+        salonID: salon_id,
+        description: description,
+        title: title,
+        photoURL: photo_url,
+        address: address,
+        city: city,
+      );
 }

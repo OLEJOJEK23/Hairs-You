@@ -5,6 +5,7 @@ class ShortSalon {
     required this.description,
     required this.address,
     required this.photoURL,
+    required this.city_name,
     required this.rating,
   });
 
@@ -13,5 +14,6 @@ class ShortSalon {
   final String description;
   final String address;
   final String photoURL;
+  final String city_name;
   final double rating;
 }

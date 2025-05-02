@@ -14,6 +14,7 @@ SpecialOfferDTO _$SpecialOfferDTOFromJson(Map<String, dynamic> json) =>
       photo_url: json['photo_url'] as String,
       title: json['title'] as String,
       address: json['address'] as String,
+      city: json['city'] as String,
     );
 
 Map<String, dynamic> _$SpecialOfferDTOToJson(SpecialOfferDTO instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$SpecialOfferDTOToJson(SpecialOfferDTO instance) =>
       'photo_url': instance.photo_url,
       'title': instance.title,
       'address': instance.address,
+      'city': instance.city
     };

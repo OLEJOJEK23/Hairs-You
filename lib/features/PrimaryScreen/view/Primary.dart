@@ -154,7 +154,8 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                                     title: offer.name,
                                     description: offer.description,
                                     imagePath: "assets/images/google_logo.png",
-                                    address: offer.address,
+                                    address:
+                                        "${offer.city_name}, ${offer.address}",
                                     rating: offer.rating,
                                   ),
                                 ),
@@ -193,7 +194,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                                     title: offer.title,
                                     description: offer.description,
                                     imagePath: "assets/images/google_logo.png",
-                                    address: offer.address,
+                                    address: "${offer.city}, ${offer.address}",
                                   ),
                                 ),
                               );
