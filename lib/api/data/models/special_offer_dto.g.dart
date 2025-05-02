@@ -8,12 +8,13 @@ part of 'special_offer_dto.dart';
 
 SpecialOfferDTO _$SpecialOfferDTOFromJson(Map<String, dynamic> json) =>
     SpecialOfferDTO(
-        id: json['id'] as String,
-        salon_id: json['salon_id'] as String,
-        description: json['description'] as String,
-        photo_url: json['photo_url'] as String,
-        title: json['title'] as String,
-        address: json['address'] as String);
+      id: json['id'] as String,
+      salon_id: json['salon_id'] as String,
+      description: json['description'] as String,
+      photo_url: json['photo_url'] as String,
+      title: json['title'] as String,
+      address: json['address'] as String,
+    );
 
 Map<String, dynamic> _$SpecialOfferDTOToJson(SpecialOfferDTO instance) =>
     <String, dynamic>{

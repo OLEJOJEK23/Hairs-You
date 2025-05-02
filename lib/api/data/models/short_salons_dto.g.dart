@@ -13,7 +13,7 @@ ShortSalonsDTO _$ShortSalonsDTOFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       street_address: json['street_address'] as String,
       photo_url: json['photo_url'] as String,
-      rating: (json['rating'] as double).toDouble(),
+      rating: (json['rating'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$ShortSalonsDTOToJson(ShortSalonsDTO instance) =>

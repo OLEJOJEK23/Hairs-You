@@ -39,8 +39,8 @@ class _RecordScreenState extends State<RecordScreen> {
             surfaceTintColor: Colors.transparent,
             backgroundColor: theme.scaffoldBackgroundColor,
             //title: SearchWidget(
-            //  establishments: const [{}],
-            // onSearch: (_) {},
+            //establishments: const [{}],
+            //onSearch: (_) {},
             //),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(54),

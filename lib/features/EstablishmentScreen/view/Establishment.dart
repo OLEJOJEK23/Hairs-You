@@ -8,7 +8,9 @@ import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 
 @RoutePage()
 class EstablishmentScreen extends StatefulWidget {
-  const EstablishmentScreen({super.key});
+  const EstablishmentScreen({super.key, @PathParam('id') required this.id});
+
+  final String id;
 
   @override
   State<EstablishmentScreen> createState() => _EstablishmentScreenState();
@@ -85,6 +87,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
         _scrollToTop();
       }
     });
+    print(widget.id);
   }
 
   @override

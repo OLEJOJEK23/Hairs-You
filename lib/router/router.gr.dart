@@ -49,10 +49,18 @@ class BookingRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [EstablishmentScreen]
-class EstablishmentRoute extends PageRouteInfo<void> {
-  const EstablishmentRoute({List<PageRouteInfo>? children})
-      : super(
+class EstablishmentRoute extends PageRouteInfo<EstablishmentRouteArgs> {
+  EstablishmentRoute({
+    Key? key,
+    required String id,
+    List<PageRouteInfo>? children,
+  }) : super(
           EstablishmentRoute.name,
+          args: EstablishmentRouteArgs(
+            key: key,
+            id: id,
+          ),
+          rawPathParams: {'id': id},
           initialChildren: children,
         );
 
@@ -61,9 +69,31 @@ class EstablishmentRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const EstablishmentScreen();
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<EstablishmentRouteArgs>(
+          orElse: () => EstablishmentRouteArgs(id: pathParams.getString('id')));
+      return EstablishmentScreen(
+        key: args.key,
+        id: args.id,
+      );
     },
   );
+}
+
+class EstablishmentRouteArgs {
+  const EstablishmentRouteArgs({
+    this.key,
+    required this.id,
+  });
+
+  final Key? key;
+
+  final String id;
+
+  @override
+  String toString() {
+    return 'EstablishmentRouteArgs{key: $key, id: $id}';
+  }
 }
 
 /// generated route for

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import '../Guards/AuthGuard.dart';
 import '../features/AIScreen/AIScreen.dart';
@@ -7,7 +8,7 @@ import '../features/EstablishmentScreen/view/Establishment.dart';
 import '../features/FavoriteScreen/FavoriteScreen.dart';
 import '../features/HistoryScreen/HistoryScreen.dart';
 import '../features/HomeScreen/HomeScreen.dart';
-import '../features/LinkPhoneNumberScreen/view/LinkPhoneNumber.dart';
+import '../features/LinkPhoneNumberScreen/LinkPhoneNumberScreen.dart';
 import '../features/LoginScreen/LoginScreen.dart';
 import '../features/MapScreen/MapScreen.dart';
 import '../features/MasterScreen/MasterScreen.dart';
@@ -68,7 +69,7 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
           page: EstablishmentRoute.page,
-          path: '/establishment',
+          path: '/establishment/:id',
         ),
         AutoRoute(
           page: BookingRoute.page,

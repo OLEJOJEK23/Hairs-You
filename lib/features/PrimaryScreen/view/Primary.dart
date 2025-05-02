@@ -140,7 +140,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
-                                    // Handle tap on Special Offer
+                                    _onOfferTapped(context, offer.id);
                                   },
                                   child: OfferCard(
                                     title: offer.name,
@@ -195,8 +195,8 @@ class _PrimaryScreenState extends State<PrimaryScreen>
     );
   }
 
-  void _onOfferTapped(BuildContext context, Map<String, String> offer) {
-    context.router.pushNamed("/establishment");
+  void _onOfferTapped(BuildContext context, String id) {
+    context.router.pushNamed("/establishment/:$id");
   }
 }
 
