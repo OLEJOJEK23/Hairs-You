@@ -23,7 +23,7 @@ class ReviewsTab extends StatelessWidget {
             return Card(
               elevation: 3,
               // Увеличил elevation для большей заметности
-              shadowColor: theme.shadowColor.withOpacity(0.3),
+              shadowColor: theme.shadowColor.withValues(alpha: 0.3),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

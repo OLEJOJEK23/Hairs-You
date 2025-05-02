@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/data/repositories/reviews_repository_impl.dart';
+import 'package:hairs_and_you/api/data/repositories/services_repository_impl.dart';
 import 'package:hairs_and_you/api/domain/repositories/reviews_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/salons_repository.dart';
+import 'package:hairs_and_you/api/domain/repositories/services_repository.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_special_offers.dart';
@@ -21,6 +23,7 @@ import 'api/data/repositories/salons_repository_impl.dart';
 import 'api/domain/repositories/place_repository.dart';
 import 'api/domain/usecases/get_nearby_salons.dart';
 import 'api/domain/usecases/get_place_suggestions.dart';
+import 'api/domain/usecases/get_services.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -70,9 +73,14 @@ Future<void> main() async {
       cacheManager: GetIt.I<CacheManager>(),
     ),
   );
-
   GetIt.I.registerLazySingleton<ReviewsRepository>(
     () => ReviewsRepositoryImpl(
+      apiService: GetIt.I<ApiService>(instanceName: 'backend'),
+      cacheManager: GetIt.I<CacheManager>(),
+    ),
+  );
+  GetIt.I.registerLazySingleton<ServicesRepository>(
+    () => ServicesRepositoryImpl(
       apiService: GetIt.I<ApiService>(instanceName: 'backend'),
       cacheManager: GetIt.I<CacheManager>(),
     ),
@@ -88,6 +96,8 @@ Future<void> main() async {
   GetIt.I.registerLazySingleton(
       () => GetSpecialOffers(GetIt.I<SalonsRepository>()));
   GetIt.I.registerLazySingleton(() => GetReviews(GetIt.I<ReviewsRepository>()));
+  GetIt.I
+      .registerLazySingleton(() => GetServices(GetIt.I<ServicesRepository>()));
 
   runApp(const HairsAndYouApp());
 }

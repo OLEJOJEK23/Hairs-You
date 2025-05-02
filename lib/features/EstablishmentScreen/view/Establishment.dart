@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/review.dart';
+import 'package:hairs_and_you/api/domain/entities/service.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_services.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/DescriptionTab.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ReviewsTab.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ServicesTab.dart';
@@ -24,8 +26,11 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   late TabController _tabController;
   late ScrollController _scrollController;
   final GetReviews _getReviews = GetIt.I<GetReviews>();
-  bool _isLoading = false;
-  String? _error;
+  final GetServices _getServices = GetIt.I<GetServices>();
+  bool _isReviewsLoading = false;
+  bool _isServicesLoading = false;
+  String? _reviewsError;
+  String? _servicesError;
 
   final List<String> _imageUrls = [
     'assets/images/google_logo.png',
@@ -43,14 +48,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.";
 
   List<Review> _reviews = [];
-
-  final List<Map<String, dynamic>> _services = [
-    {'name': 'Стрижка мужская', 'price': 1000, 'duration': '30 мин'},
-    {'name': 'Стрижка женская', 'price': 1500, 'duration': '45 мин'},
-    {'name': 'Окрашивание', 'price': 3000, 'duration': '2 часа'},
-    {'name': 'Укладка', 'price': 800, 'duration': '20 мин'},
-    {'name': 'Маникюр', 'price': 1200, 'duration': '1 час'},
-  ];
+  List<Services> _services = [];
 
   @override
   void initState() {
@@ -63,26 +61,49 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
       }
     });
     _fetchReviews();
+    _fetchServices();
   }
 
   Future<void> _fetchReviews() async {
     setState(() {
-      _isLoading = true;
-      _error = null;
+      _isReviewsLoading = true;
+      _reviewsError = null;
     });
     final result = await _getReviews(salonID: widget.id);
     result.fold(
       (failure) => setState(() {
-        _error = failure.message;
-        _isLoading = true;
+        _reviewsError = failure.message;
+        _isReviewsLoading = true;
       }),
       (reviews) => setState(() {
         _reviews = reviews;
-        _isLoading = false;
+        _isReviewsLoading = false;
       }),
     );
-    print(_error);
-    print(widget.id);
+    if (_reviewsError != null) {
+      print(_reviewsError);
+    }
+  }
+
+  Future<void> _fetchServices() async {
+    setState(() {
+      _isServicesLoading = true;
+      _servicesError = null;
+    });
+    final result = await _getServices(salonID: widget.id);
+    result.fold(
+      (failure) => setState(() {
+        _servicesError = failure.message;
+        _isServicesLoading = true;
+      }),
+      (services) => setState(() {
+        _services = services;
+        _isServicesLoading = false;
+      }),
+    );
+    if (_servicesError != null) {
+      print(_servicesError);
+    }
   }
 
   @override
@@ -182,11 +203,15 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
               description: _establishmentDescription,
             ),
             // Services Tab
-            ServicesTab(
-              services: _services,
-            ),
+            _isServicesLoading
+                ? CircularProgressIndicator(
+                    color: theme.primaryColor,
+                  )
+                : ServicesTab(
+                    services: _services,
+                  ),
             // Reviews Tab
-            _isLoading
+            _isReviewsLoading
                 ? CircularProgressIndicator(
                     color: theme.primaryColor,
                   )

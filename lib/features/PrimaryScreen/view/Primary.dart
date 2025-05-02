@@ -55,7 +55,9 @@ class _PrimaryScreenState extends State<PrimaryScreen>
         _isSalonsLoading = false;
       }),
     );
-    print(_salonsError);
+    if (_salonsError != null) {
+      print(_salonsError);
+    }
   }
 
   Future<void> _fetchSpecialOffers() async {
@@ -74,7 +76,9 @@ class _PrimaryScreenState extends State<PrimaryScreen>
         _isOffersLoading = false;
       }),
     );
-    print(_offersError);
+    if (_offersError != null) {
+      print(_offersError);
+    }
   }
 
   @override

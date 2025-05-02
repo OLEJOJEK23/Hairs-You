@@ -4,4 +4,5 @@ class Endpoints {
   static const String getShortSalons = '/short_salons';
   static const String getSpecialOffers = '/special_offers';
   static const String getReviews = '/reviews';
+  static const String getServices = '/services';
 }

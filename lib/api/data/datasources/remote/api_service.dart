@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hairs_and_you/api/data/models/review_dto.dart';
+import 'package:hairs_and_you/api/data/models/services_dto.dart';
 import 'package:hairs_and_you/api/data/models/special_offer_dto.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -42,6 +43,11 @@ abstract class ApiService {
 
   @GET(Endpoints.getReviews)
   Future<List<ReviewDto>> getReviews({
+    @Query('salon_id') required String salonID,
+  });
+
+  @GET(Endpoints.getServices)
+  Future<List<ServicesDto>> getServices({
     @Query('salon_id') required String salonID,
   });
 }
