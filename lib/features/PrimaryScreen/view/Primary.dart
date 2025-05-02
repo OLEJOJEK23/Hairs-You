@@ -196,7 +196,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
   }
 
   void _onOfferTapped(BuildContext context, String id) {
-    context.router.pushNamed("/establishment/:$id");
+    context.router.pushNamed("/establishment/$id");
   }
 }
 

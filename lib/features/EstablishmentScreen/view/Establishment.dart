@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hairs_and_you/api/domain/entities/review.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/DescriptionTab.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ReviewsTab.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ServicesTab.dart';
@@ -20,6 +23,9 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ScrollController _scrollController;
+  final GetReviews _getReviews = GetIt.I<GetReviews>();
+  bool _isLoading = false;
+  String? _error;
 
   final List<String> _imageUrls = [
     'assets/images/google_logo.png',
@@ -36,38 +42,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   final String _establishmentDescription =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.";
 
-  final List<Map<String, dynamic>> _reviews = [
-    {
-      'author': 'Алексей П.',
-      'rating': 4.5,
-      'text': 'Отличное место! Еда вкусная, персонал дружелюбный. Рекомендую!',
-      'date': '01.04.2025'
-    },
-    {
-      'author': 'Мария К.',
-      'rating': 5.0,
-      'text': 'Лучший сервис в городе, вернемся еще не раз!',
-      'date': '30.03.2025'
-    },
-    {
-      'author': 'Дмитрий С.',
-      'rating': 4.0,
-      'text': 'Хорошая атмосфера, но цены немного высокие.',
-      'date': '28.03.2025'
-    },
-    {
-      'author': 'Елена В.',
-      'rating': 3.5,
-      'text': 'Неплохо, но обслуживание могло бы быть быстрее.',
-      'date': '25.03.2025'
-    },
-    {
-      'author': 'Игорь М.',
-      'rating': 4.8,
-      'text': 'Прекрасное место для ужина с семьей!',
-      'date': '20.03.2025'
-    },
-  ];
+  List<Review> _reviews = [];
 
   final List<Map<String, dynamic>> _services = [
     {'name': 'Стрижка мужская', 'price': 1000, 'duration': '30 мин'},
@@ -87,6 +62,26 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
         _scrollToTop();
       }
     });
+    _fetchReviews();
+  }
+
+  Future<void> _fetchReviews() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    final result = await _getReviews(salonID: widget.id);
+    result.fold(
+      (failure) => setState(() {
+        _error = failure.message;
+        _isLoading = true;
+      }),
+      (reviews) => setState(() {
+        _reviews = reviews;
+        _isLoading = false;
+      }),
+    );
+    print(_error);
     print(widget.id);
   }
 
@@ -191,9 +186,13 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
               services: _services,
             ),
             // Reviews Tab
-            ReviewsTab(
-              reviews: _reviews,
-            ),
+            _isLoading
+                ? CircularProgressIndicator(
+                    color: theme.primaryColor,
+                  )
+                : ReviewsTab(
+                    reviews: _reviews,
+                  ),
           ],
         ),
       ),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/api/domain/entities/review.dart';
+import 'package:intl/intl.dart';
 
 import '../../../widgets/RatingDisplay.dart';
 
 class ReviewsTab extends StatelessWidget {
   const ReviewsTab({super.key, required this.reviews});
 
-  final List<Map<String, dynamic>> reviews;
+  final List<Review> reviews;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,8 @@ class ReviewsTab extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: reviews.map((review) {
+            DateFormat formatter = DateFormat('dd.MM.yyyy HH:mm');
+            String formattedDate = formatter.format(review.created_at);
             return Card(
               elevation: 3,
               // Увеличил elevation для большей заметности
@@ -33,20 +37,20 @@ class ReviewsTab extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          review['author'],
+                          review.display_name,
                           style: theme.textTheme.titleMedium,
                         ),
-                        RatingDisplay(rating: review['rating']),
+                        RatingDisplay(rating: review.rating),
                       ],
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      review['text'],
+                      review.text,
                       style: theme.textTheme.bodyMedium,
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      review['date'],
+                      formattedDate,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.grey,
                       ),

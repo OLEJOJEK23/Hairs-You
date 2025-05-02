@@ -54,6 +54,8 @@ class DioClient {
           return handler.next(options);
         },
         onResponse: (response, handler) {
+          print(response);
+
           return handler.next(response);
         },
         onError: (DioException e, handler) {
