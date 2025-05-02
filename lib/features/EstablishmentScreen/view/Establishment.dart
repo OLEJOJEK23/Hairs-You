@@ -2,14 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/review.dart';
+import 'package:hairs_and_you/api/domain/entities/salon.dart';
 import 'package:hairs_and_you/api/domain/entities/service.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_salon.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_services.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/DescriptionTab.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ReviewsTab.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ServicesTab.dart';
 import 'package:hairs_and_you/widgets/ImageScroll.dart';
 import 'package:hairs_and_you/widgets/RatingDisplay.dart';
+import 'package:intl/intl.dart';
 
 @RoutePage()
 class EstablishmentScreen extends StatefulWidget {
@@ -26,10 +29,13 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   late TabController _tabController;
   late ScrollController _scrollController;
   final GetReviews _getReviews = GetIt.I<GetReviews>();
+  final GetSalons _getSalons = GetIt.I<GetSalons>();
   final GetServices _getServices = GetIt.I<GetServices>();
   bool _isReviewsLoading = false;
+  bool _isSalonLoading = false;
   bool _isServicesLoading = false;
   String? _reviewsError;
+  String? _salonError;
   String? _servicesError;
 
   final List<String> _imageUrls = [
@@ -40,13 +46,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     'assets/images/google_logo.png',
     'assets/images/google_logo.png',
   ];
-  final String _establishmentName = "У марии";
-  final String _establishmentAddress =
-      "Солнечная улица, 27, Сосновый Бор, Ленинградская область";
-  final double _establishmentRating = 3;
-  final String _establishmentDescription =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.";
-
+  late Salon _salon;
   List<Review> _reviews = [];
   List<Services> _services = [];
 
@@ -62,6 +62,14 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     });
     _fetchReviews();
     _fetchServices();
+    _fetchSalon();
+  }
+
+  String formatTimeOfDay(TimeOfDay time) {
+    final now = DateTime.now();
+    final dateTime =
+        DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    return DateFormat('HH:mm', 'ru_RU').format(dateTime);
   }
 
   Future<void> _fetchReviews() async {
@@ -106,6 +114,28 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     }
   }
 
+  Future<void> _fetchSalon() async {
+    setState(() {
+      _isSalonLoading = true;
+      _salonError = null;
+    });
+    final result = await _getSalons(salonID: widget.id);
+    result.fold(
+      (failure) => setState(() {
+        _salonError = failure.message;
+        _isSalonLoading = true;
+      }),
+      (salon) => setState(() {
+        _salon = salon[0];
+        print(salon);
+        _isSalonLoading = false;
+      }),
+    );
+    if (_salonError != null) {
+      print(_salonError);
+    }
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -127,100 +157,108 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverAppBar(
-            title: Text(_establishmentName),
-            centerTitle: true,
-            pinned: true,
-            surfaceTintColor: Colors.transparent,
-            backgroundColor: theme.scaffoldBackgroundColor,
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                ImageScroll(
-                  imageUrls: _imageUrls,
+      body: _isSalonLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: theme.primaryColor,
+              ),
+            )
+          : NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                SliverAppBar(
+                  title: Text(_salon.name),
+                  centerTitle: true,
+                  pinned: true,
+                  surfaceTintColor: Colors.transparent,
+                  backgroundColor: theme.scaffoldBackgroundColor,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
+                SliverToBoxAdapter(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              _establishmentName,
-                              style: theme.textTheme.titleLarge,
-                            ),
-                          ),
-                          RatingDisplay(rating: _establishmentRating),
-                        ],
+                      ImageScroll(
+                        imageUrls: _imageUrls,
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _establishmentAddress,
-                        style: theme.textTheme.bodyMedium,
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    _salon.name,
+                                    style: theme.textTheme.titleLarge,
+                                  ),
+                                ),
+                                RatingDisplay(rating: _salon.rating),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "${_salon.cityName}, ${_salon.streetAddress}",
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _SliverAppBarDelegate(
+                    TabBar(
+                      controller: _tabController,
+                      tabs: const [
+                        Tab(
+                          text: 'Описание',
+                        ),
+                        Tab(
+                          text: 'Услуги',
+                        ),
+                        Tab(
+                          text: 'Отзывы',
+                        ),
+                      ],
+                      labelColor: theme.primaryColor,
+                      unselectedLabelColor: Colors.grey.shade500,
+                      indicatorColor: theme.primaryColor,
+                    ),
+                  ),
+                ),
               ],
-            ),
-          ),
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: _SliverAppBarDelegate(
-              TabBar(
+              body: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
                 controller: _tabController,
-                tabs: const [
-                  Tab(
-                    text: 'Описание',
+                children: [
+                  // Description Tab
+                  DescriptionTab(
+                    startTime: formatTimeOfDay(_salon.startTime),
+                    endTime: formatTimeOfDay(_salon.endTime),
+                    description: _salon.description,
                   ),
-                  Tab(
-                    text: 'Услуги',
-                  ),
-                  Tab(
-                    text: 'Отзывы',
-                  ),
+                  // Services Tab
+                  _isServicesLoading
+                      ? CircularProgressIndicator(
+                          color: theme.primaryColor,
+                        )
+                      : ServicesTab(
+                          services: _services,
+                        ),
+                  // Reviews Tab
+                  _isReviewsLoading
+                      ? CircularProgressIndicator(
+                          color: theme.primaryColor,
+                        )
+                      : ReviewsTab(
+                          reviews: _reviews,
+                        ),
                 ],
-                labelColor: theme.primaryColor,
-                unselectedLabelColor: Colors.grey.shade500,
-                indicatorColor: theme.primaryColor,
               ),
             ),
-          ),
-        ],
-        body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _tabController,
-          children: [
-            // Description Tab
-            DescriptionTab(
-              description: _establishmentDescription,
-            ),
-            // Services Tab
-            _isServicesLoading
-                ? CircularProgressIndicator(
-                    color: theme.primaryColor,
-                  )
-                : ServicesTab(
-                    services: _services,
-                  ),
-            // Reviews Tab
-            _isReviewsLoading
-                ? CircularProgressIndicator(
-                    color: theme.primaryColor,
-                  )
-                : ReviewsTab(
-                    reviews: _reviews,
-                  ),
-          ],
-        ),
-      ),
     );
   }
 }

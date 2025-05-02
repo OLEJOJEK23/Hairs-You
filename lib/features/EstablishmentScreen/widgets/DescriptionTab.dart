@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 
 class DescriptionTab extends StatefulWidget {
   final String description;
+  final String startTime;
+  final String endTime;
 
-  const DescriptionTab({super.key, required this.description});
+  const DescriptionTab(
+      {super.key,
+      required this.description,
+      required this.startTime,
+      required this.endTime});
 
   @override
   State<DescriptionTab> createState() => _DescriptionTabState();
@@ -55,6 +61,10 @@ class _DescriptionTabState extends State<DescriptionTab> {
                 ],
               ),
             ),
+            Text(
+              "Время работы: ${widget.startTime} - ${widget.endTime}",
+              style: theme.textTheme.bodyMedium,
+            )
           ],
         ),
       ),

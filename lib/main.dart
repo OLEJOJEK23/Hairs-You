@@ -7,10 +7,12 @@ import 'package:hairs_and_you/api/domain/repositories/reviews_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/salons_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/services_repository.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_salon.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_special_offers.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/controllers/Link_account_controller.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Hairs_and_you_app.dart';
@@ -28,6 +30,7 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('ru_RU', null);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -98,6 +101,7 @@ Future<void> main() async {
   GetIt.I.registerLazySingleton(() => GetReviews(GetIt.I<ReviewsRepository>()));
   GetIt.I
       .registerLazySingleton(() => GetServices(GetIt.I<ServicesRepository>()));
+  GetIt.I.registerLazySingleton(() => GetSalons(GetIt.I<SalonsRepository>()));
 
   runApp(const HairsAndYouApp());
 }

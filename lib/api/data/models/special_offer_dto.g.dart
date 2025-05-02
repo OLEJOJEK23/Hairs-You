@@ -25,5 +25,5 @@ Map<String, dynamic> _$SpecialOfferDTOToJson(SpecialOfferDTO instance) =>
       'photo_url': instance.photo_url,
       'title': instance.title,
       'address': instance.address,
-      'city': instance.city
+      'city': instance.city,
     };

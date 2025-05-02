@@ -16,7 +16,7 @@ ServicesDto _$ServicesDtoFromJson(Map<String, dynamic> json) => ServicesDto(
 Map<String, dynamic> _$ServicesDtoToJson(ServicesDto instance) =>
     <String, dynamic>{
       'service_name': instance.service_name,
+      'id': instance.id,
       'duration': instance.duration,
       'price': instance.price,
-      'id': instance.id,
     };
