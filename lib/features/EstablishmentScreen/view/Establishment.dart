@@ -127,7 +127,6 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
       }),
       (salon) => setState(() {
         _salon = salon[0];
-        print(salon);
         _isSalonLoading = false;
       }),
     );

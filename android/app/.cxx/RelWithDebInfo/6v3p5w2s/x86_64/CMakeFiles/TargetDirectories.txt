@@ -1,2 +1,0 @@
-C:/Users/OLEJOJEK/IdeaProjects/hairs_and_you/android/app/.cxx/RelWithDebInfo/6v3p5w2s/x86_64/CMakeFiles/edit_cache.dir
-C:/Users/OLEJOJEK/IdeaProjects/hairs_and_you/android/app/.cxx/RelWithDebInfo/6v3p5w2s/x86_64/CMakeFiles/rebuild_cache.dir
