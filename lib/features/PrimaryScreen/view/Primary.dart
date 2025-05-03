@@ -101,7 +101,11 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: SearchWidget(
                   establishments: _bestOffers,
-                  onSearch: (_bestOffers) {},
+                  onSearch: (String? selectedId) {
+                    if (selectedId != null) {
+                      _onOfferTapped(context, selectedId);
+                    }
+                  },
                 ),
               ),
             ),
@@ -135,7 +139,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                               color: theme.primaryColor),
                         )
                       : SizedBox(
-                          height: 250, // Adjust height as needed
+                          height: 250,
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
@@ -175,7 +179,8 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                   _isOffersLoading
                       ? Center(
                           child: CircularProgressIndicator(
-                              color: theme.primaryColor),
+                            color: theme.primaryColor,
+                          ),
                         )
                       : SizedBox(
                           height: 250,
@@ -189,7 +194,9 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16.0),
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    _onOfferTapped(context, offer.salonID);
+                                  },
                                   child: OfferCard(
                                     title: offer.title,
                                     description: offer.description,
@@ -243,7 +250,7 @@ class OfferCard extends StatelessWidget {
               Image.asset(
                 imagePath,
                 width: double.infinity,
-                height: 150, // Adjust height as needed
+                height: 150,
                 fit: BoxFit.contain,
               ),
               rating == null ? const SizedBox() : RatingDisplay(rating: rating!)

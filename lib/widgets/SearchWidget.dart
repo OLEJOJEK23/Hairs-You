@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchWidget extends StatefulWidget {
   final List<ShortSalon> establishments;
-  final Function(List<ShortSalon>) onSearch;
+  final Function(String?) onSearch; // Изменено на String?
   final String hintText;
 
   const SearchWidget({
@@ -82,8 +82,10 @@ class _SearchWidgetState extends State<SearchWidget> {
             viewBackgroundColor: theme.scaffoldBackgroundColor,
             searchController: _searchController,
             viewOnSubmitted: (String value) {
-              (value);
-              widget.onSearch(_filterEstablishments(value));
+              final filtered = _filterEstablishments(value);
+              final selectedId = filtered.isNotEmpty ? filtered.first.id : null;
+              widget.onSearch(selectedId);
+              _addToSearchHistory(value);
               _searchController.closeView(value);
             },
             builder: (BuildContext context, SearchController controller) {
@@ -137,9 +139,12 @@ class _SearchWidgetState extends State<SearchWidget> {
                       leading: const Icon(Icons.history),
                       title: Text(historyItem),
                       onTap: () {
-                        controller.closeView(historyItem);
                         _searchController.text = historyItem;
-                        widget.onSearch(_filterEstablishments(historyItem));
+                        final filtered = _filterEstablishments(historyItem);
+                        final selectedId =
+                            filtered.isNotEmpty ? filtered.first.id : null;
+                        controller.closeView(historyItem);
+                        widget.onSearch(selectedId);
                       },
                     ),
                 ] else ...[
@@ -150,7 +155,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                       onTap: () {
                         controller.closeView(establishment.name);
                         _addToSearchHistory(establishment.name);
-                        widget.onSearch([establishment]);
+                        widget.onSearch(establishment.id); // Возвращаем id
                       },
                     ),
                 ],
