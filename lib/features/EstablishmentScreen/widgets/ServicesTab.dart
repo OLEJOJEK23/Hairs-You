@@ -47,7 +47,8 @@ class ServicesTab extends StatelessWidget {
                           children: [
                             Text(
                               service.service_name,
-                              style: theme.textTheme.titleMedium?.copyWith(
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: theme.colorScheme.onSurface,
                               ),

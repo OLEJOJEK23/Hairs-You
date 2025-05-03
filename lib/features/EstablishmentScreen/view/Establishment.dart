@@ -34,6 +34,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   bool _isReviewsLoading = false;
   bool _isSalonLoading = false;
   bool _isServicesLoading = false;
+  bool favorite = false;
   String? _reviewsError;
   String? _salonError;
   String? _servicesError;
@@ -152,6 +153,12 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     }
   }
 
+  void _toggleFavorite(int index) {
+    setState(() {
+      favorite = !favorite;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -169,6 +176,17 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
                   title: Text(_salon.name),
                   centerTitle: true,
                   pinned: true,
+                  actions: [
+                    IconButton(
+                      icon: Icon(
+                        favorite ? Icons.favorite : Icons.favorite_border,
+                        color: favorite
+                            ? Colors.redAccent
+                            : theme.colorScheme.onSurfaceVariant,
+                      ),
+                      onPressed: () => _toggleFavorite(1),
+                    ),
+                  ],
                   surfaceTintColor: Colors.transparent,
                   backgroundColor: theme.scaffoldBackgroundColor,
                 ),

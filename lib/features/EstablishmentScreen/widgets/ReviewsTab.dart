@@ -38,7 +38,11 @@ class ReviewsTab extends StatelessWidget {
                       children: [
                         Text(
                           review.display_name,
-                          style: theme.textTheme.titleMedium,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.onSurface,
+                          ),
                         ),
                         RatingDisplay(rating: review.rating),
                       ],
