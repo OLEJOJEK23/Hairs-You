@@ -7,6 +7,7 @@ class ShortSalon {
     required this.photoURL,
     required this.city_name,
     required this.rating,
+    required this.typeID,
   });
 
   final String id;
@@ -16,4 +17,5 @@ class ShortSalon {
   final String photoURL;
   final String city_name;
   final double rating;
+  final int typeID;
 }

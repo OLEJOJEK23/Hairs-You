@@ -14,6 +14,7 @@ class ShortSalonsDTO {
     required this.photo_url,
     required this.rating,
     required this.city_name,
+    required this.establishment_type_id,
   });
 
   final String id;
@@ -23,6 +24,7 @@ class ShortSalonsDTO {
   final String photo_url;
   final double rating;
   final String city_name;
+  final int establishment_type_id;
 
   factory ShortSalonsDTO.fromJson(Map<String, dynamic> json) =>
       _$ShortSalonsDTOFromJson(json);
@@ -30,11 +32,13 @@ class ShortSalonsDTO {
   Map<String, dynamic> toJson() => _$ShortSalonsDTOToJson(this);
 
   ShortSalon toDomain() => ShortSalon(
-      id: id,
-      name: name,
-      description: description,
-      address: street_address,
-      photoURL: photo_url,
-      rating: rating,
-      city_name: city_name);
+        id: id,
+        name: name,
+        description: description,
+        address: street_address,
+        photoURL: photo_url,
+        rating: rating,
+        city_name: city_name,
+        typeID: establishment_type_id,
+      );
 }

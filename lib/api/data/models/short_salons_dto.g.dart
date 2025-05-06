@@ -14,6 +14,7 @@ ShortSalonsDTO _$ShortSalonsDTOFromJson(Map<String, dynamic> json) =>
       street_address: json['street_address'] as String,
       photo_url: json['photo_url'] as String,
       rating: (json['rating'] as num).toDouble(),
+      establishment_type_id: (json['establishment_type_id'] as num).toInt(),
       city_name: json['city_name'] as String,
     );
 
@@ -26,4 +27,5 @@ Map<String, dynamic> _$ShortSalonsDTOToJson(ShortSalonsDTO instance) =>
       'photo_url': instance.photo_url,
       'rating': instance.rating,
       'city_name': instance.city_name,
+      'establishment_type_id': instance.establishment_type_id,
     };

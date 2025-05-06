@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchWidget extends StatefulWidget {
   final List<ShortSalon> establishments;
-  final Function(String?) onSearch; // Изменено на String?
+  final Function(String?) onSearch;
   final String hintText;
 
   const SearchWidget({
