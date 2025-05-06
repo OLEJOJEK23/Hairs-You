@@ -163,7 +163,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body: _isSalonLoading
+      body: _isSalonLoading || _isServicesLoading || _isReviewsLoading
           ? Center(
               child: CircularProgressIndicator(
                 color: theme.primaryColor,
@@ -258,21 +258,13 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
                     description: _salon.description,
                   ),
                   // Services Tab
-                  _isServicesLoading
-                      ? CircularProgressIndicator(
-                          color: theme.primaryColor,
-                        )
-                      : ServicesTab(
-                          services: _services,
-                        ),
+                  ServicesTab(
+                    services: _services,
+                  ),
                   // Reviews Tab
-                  _isReviewsLoading
-                      ? CircularProgressIndicator(
-                          color: theme.primaryColor,
-                        )
-                      : ReviewsTab(
-                          reviews: _reviews,
-                        ),
+                  ReviewsTab(
+                    reviews: _reviews,
+                  ),
                 ],
               ),
             ),

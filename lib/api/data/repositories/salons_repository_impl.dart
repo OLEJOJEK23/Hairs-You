@@ -4,8 +4,10 @@ import 'package:hairs_and_you/api/core/error/Failure.dart';
 import 'package:hairs_and_you/api/data/datasources/local/cache_manager.dart';
 import 'package:hairs_and_you/api/data/datasources/remote/api_service.dart';
 import 'package:hairs_and_you/api/data/models/salon_dto.dart';
+import 'package:hairs_and_you/api/data/models/salons_types_dto.dart';
 import 'package:hairs_and_you/api/data/models/special_offer_dto.dart';
 import 'package:hairs_and_you/api/domain/entities/salon.dart';
+import 'package:hairs_and_you/api/domain/entities/salonsTypes.dart';
 import 'package:hairs_and_you/api/domain/entities/shortSalon.dart';
 import 'package:hairs_and_you/api/domain/entities/special_offer.dart';
 
@@ -90,6 +92,31 @@ class SalonsRepositoryImpl implements SalonsRepository {
       );
 
       return Right(salons);
+    } on DioException catch (e) {
+      return Left(ServerFailure("API error: ${e.message}"));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<SalonsTypes>>> getSalonsTypes() async {
+    try {
+      final cachedData = await cacheManager.getData('salons_types');
+      if (cachedData != null) {
+        return Right((cachedData as List)
+            .map((e) => SalonsTypesDto.fromJson(e).toDomain())
+            .toList());
+      }
+      final response = await apiService.getSalonsTypes();
+      final salonsTypes = response.map((dto) => dto.toDomain()).toList();
+
+      await cacheManager.saveData(
+        "salons_types",
+        response.map((e) => e.toJson()).toList(),
+      );
+
+      return Right(salonsTypes);
     } on DioException catch (e) {
       return Left(ServerFailure("API error: ${e.message}"));
     } catch (e) {

@@ -8,6 +8,7 @@ import 'package:hairs_and_you/api/domain/repositories/salons_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/services_repository.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_salon.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_salons_types.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_special_offers.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
@@ -102,6 +103,8 @@ Future<void> main() async {
   GetIt.I
       .registerLazySingleton(() => GetServices(GetIt.I<ServicesRepository>()));
   GetIt.I.registerLazySingleton(() => GetSalons(GetIt.I<SalonsRepository>()));
+  GetIt.I
+      .registerLazySingleton(() => GetSalonsTypes(GetIt.I<SalonsRepository>()));
 
   runApp(const HairsAndYouApp());
 }
