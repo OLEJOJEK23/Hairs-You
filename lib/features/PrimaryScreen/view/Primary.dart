@@ -6,8 +6,8 @@ import 'package:hairs_and_you/api/domain/entities/special_offer.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_special_offers.dart';
 import 'package:hairs_and_you/features/PrimaryScreen/widgets/ActiveRecordCard.dart';
-import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 
+import '../../../widgets/OfferCard.dart';
 import '../../../widgets/SearchWidget.dart';
 
 @RoutePage()
@@ -139,7 +139,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                               color: theme.primaryColor),
                         )
                       : SizedBox(
-                          height: 250,
+                          height: 310,
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
@@ -147,8 +147,8 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                             itemBuilder: (context, index) {
                               final offer = _bestOffers[index];
                               return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0,
+                                padding: const EdgeInsets.only(
+                                  left: 16,
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
@@ -183,7 +183,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                           ),
                         )
                       : SizedBox(
-                          height: 250,
+                          height: 310,
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
@@ -191,8 +191,9 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                             itemBuilder: (context, index) {
                               final offer = _specialOffers[index];
                               return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                ),
                                 child: GestureDetector(
                                   onTap: () {
                                     _onOfferTapped(context, offer.salonID);
@@ -219,71 +220,5 @@ class _PrimaryScreenState extends State<PrimaryScreen>
 
   void _onOfferTapped(BuildContext context, String id) {
     context.router.pushNamed("/establishment/$id");
-  }
-}
-
-class OfferCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final String imagePath;
-  final String address;
-  final double? rating;
-
-  const OfferCard({
-    super.key,
-    required this.title,
-    required this.address,
-    required this.description,
-    required this.imagePath,
-    this.rating,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 250,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Image.asset(
-                imagePath,
-                width: double.infinity,
-                height: 150,
-                fit: BoxFit.contain,
-              ),
-              rating == null ? const SizedBox() : RatingDisplay(rating: rating!)
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  address,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 12),
-                ),
-                Text(
-                  description,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
