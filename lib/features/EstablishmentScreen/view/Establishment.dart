@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/review.dart';
 import 'package:hairs_and_you/api/domain/entities/salon.dart';
@@ -13,6 +14,8 @@ import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ServicesTab.d
 import 'package:hairs_and_you/widgets/ImageScroll.dart';
 import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 import 'package:intl/intl.dart';
+
+import '../../../blocks/booking_block/booking_bloc.dart';
 
 @RoutePage()
 class EstablishmentScreen extends StatefulWidget {
@@ -128,6 +131,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
       }),
       (salon) => setState(() {
         _salon = salon[0];
+        context.read<BookingBloc>().add(SelectSalon(widget.id, _salon));
         _isSalonLoading = false;
       }),
     );

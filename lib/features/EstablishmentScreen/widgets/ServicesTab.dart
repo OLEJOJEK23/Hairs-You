@@ -1,13 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hairs_and_you/api/domain/entities/service.dart';
+
+import '../../../blocks/booking_block/booking_bloc.dart';
 
 class ServicesTab extends StatelessWidget {
   const ServicesTab({super.key, required this.services});
 
   final List<Services> services;
 
-  void _onSelectService(BuildContext context, String serviceName) {
+  void _onSelectService(BuildContext context, Services service) {
+    context.read<BookingBloc>().add(SelectService(service));
     context.router.pushNamed('/booking');
   }
 
@@ -62,7 +66,7 @@ class ServicesTab extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () => _onSelectService(context, service.id),
+                        onPressed: () => _onSelectService(context, service),
                         style: theme.elevatedButtonTheme.style,
                         child: Text(
                           "${service.price} ₽",

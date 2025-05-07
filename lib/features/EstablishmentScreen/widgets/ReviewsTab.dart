@@ -36,12 +36,14 @@ class ReviewsTab extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          review.display_name,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.onSurface,
+                        Expanded(
+                          child: Text(
+                            review.display_name,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
                           ),
                         ),
                         RatingDisplay(rating: review.rating),

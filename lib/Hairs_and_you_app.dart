@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hairs_and_you/blocks/booking_block/booking_bloc.dart';
 import 'package:hairs_and_you/blocks/theme_block/theme_cubit.dart';
 import 'package:hairs_and_you/repositories/settings_repository/settings.dart';
 import 'package:hairs_and_you/router/router.dart';
@@ -40,6 +41,9 @@ class _HairsAndYouAppState extends State<HairsAndYouApp> {
           create: (context) => ThemeCubit(
             settingsRepository: settingsRepository,
           ),
+        ),
+        BlocProvider(
+          create: (context) => BookingBloc(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

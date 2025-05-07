@@ -81,6 +81,10 @@ class _PrimaryScreenState extends State<PrimaryScreen>
     }
   }
 
+  void _onOfferTapped(BuildContext context, String id) {
+    context.router.pushNamed("/establishment/$id");
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -216,9 +220,5 @@ class _PrimaryScreenState extends State<PrimaryScreen>
         ],
       ),
     );
-  }
-
-  void _onOfferTapped(BuildContext context, String id) {
-    context.router.pushNamed("/establishment/$id");
   }
 }
