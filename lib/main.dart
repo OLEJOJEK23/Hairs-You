@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hairs_and_you/api/data/repositories/masters_repository_impl.dart';
 import 'package:hairs_and_you/api/data/repositories/reviews_repository_impl.dart';
 import 'package:hairs_and_you/api/data/repositories/services_repository_impl.dart';
+import 'package:hairs_and_you/api/domain/repositories/masters_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/reviews_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/salons_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/services_repository.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_masters.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_salon.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_salons_types.dart';
@@ -89,6 +92,12 @@ Future<void> main() async {
       cacheManager: GetIt.I<CacheManager>(),
     ),
   );
+  GetIt.I.registerLazySingleton<MastersRepository>(
+    () => MastersRepositoryImpl(
+      apiService: GetIt.I<ApiService>(instanceName: 'backend'),
+      cacheManager: GetIt.I<CacheManager>(),
+    ),
+  );
 
   // Регистрация use cases
   GetIt.I
@@ -105,6 +114,7 @@ Future<void> main() async {
   GetIt.I.registerLazySingleton(() => GetSalons(GetIt.I<SalonsRepository>()));
   GetIt.I
       .registerLazySingleton(() => GetSalonsTypes(GetIt.I<SalonsRepository>()));
+  GetIt.I.registerLazySingleton(() => GetMasters(GetIt.I<MastersRepository>()));
 
   runApp(const HairsAndYouApp());
 }

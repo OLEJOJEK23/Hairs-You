@@ -7,4 +7,5 @@ class Endpoints {
   static const String getServices = '/services';
   static const String getSalons = '/salons';
   static const String getSalonsTypes = '/salons_types';
+  static const String getMasters = '/masters';
 }

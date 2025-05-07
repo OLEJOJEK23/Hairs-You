@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hairs_and_you/api/data/models/master_dto.dart';
 import 'package:hairs_and_you/api/data/models/review_dto.dart';
 import 'package:hairs_and_you/api/data/models/salon_dto.dart';
 import 'package:hairs_and_you/api/data/models/salons_types_dto.dart';
@@ -60,4 +61,10 @@ abstract class ApiService {
 
   @GET(Endpoints.getSalonsTypes)
   Future<List<SalonsTypesDto>> getSalonsTypes();
+
+  @GET(Endpoints.getMasters)
+  Future<List<MasterDto>> getMasters({
+    @Query('salon_id') String? salonID,
+    @Query('user_id') String? userID,
+  });
 }
