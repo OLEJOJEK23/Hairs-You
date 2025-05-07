@@ -66,6 +66,16 @@ class _BookingScreenState extends State<BookingScreen> {
     }
   }
 
+  DateTime _combineDateAndTime(DateTime date, TimeOfDay time) {
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -161,9 +171,8 @@ class _BookingScreenState extends State<BookingScreen> {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      context
-                          .read<BookingBloc>()
-                          .add(SelectDateTime(_selectedDate, _selectedTime));
+                      context.read<BookingBloc>().add(SelectDateTime(
+                          _combineDateAndTime(_selectedDate, _selectedTime)));
                       context.router.pushNamed('/masters');
                     },
                     style: theme.elevatedButtonTheme.style?.copyWith(

@@ -10,6 +10,11 @@ class MastersListScreen extends StatefulWidget {
 }
 
 class _MastersListScreenState extends State<MastersListScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final List<Map<String, dynamic>> masters = [
     {
       'fullName': 'Анна Иванова',
@@ -72,7 +77,7 @@ class _MastersListScreenState extends State<MastersListScreen> {
           gradient: LinearGradient(
             colors: [
               theme.colorScheme.surface,
-              theme.colorScheme.surfaceContainerLow.withOpacity(0.8),
+              theme.colorScheme.surfaceContainerLow.withValues(alpha: 0.8),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,

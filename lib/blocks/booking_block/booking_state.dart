@@ -4,16 +4,14 @@ class BookingState extends Equatable {
   final String? salonId;
   final Salon? salon;
   final Services? selectedService;
-  final DateTime? selectedDate;
-  final TimeOfDay? selectedTime;
+  final DateTime? selectedDateTime;
   final String? masterId;
 
   const BookingState({
     this.salonId,
     this.salon,
     this.selectedService,
-    this.selectedDate,
-    this.selectedTime,
+    this.selectedDateTime,
     this.masterId,
   });
 
@@ -22,8 +20,7 @@ class BookingState extends Equatable {
         salonId,
         salon,
         selectedService,
-        selectedDate,
-        selectedTime,
+        selectedDateTime,
         masterId,
       ];
 }

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:hairs_and_you/api/domain/entities/salon.dart';
 import 'package:hairs_and_you/api/domain/entities/service.dart';
 
@@ -8,7 +7,7 @@ part 'booking_event.dart';
 part 'booking_state.dart';
 
 class BookingBloc extends Bloc<BookingEvent, BookingState> {
-  BookingBloc() : super(BookingInitial()) {
+  BookingBloc() : super(const BookingInitial()) {
     on<SelectSalon>(_onSelectSalon);
     on<SelectService>(_onSelectService);
     on<SelectDateTime>(_onSelectDateTime);
@@ -21,8 +20,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       salonId: event.salonId,
       salon: event.salon,
       selectedService: state.selectedService,
-      selectedDate: state.selectedDate,
-      selectedTime: state.selectedTime,
+      selectedDateTime: state.selectedDateTime,
       masterId: state.masterId,
     ));
   }
@@ -32,8 +30,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       salonId: state.salonId,
       salon: state.salon,
       selectedService: event.service,
-      selectedDate: state.selectedDate,
-      selectedTime: state.selectedTime,
+      selectedDateTime: state.selectedDateTime,
       masterId: state.masterId,
     ));
   }
@@ -43,8 +40,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       salonId: state.salonId,
       salon: state.salon,
       selectedService: state.selectedService,
-      selectedDate: event.date,
-      selectedTime: event.time,
+      selectedDateTime: event.dateTime,
       masterId: state.masterId,
     ));
   }
@@ -54,13 +50,12 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
       salonId: state.salonId,
       salon: state.salon,
       selectedService: state.selectedService,
-      selectedDate: state.selectedDate,
-      selectedTime: state.selectedTime,
+      selectedDateTime: state.selectedDateTime,
       masterId: event.masterId,
     ));
   }
 
   void _onClearBooking(ClearBooking event, Emitter<BookingState> emit) {
-    emit(BookingInitial());
+    emit(const BookingInitial());
   }
 }

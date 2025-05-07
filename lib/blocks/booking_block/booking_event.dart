@@ -27,13 +27,12 @@ class SelectService extends BookingEvent {
 }
 
 class SelectDateTime extends BookingEvent {
-  final DateTime date;
-  final TimeOfDay time;
+  final DateTime dateTime;
 
-  const SelectDateTime(this.date, this.time);
+  const SelectDateTime(this.dateTime);
 
   @override
-  List<Object?> get props => [date, time];
+  List<Object?> get props => [dateTime];
 }
 
 class SelectMaster extends BookingEvent {
