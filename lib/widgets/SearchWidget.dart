@@ -151,7 +151,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                   for (final establishment in filteredEstablishments)
                     ListTile(
                       title: Text(establishment.name),
-                      subtitle: Text(establishment.address),
+                      subtitle: Text(
+                          "${establishment.city_name}, ${establishment.address}"),
                       onTap: () {
                         controller.closeView(establishment.name);
                         _addToSearchHistory(establishment.name);

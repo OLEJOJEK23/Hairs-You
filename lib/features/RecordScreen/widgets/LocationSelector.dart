@@ -4,7 +4,9 @@ import '../../../theme/theme.dart';
 import 'LocationSelectorBottomSheet.dart';
 
 class LocationSelector extends StatefulWidget {
-  const LocationSelector({super.key});
+  const LocationSelector({super.key, this.onLocationSelected});
+
+  final ValueChanged<String?>? onLocationSelected;
 
   @override
   State<LocationSelector> createState() => _LocationSelectorState();
@@ -28,6 +30,8 @@ class _LocationSelectorState extends State<LocationSelector> {
               onConfirm: (String address) {
                 setState(() {
                   _text = address;
+                  widget.onLocationSelected
+                      ?.call(address.isEmpty ? null : address);
                 });
                 Navigator.pop(context);
               },
@@ -66,6 +70,7 @@ class _LocationSelectorState extends State<LocationSelector> {
                 onTap: () {
                   setState(() {
                     _text = ""; // Сбрасываем текст
+                    widget.onLocationSelected?.call(null);
                   });
                 },
                 child: const Icon(

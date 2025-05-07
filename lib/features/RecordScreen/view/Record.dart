@@ -31,6 +31,8 @@ class _RecordScreenState extends State<RecordScreen> {
   String? _salonsError;
 
   int _selectedCategory = 0;
+  String? _selectedLocation;
+  DateTime? _selectedDate;
 
   @override
   void initState() {
@@ -73,7 +75,7 @@ class _RecordScreenState extends State<RecordScreen> {
       }),
       (salons) => setState(() {
         _salons = salons;
-        _filterSalons();
+        _filteredSalons = _salons;
         _isSalonsLoading = false;
       }),
     );
@@ -83,14 +85,75 @@ class _RecordScreenState extends State<RecordScreen> {
   }
 
   void _filterSalons() {
+    final addressComponents = _parseGoogleAddress(_selectedLocation);
+    final streetFilter = addressComponents['street'];
+    final cityFilter = addressComponents['city'];
     setState(() {
       _filteredSalons = _salons.where((salon) {
         // Фильтр по категории
         bool categoryMatch =
             _selectedCategory == 0 || salon.typeID == _selectedCategory;
-        return categoryMatch;
+        // Фильтр по адресу
+        bool locationMatch = _selectedLocation == null ||
+            // Проверка полного адреса (ручной ввод или частичное совпадение)
+            (salon.city_name
+                    .toLowerCase()
+                    .contains(_selectedLocation!.toLowerCase()) ||
+                salon.address
+                    .toLowerCase()
+                    .contains(_selectedLocation!.toLowerCase())) ||
+            // Проверка города
+            (cityFilter != null &&
+                salon.city_name
+                    .toLowerCase()
+                    .contains(cityFilter.toLowerCase())) ||
+            // Проверка улицы и дома
+            (streetFilter != null &&
+                salon.address
+                    .toLowerCase()
+                    .contains(streetFilter.toLowerCase()));
+        return categoryMatch && locationMatch;
       }).toList();
     });
+  }
+
+  // Парсим адрес Google Places на улицу (с номером дома) и город
+  Map<String, String?> _parseGoogleAddress(String? address) {
+    if (address == null || address.isEmpty) {
+      return {
+        'street': null,
+        'house': null,
+        'city': null,
+        'region': null,
+        'country': null
+      };
+    }
+    final parts = address.split(',').map((part) => part.trim()).toList();
+    String? street;
+    String? house;
+    String? city;
+
+    if (parts.length >= 4) {
+      street = parts[0];
+
+      final secondPart = parts[1];
+      if (RegExp(r'^(д\.\s*\d+|\d+)$').hasMatch(secondPart)) {
+        house = secondPart;
+        city = parts[2];
+      } else {
+        city = secondPart;
+      }
+    } else if (parts.length == 3) {
+      street = parts[0];
+      city = parts[1];
+    } else if (parts.length == 2) {
+      street = parts[0];
+      city = parts[1];
+    } else {
+      city = address;
+    }
+
+    return {'street': street, 'house': house, 'city': city};
   }
 
   void _onOfferTapped(BuildContext context, String id) {
@@ -130,12 +193,19 @@ class _RecordScreenState extends State<RecordScreen> {
                           const EdgeInsets.symmetric(horizontal: 16.0).copyWith(
                         bottom: 10,
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             flex: 1,
-                            child: LocationSelector(),
+                            child: LocationSelector(
+                              onLocationSelected: (String? location) {
+                                setState(() {
+                                  _selectedLocation = location;
+                                  _filterSalons();
+                                });
+                              },
+                            ),
                           ),
                           Expanded(
                             flex: 1,
