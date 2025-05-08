@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/master.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_masters.dart';
+import 'package:hairs_and_you/features/MastersListScreen/widgets/masterCard.dart';
 
 import '../../../blocks/booking_block/booking_bloc.dart';
 
@@ -99,100 +100,11 @@ class _MastersListScreenState extends State<MastersListScreen> {
                         horizontal: 16.0,
                         vertical: 5.0,
                       ),
-                      child: Card(
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        color: theme.colorScheme.surfaceContainer,
-                        clipBehavior: Clip.antiAlias,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 180, // Высота фото
-                              width: double.infinity,
-                              child: Image.asset(
-                                "assets/images/google_logo.png",
-                                fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Container(
-                                  color: theme.colorScheme.surfaceContainerHigh,
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.image_not_supported,
-                                      color: Colors.grey,
-                                      size: 50,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // Информация о мастере
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          master.fullName,
-                                          style: theme.textTheme.titleLarge!
-                                              .copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            color: theme.colorScheme.onSurface,
-                                          ),
-                                        ),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          master.isFavorite
-                                              ? Icons.favorite
-                                              : Icons.favorite_border,
-                                          color: master.isFavorite
-                                              ? Colors.redAccent
-                                              : theme
-                                                  .colorScheme.onSurfaceVariant,
-                                        ),
-                                        onPressed: () => _toggleFavorite(index),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    'Опыт: ${master.experience}',
-                                    style: theme.textTheme.bodyMedium,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    master.description == null
-                                        ? "описания нет"
-                                        : master.description!,
-                                    style: theme.textTheme.bodyMedium,
-                                  ),
-                                  const SizedBox(height: 16),
-                                  // Кнопка "Выбрать"
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: ElevatedButton(
-                                      onPressed: () =>
-                                          _selectMaster(master.fullName),
-                                      style: theme.elevatedButtonTheme.style,
-                                      child: Text(
-                                        'Подробнее',
-                                        style: theme.textTheme.bodyMedium,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      child: MasterCard(
+                        master: master,
+                        index: index,
+                        onSelectMaster: () => _selectMaster(master.fullName),
+                        onToggleFavorite: _toggleFavorite,
                       ),
                     );
                   },

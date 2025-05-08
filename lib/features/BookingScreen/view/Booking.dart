@@ -17,12 +17,13 @@ class BookingScreen extends StatefulWidget {
 class _BookingScreenState extends State<BookingScreen> {
   DateTime _selectedDate = DateTime.now();
   DateTime _focusedDate = DateTime.now();
-  TimeOfDay _selectedTime = TimeOfDay.now();
+  TimeOfDay? _selectedTime;
   final ScrollController _timeScrollController = ScrollController();
   static const int timeSlotIntervalMinutes = 20;
 
   @override
   void initState() {
+    _selectNearestTimeSlot();
     super.initState();
   }
 
@@ -76,6 +77,68 @@ class _BookingScreenState extends State<BookingScreen> {
     );
   }
 
+  void _selectNearestTimeSlot() {
+    final state = context.read<BookingBloc>().state;
+    final timeSlots =
+        _generateTimeSlots(state.salon?.startTime, state.salon?.endTime);
+
+    if (timeSlots.isEmpty) {
+      setState(() {
+        _selectedTime = null;
+      });
+      return;
+    }
+
+    final now = TimeOfDay.now();
+    final isToday = _selectedDate.year == DateTime.now().year &&
+        _selectedDate.month == DateTime.now().month &&
+        _selectedDate.day == DateTime.now().day;
+
+    TimeOfDay? nearestSlot;
+    if (isToday) {
+      int nowMinutes = now.hour * 60 + now.minute;
+      for (var slot in timeSlots) {
+        int slotMinutes = slot.hour * 60 + slot.minute;
+        if (slotMinutes >= nowMinutes) {
+          nearestSlot = slot;
+
+          break;
+        }
+      }
+    } else {
+      nearestSlot = timeSlots.first;
+    }
+
+    setState(() {
+      _selectedTime = nearestSlot;
+    });
+  }
+
+  void _scrollToSelectedTimeSlot(List<TimeOfDay> timeSlots) {
+    if (_selectedTime == null || timeSlots.isEmpty) {
+      return;
+    }
+
+    final index = timeSlots.indexOf(_selectedTime!);
+    if (index == -1) {
+      return;
+    }
+
+    // Приблизительная ширина элемента: padding (16*2) + margin (6*2) + текст (~40)
+    const double estimatedItemWidth = 32 + 12 + 40; // 84 пикселя
+    final offset = index * estimatedItemWidth;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_timeScrollController.hasClients) {
+        _timeScrollController.animateTo(
+          offset,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      } else {}
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -105,6 +168,8 @@ class _BookingScreenState extends State<BookingScreen> {
                         _focusedDate = focusedDay;
                       },
                     );
+                    _selectNearestTimeSlot();
+                    _scrollToSelectedTimeSlot(timeSlots);
                   },
                 ),
                 const SizedBox(height: 24),
@@ -131,6 +196,7 @@ class _BookingScreenState extends State<BookingScreen> {
                           setState(() {
                             _selectedTime = timeSlot;
                           });
+                          _scrollToSelectedTimeSlot(timeSlots);
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 6),
@@ -170,11 +236,17 @@ class _BookingScreenState extends State<BookingScreen> {
                 // Confirm Button
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
-                      context.read<BookingBloc>().add(SelectDateTime(
-                          _combineDateAndTime(_selectedDate, _selectedTime)));
-                      context.router.pushNamed('/masters');
-                    },
+                    onPressed: _selectedTime == null
+                        ? null
+                        : () {
+                            context.read<BookingBloc>().add(
+                                  SelectDateTime(
+                                    _combineDateAndTime(
+                                        _selectedDate, _selectedTime!),
+                                  ),
+                                );
+                            context.router.pushNamed('/masters');
+                          },
                     style: theme.elevatedButtonTheme.style?.copyWith(
                       padding: const WidgetStatePropertyAll(
                         EdgeInsets.symmetric(
