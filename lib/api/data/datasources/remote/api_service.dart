@@ -5,6 +5,7 @@ import 'package:hairs_and_you/api/data/models/salon_dto.dart';
 import 'package:hairs_and_you/api/data/models/salons_types_dto.dart';
 import 'package:hairs_and_you/api/data/models/services_dto.dart';
 import 'package:hairs_and_you/api/data/models/special_offer_dto.dart';
+import 'package:hairs_and_you/api/data/models/user_dto.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../../core/network/network_config.dart';
@@ -66,5 +67,10 @@ abstract class ApiService {
   Future<List<MasterDto>> getMasters({
     @Query('salon_id') String? salonID,
     @Query('user_id') String? userID,
+  });
+
+  @GET(Endpoints.getUsers)
+  Future<List<UserDto>> getUsers({
+    @Query('user_id') required String userID,
   });
 }

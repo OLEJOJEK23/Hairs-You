@@ -4,16 +4,19 @@ import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/data/repositories/masters_repository_impl.dart';
 import 'package:hairs_and_you/api/data/repositories/reviews_repository_impl.dart';
 import 'package:hairs_and_you/api/data/repositories/services_repository_impl.dart';
+import 'package:hairs_and_you/api/data/repositories/users_repository_impl.dart';
 import 'package:hairs_and_you/api/domain/repositories/masters_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/reviews_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/salons_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/services_repository.dart';
+import 'package:hairs_and_you/api/domain/repositories/users_repository.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_masters.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_salon.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_salons_types.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_special_offers.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_users.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/controllers/Link_account_controller.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -98,6 +101,12 @@ Future<void> main() async {
       cacheManager: GetIt.I<CacheManager>(),
     ),
   );
+  GetIt.I.registerLazySingleton<UsersRepository>(
+    () => UsersRepositoryImpl(
+      apiService: GetIt.I<ApiService>(instanceName: 'backend'),
+      cacheManager: GetIt.I<CacheManager>(),
+    ),
+  );
 
   // Регистрация use cases
   GetIt.I
@@ -115,6 +124,7 @@ Future<void> main() async {
   GetIt.I
       .registerLazySingleton(() => GetSalonsTypes(GetIt.I<SalonsRepository>()));
   GetIt.I.registerLazySingleton(() => GetMasters(GetIt.I<MastersRepository>()));
+  GetIt.I.registerLazySingleton(() => GetUsers(GetIt.I<UsersRepository>()));
 
   runApp(const HairsAndYouApp());
 }

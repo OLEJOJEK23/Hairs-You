@@ -8,4 +8,5 @@ class Endpoints {
   static const String getSalons = '/salons';
   static const String getSalonsTypes = '/salons_types';
   static const String getMasters = '/masters';
+  static const String getUsers = '/users';
 }

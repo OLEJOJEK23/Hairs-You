@@ -162,7 +162,7 @@ class LinkPhoneNumberRoute extends PageRouteInfo<void> {
           initialChildren: children,
         );
 
-  static const String name = 'LinkPhoneNumberRoute';
+  static const String name = 'LinkPhoneNumber';
 
   static PageInfo page = PageInfo(
     name,
