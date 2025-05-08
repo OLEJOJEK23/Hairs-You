@@ -66,6 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         value ? Brightness.dark : Brightness.light);
                   });
                 },
+                activeColor: Colors.white,
                 activeTrackColor: Colors.green,
               ),
             ),
@@ -81,6 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _isHistorySavingEnabled = value;
                   });
                 },
+                activeColor: Colors.white,
                 activeTrackColor: Colors.green,
               ),
             ),

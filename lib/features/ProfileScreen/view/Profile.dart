@@ -179,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                       ),
                       ProfileMenuWidget(
-                        title: "История генераций",
+                        title: "История посещений",
                         icon: Icons.history,
                         onPress: () {
                           context.router.pushNamed("/history");
