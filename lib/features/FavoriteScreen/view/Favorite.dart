@@ -1,5 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hairs_and_you/api/domain/entities/favorites.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_favorites.dart';
+import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 
 @RoutePage()
 class FavoriteScreen extends StatefulWidget {
@@ -10,37 +15,39 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  final List<Map<String, dynamic>> _favorites = [
-    {
-      'name': 'У Марии',
-      'address': 'Санкт-Петербург, Ленинский проспект 147',
-      'rating': 4.8,
-      'image': 'assets/images/google_logo.png',
-    },
-    {
-      'name': 'Стрижка',
-      'address': 'Санкт-Петербург, Ленинский проспект 148',
-      'rating': 4.5,
-      'image': 'assets/images/google_logo.png',
-    },
-    {
-      'name': 'Барбершоп',
-      'address': 'Санкт-Петербург, Ленинский проспект 149',
-      'rating': 4.9,
-      'image': 'assets/images/google_logo.png',
-    },
-    {
-      'name': 'Подстирижися',
-      'address': 'Санкт-Петербург, Ленинский проспект 1410',
-      'rating': 4.2,
-      'image': 'assets/images/google_logo.png',
-    },
-  ];
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GetFavorites _getFavorites = GetIt.I<GetFavorites>();
+  bool _isFavoritesLoading = false;
+  String? _favoritesError;
+  Favorites? _favorites;
 
-  void _removeFromFavorites(int index) {
+  @override
+  void initState() {
+    super.initState();
+    _fetchFavorites();
+  }
+
+  void _removeFromFavorites(int index) {}
+
+  Future<void> _fetchFavorites() async {
     setState(() {
-      _favorites.removeAt(index);
+      _isFavoritesLoading = true;
+      _favoritesError = null;
     });
+    final result = await _getFavorites(userID: _auth.currentUser!.uid);
+    result.fold(
+      (failure) => setState(() {
+        _favoritesError = failure.message;
+        _isFavoritesLoading = true;
+      }),
+      (favorites) => setState(() {
+        _favorites = favorites;
+        _isFavoritesLoading = false;
+      }),
+    );
+    if (_favoritesError != null) {
+      print(_favoritesError);
+    }
   }
 
   @override
@@ -50,37 +57,97 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-        title:  Text(
+        title: Text(
           "Избранное",
           style: theme.textTheme.titleLarge,
         ),
         centerTitle: true,
       ),
-      body:  Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: _favorites.isEmpty
+      body: _isFavoritesLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: theme.primaryColor,
+              ),
+            )
+          : _favorites == null ||
+                  (_favorites!.favoriteMasters.isEmpty &&
+                      _favorites!.favoriteSalons.isEmpty)
               ? Center(
-            child: Text(
-              "Нет избранных заведений",
-              style: theme.textTheme.bodyMedium,
-            ),
-          )
-              : ListView.separated(
-            itemCount: _favorites.length,
-            separatorBuilder: (context, index) =>
-            const SizedBox(height: 16),
-            itemBuilder: (context, index) {
-              final favorite = _favorites[index];
-              return FavoriteCard(
-                name: favorite['name'],
-                address: favorite['address'],
-                rating: favorite['rating'],
-                imagePath: favorite['image'],
-                onRemove: () => _removeFromFavorites(index),
-              );
-            },
-          ),
-        ),
+                  child: Text(
+                    "Нет избранных заведений",
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                )
+              : CustomScrollView(
+                  slivers: [
+// Мастера
+                    if (_favorites!.favoriteMasters.isNotEmpty) ...[
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                          child: Text(
+                            "Избранные мастера",
+                            style: theme.textTheme.titleMedium,
+                          ),
+                        ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final favorite = _favorites!.favoriteMasters[index];
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: FavoriteCard(
+                                name: favorite.name,
+                                address: favorite.description,
+                                experience: favorite.experience,
+                                imagePath: "assets/images/google_logo.png",
+                                onRemove: () => _removeFromFavorites(index),
+                              ),
+                            );
+                          },
+                          childCount: _favorites!.favoriteMasters.length,
+                        ),
+                      ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 16),
+                      ),
+                    ],
+                    // Салоны
+                    if (_favorites!.favoriteSalons.isNotEmpty) ...[
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                          child: Text(
+                            "Избранные салоны",
+                            style: theme.textTheme.titleMedium,
+                          ),
+                        ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final favorite = _favorites!.favoriteSalons[index];
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: FavoriteCard(
+                                name: favorite.name,
+                                address:
+                                    "${favorite.cityName}, ${favorite.streetAddress}",
+                                rating: favorite.rating,
+                                imagePath: "assets/images/google_logo.png",
+                                onRemove: () => _removeFromFavorites(index),
+                              ),
+                            );
+                          },
+                          childCount: _favorites!.favoriteSalons.length,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
     );
   }
 }
@@ -88,17 +155,19 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 class FavoriteCard extends StatelessWidget {
   final String name;
   final String address;
-  final double rating;
+  final double? rating;
   final String imagePath;
+  final String? experience;
   final VoidCallback onRemove;
 
   const FavoriteCard({
     super.key,
     required this.name,
     required this.address,
-    required this.rating,
+    this.rating,
     required this.imagePath,
     required this.onRemove,
+    this.experience,
   });
 
   @override
@@ -121,11 +190,9 @@ class FavoriteCard extends StatelessWidget {
                 imagePath,
                 width: 100,
                 height: 100,
-                fit: BoxFit.cover,
-                errorBuilder: (BuildContext context, Object exception,
-                    StackTrace? stackTrace) {
-                  return const Icon(Icons.error);
-                },
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.error),
               ),
             ),
             const SizedBox(width: 16),
@@ -144,16 +211,12 @@ class FavoriteCard extends StatelessWidget {
                     style: theme.textTheme.bodySmall,
                   ),
                   const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.amber[400]),
-                      const SizedBox(width: 4),
-                      Text(
-                        rating.toStringAsFixed(1),
-                        style: theme.textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
+                  experience == null
+                      ? RatingDisplay(rating: rating!)
+                      : Text(
+                          experience!,
+                          style: theme.textTheme.bodySmall,
+                        ),
                 ],
               ),
             ),

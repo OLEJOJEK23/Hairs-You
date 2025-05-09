@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hairs_and_you/api/data/models/favorites_dto.dart';
 import 'package:hairs_and_you/api/data/models/master_dto.dart';
 import 'package:hairs_and_you/api/data/models/review_dto.dart';
 import 'package:hairs_and_you/api/data/models/salon_dto.dart';
@@ -71,6 +72,11 @@ abstract class ApiService {
 
   @GET(Endpoints.getUsers)
   Future<List<UserDto>> getUsers({
+    @Query('user_id') required String userID,
+  });
+
+  @GET(Endpoints.getFavorites)
+  Future<FavoritesDto> getFavorites({
     @Query('user_id') required String userID,
   });
 }
