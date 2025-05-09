@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/favorites.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_favorites.dart';
-import 'package:hairs_and_you/widgets/RatingDisplay.dart';
+
+import '../widgets/favoriteCardWidget.dart';
 
 @RoutePage()
 class FavoriteScreen extends StatefulWidget {
@@ -28,6 +29,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   void _removeFromFavorites(int index) {}
+
+  void _onSalonOfferTapped(BuildContext context, String id) {
+    context.router.pushNamed("/establishment/$id");
+  }
+
+  void _onMasterOfferTapped(BuildContext context, String id) {}
 
   Future<void> _fetchFavorites() async {
     setState(() {
@@ -80,7 +87,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 )
               : CustomScrollView(
                   slivers: [
-// Мастера
+                    // Мастера
                     if (_favorites!.favoriteMasters.isNotEmpty) ...[
                       SliverToBoxAdapter(
                         child: Padding(
@@ -99,6 +106,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16.0),
                               child: FavoriteCard(
+                                onClick: () => _onMasterOfferTapped(
+                                    context, favorite.masterID),
                                 name: favorite.name,
                                 address: favorite.description,
                                 experience: favorite.experience,
@@ -134,6 +143,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                   const EdgeInsets.symmetric(horizontal: 16.0),
                               child: FavoriteCard(
                                 name: favorite.name,
+                                onClick: () => _onSalonOfferTapped(
+                                    context, favorite.salonId),
                                 address:
                                     "${favorite.cityName}, ${favorite.streetAddress}",
                                 rating: favorite.rating,
@@ -148,87 +159,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     ],
                   ],
                 ),
-    );
-  }
-}
-
-class FavoriteCard extends StatelessWidget {
-  final String name;
-  final String address;
-  final double? rating;
-  final String imagePath;
-  final String? experience;
-  final VoidCallback onRemove;
-
-  const FavoriteCard({
-    super.key,
-    required this.name,
-    required this.address,
-    this.rating,
-    required this.imagePath,
-    required this.onRemove,
-    this.experience,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Card(
-      elevation: 20,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Image
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                imagePath,
-                width: 100,
-                height: 100,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.error),
-              ),
-            ),
-            const SizedBox(width: 16),
-            // Details
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: theme.textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    address,
-                    style: theme.textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 8),
-                  experience == null
-                      ? RatingDisplay(rating: rating!)
-                      : Text(
-                          experience!,
-                          style: theme.textTheme.bodySmall,
-                        ),
-                ],
-              ),
-            ),
-            // Remove Button
-            IconButton(
-              icon: const Icon(Icons.delete_outline),
-              color: Colors.redAccent,
-              onPressed: onRemove,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
