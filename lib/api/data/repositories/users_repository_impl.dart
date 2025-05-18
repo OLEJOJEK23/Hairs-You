@@ -3,7 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:hairs_and_you/api/core/error/Failure.dart';
 import 'package:hairs_and_you/api/data/datasources/local/cache_manager.dart';
 import 'package:hairs_and_you/api/data/datasources/remote/api_service.dart';
+import 'package:hairs_and_you/api/data/models/booking_dto.dart';
 import 'package:hairs_and_you/api/data/models/user_dto.dart';
+import 'package:hairs_and_you/api/domain/entities/booking.dart';
 import 'package:hairs_and_you/api/domain/entities/user.dart';
 import 'package:hairs_and_you/api/domain/repositories/users_repository.dart';
 
@@ -32,6 +34,35 @@ class UsersRepositoryImpl implements UsersRepository {
       );
 
       return Right(users);
+    } on DioException catch (e) {
+      return Left(ServerFailure("API error: ${e.message}"));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Booking>>> getBookings(
+      {required String userID, String? status}) async {
+    try {
+      final cachedData = await cacheManager.getData('bookings');
+      if (cachedData != null) {
+        return Right((cachedData as List)
+            .map((e) => BookingDto.fromJson(e).toDomain())
+            .toList());
+      }
+      final response = await apiService.getBookings(
+        userID: userID,
+        status: status,
+      );
+      final bookings = response.map((dto) => dto.toDomain()).toList();
+
+      await cacheManager.saveData(
+        "bookings",
+        response.map((e) => e.toJson()).toList(),
+      );
+
+      return Right(bookings);
     } on DioException catch (e) {
       return Left(ServerFailure("API error: ${e.message}"));
     } catch (e) {

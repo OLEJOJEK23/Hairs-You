@@ -31,7 +31,7 @@ class FavoriteMasterDto {
   FavoriteMaster toDomain() => FavoriteMaster(
         masterID: master_id,
         name: name,
-        description: description ?? '',
+        description: description ?? 'нет описания',
         experience: experience,
         photoURL: photoUrl,
       );

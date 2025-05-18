@@ -6,12 +6,18 @@ class ActiveRecordCard extends StatelessWidget {
     required this.institutionName,
     required this.address,
     required this.visitDate,
+    required this.master,
+    required this.service,
+    required this.status,
     required this.onTap,
   });
 
   final String institutionName;
   final String address;
+  final String master;
+  final String service;
   final String visitDate;
+  final String status;
   final VoidCallback onTap;
 
   @override
@@ -29,8 +35,8 @@ class ActiveRecordCard extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    theme.primaryColor.withOpacity(0.9),
-                    Colors.black12.withOpacity(0.7),
+                    theme.primaryColor.withValues(alpha: 0.9),
+                    Colors.black12.withValues(alpha: 0.7),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -38,12 +44,12 @@ class ActiveRecordCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(alpha: 0.3),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
                   BoxShadow(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(-5, -5),
                   ),
@@ -67,7 +73,8 @@ class ActiveRecordCard extends StatelessWidget {
                               color: Colors.greenAccent,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.greenAccent.withOpacity(0.5),
+                                  color:
+                                      Colors.greenAccent.withValues(alpha: 0.5),
                                   blurRadius: 10,
                                   spreadRadius: 2,
                                 ),
@@ -96,7 +103,7 @@ class ActiveRecordCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       shadows: [
                         Shadow(
-                          color: Colors.black.withOpacity(0.3),
+                          color: Colors.black.withValues(alpha: 0.3),
                           offset: const Offset(2, 2),
                           blurRadius: 4,
                         ),
@@ -111,14 +118,14 @@ class ActiveRecordCard extends StatelessWidget {
                       Icon(
                         Icons.location_on,
                         size: 20,
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           address,
                           style: theme.textTheme.bodyLarge?.copyWith(
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             fontSize: 16,
                           ),
                           maxLines: 2,
@@ -135,13 +142,53 @@ class ActiveRecordCard extends StatelessWidget {
                       Icon(
                         Icons.calendar_today,
                         size: 20,
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         "Дата визита: $visitDate",
                         style: theme.textTheme.bodyLarge?.copyWith(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  // Visit Date
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.man,
+                        size: 20,
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        "Мастер: $master",
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  // Visit Date
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.style,
+                        size: 20,
+                        color: Colors.white.withValues(alpha: 0.9),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        "Услуга: $service",
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: Colors.white.withValues(alpha: 0.9),
                           fontSize: 16,
                         ),
                       ),
@@ -156,7 +203,7 @@ class ActiveRecordCard extends StatelessWidget {
                         // Add action for details or cancellation
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white.withOpacity(0.2),
+                        backgroundColor: Colors.white.withValues(alpha: 0.2),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),

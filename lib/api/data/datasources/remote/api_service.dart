@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hairs_and_you/api/data/models/booking_dto.dart';
 import 'package:hairs_and_you/api/data/models/favorites_dto.dart';
 import 'package:hairs_and_you/api/data/models/master_dto.dart';
 import 'package:hairs_and_you/api/data/models/review_dto.dart';
@@ -78,5 +79,11 @@ abstract class ApiService {
   @GET(Endpoints.getFavorites)
   Future<FavoritesDto> getFavorites({
     @Query('user_id') required String userID,
+  });
+
+  @GET(Endpoints.getBookings)
+  Future<List<BookingDto>> getBookings({
+    @Query('user_id') required String userID,
+    @Query('status') String? status,
   });
 }

@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hairs_and_you/api/domain/entities/booking.dart';
 import 'package:hairs_and_you/api/domain/entities/shortSalon.dart';
 import 'package:hairs_and_you/api/domain/entities/special_offer.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_bookings.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_special_offers.dart';
 import 'package:hairs_and_you/features/PrimaryScreen/widgets/ActiveRecordCard.dart';
@@ -20,21 +23,26 @@ class PrimaryScreen extends StatefulWidget {
 
 class _PrimaryScreenState extends State<PrimaryScreen>
     with SingleTickerProviderStateMixin {
-  final _activeRecord = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GetShortSalons _getShortSalons = GetIt.I<GetShortSalons>();
   final GetSpecialOffers _getSpecialOffers = GetIt.I<GetSpecialOffers>();
+  final GetBookings _getBookings = GetIt.I<GetBookings>();
   List<ShortSalon> _bestOffers = [];
+  Booking? _booking;
   List<SpecialOffer> _specialOffers = [];
   bool _isSalonsLoading = false;
   String? _salonsError;
   bool _isOffersLoading = false;
   String? _offersError;
+  bool _isBookingsLoading = false;
+  String? _bookingsError;
 
   @override
   void initState() {
     super.initState();
     _fetchSalons();
     _fetchSpecialOffers();
+    _fetchBookings();
   }
 
   Future<void> _fetchSalons() async {
@@ -81,6 +89,30 @@ class _PrimaryScreenState extends State<PrimaryScreen>
     }
   }
 
+  Future<void> _fetchBookings() async {
+    setState(() {
+      _isBookingsLoading = true;
+      _bookingsError = null;
+    });
+
+    final result = await _getBookings(userID: _auth.currentUser!.uid);
+    result.fold(
+      (failure) => setState(() {
+        _bookingsError = failure.message;
+        _isBookingsLoading = true;
+      }),
+      (bookings) => setState(() {
+        if (bookings.isNotEmpty) {
+          _booking = bookings[0];
+        }
+        _isBookingsLoading = false;
+      }),
+    );
+    if (_bookingsError != null) {
+      print(_bookingsError);
+    }
+  }
+
   void _onOfferTapped(BuildContext context, String id) {
     context.router.pushNamed("/establishment/$id");
   }
@@ -120,13 +152,26 @@ class _PrimaryScreenState extends State<PrimaryScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (_activeRecord == false)
-                    ActiveRecordCard(
-                      institutionName: "Барбершоп",
-                      address: "Санкт-Петербург, Московский проспект 30",
-                      visitDate: "10.12.2141 12:40",
-                      onTap: () {},
-                    ),
+                  _isBookingsLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: theme.primaryColor,
+                          ),
+                        )
+                      : Container(
+                          child: _booking == null
+                              ? null
+                              : ActiveRecordCard(
+                                  institutionName: _booking!.salonName,
+                                  address:
+                                      "${_booking!.salonsCity}, ${_booking!.salonAddress}",
+                                  visitDate: _booking!.bookingTime,
+                                  master: _booking!.masterName,
+                                  service: _booking!.serviceID,
+                                  status: _booking!.status,
+                                  onTap: () {},
+                                ),
+                        ),
                   //* Special Offers Title
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
