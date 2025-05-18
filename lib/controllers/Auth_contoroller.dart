@@ -7,6 +7,7 @@ import '../features/InputOTPCode/InputOTPCodeScreen.dart';
 
 class AuthController {
   static final _auth = FirebaseAuth.instance;
+  static final userID = _auth.currentUser!.uid;
 
   Future<void> sendOTP(BuildContext context, String phoneNumber) async {
     try {

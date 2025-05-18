@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/user.dart';
@@ -22,7 +21,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GetUsers _getUsers = GetIt.I<GetUsers>();
   late Users _user;
   File? _usersImage;
@@ -42,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _usersError = null;
     });
     final result = await _getUsers(
-      userID: _auth.currentUser!.uid,
+      userID: AuthController.userID,
     );
     result.fold(
       (failure) => setState(() {

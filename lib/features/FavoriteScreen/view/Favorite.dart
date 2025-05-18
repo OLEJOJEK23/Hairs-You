@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/favorites.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_favorites.dart';
 
+import '../../../controllers/Auth_contoroller.dart';
 import '../widgets/favoriteCardWidget.dart';
 
 @RoutePage()
@@ -16,7 +16,6 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GetFavorites _getFavorites = GetIt.I<GetFavorites>();
   bool _isFavoritesLoading = false;
   String? _favoritesError;
@@ -41,7 +40,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       _isFavoritesLoading = true;
       _favoritesError = null;
     });
-    final result = await _getFavorites(userID: _auth.currentUser!.uid);
+    final result = await _getFavorites(userID: AuthController.userID);
     result.fold(
       (failure) => setState(() {
         _favoritesError = failure.message;

@@ -8,6 +8,7 @@ import 'package:hairs_and_you/api/domain/entities/special_offer.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_bookings.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_short_salons.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_special_offers.dart';
+import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/features/PrimaryScreen/widgets/ActiveRecordCard.dart';
 
 import '../../../widgets/OfferCard.dart';
@@ -95,7 +96,9 @@ class _PrimaryScreenState extends State<PrimaryScreen>
       _bookingsError = null;
     });
 
-    final result = await _getBookings(userID: _auth.currentUser!.uid);
+    final result = await _getBookings(
+      userID: AuthController.userID,
+    );
     result.fold(
       (failure) => setState(() {
         _bookingsError = failure.message;
