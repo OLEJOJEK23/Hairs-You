@@ -16,6 +16,7 @@ SalonsDTO _$SalonsDTOFromJson(Map<String, dynamic> json) => SalonsDTO(
       city_name: json['city_name'] as String,
       start_time: json['start_time'] as String,
       end_time: json['end_time'] as String,
+      is_favorite: json['is_favorite'] as bool,
     );
 
 Map<String, dynamic> _$SalonsDTOToJson(SalonsDTO instance) => <String, dynamic>{
@@ -28,4 +29,5 @@ Map<String, dynamic> _$SalonsDTOToJson(SalonsDTO instance) => <String, dynamic>{
       'created_at': instance.created_at,
       'start_time': instance.start_time,
       'end_time': instance.end_time,
+      'is_favorite': instance.is_favorite,
     };

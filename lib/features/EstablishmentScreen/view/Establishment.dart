@@ -8,9 +8,11 @@ import 'package:hairs_and_you/api/domain/entities/service.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_salon.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_services.dart';
+import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/DescriptionTab.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ReviewsTab.dart';
 import 'package:hairs_and_you/features/EstablishmentScreen/widgets/ServicesTab.dart';
+import 'package:hairs_and_you/widgets/FavoriteButtonWidget.dart';
 import 'package:hairs_and_you/widgets/ImageScroll.dart';
 import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 import 'package:intl/intl.dart';
@@ -37,14 +39,13 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   bool _isReviewsLoading = false;
   bool _isSalonLoading = false;
   bool _isServicesLoading = false;
-  bool favorite = false;
   String? _reviewsError;
   String? _salonError;
   String? _servicesError;
 
   final List<String> _imageUrls = [
-    'assets/images/google_logo.png',
-    'assets/images/google_logo.png',
+    'assets/images/salon.jpg',
+    'assets/images/barber.jpg',
     'assets/images/google_logo.png',
     'assets/images/google_logo.png',
     'assets/images/google_logo.png',
@@ -123,7 +124,8 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
       _isSalonLoading = true;
       _salonError = null;
     });
-    final result = await _getSalons(salonID: widget.id);
+    final result =
+        await _getSalons(salonID: widget.id, userID: AuthController.userID);
     result.fold(
       (failure) => setState(() {
         _salonError = failure.message;
@@ -131,6 +133,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
       }),
       (salon) => setState(() {
         _salon = salon[0];
+        print(_salon.isFavorite);
         context.read<BookingBloc>().add(SelectSalon(widget.id, _salon));
         _isSalonLoading = false;
       }),
@@ -157,12 +160,6 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     }
   }
 
-  void _toggleFavorite(int index) {
-    setState(() {
-      favorite = !favorite;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -181,14 +178,10 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
                   centerTitle: true,
                   pinned: true,
                   actions: [
-                    IconButton(
-                      icon: Icon(
-                        favorite ? Icons.favorite : Icons.favorite_border,
-                        color: favorite
-                            ? Colors.redAccent
-                            : theme.colorScheme.onSurfaceVariant,
-                      ),
-                      onPressed: () => _toggleFavorite(1),
+                    FavoriteButton(
+                      type: "salon",
+                      id: widget.id,
+                      initialFavorite: _salon.isFavorite,
                     ),
                   ],
                   surfaceTintColor: Colors.transparent,

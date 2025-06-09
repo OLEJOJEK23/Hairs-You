@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Salon {
-  Salon({
-    required this.createdAt,
-    required this.name,
-    required this.description,
-    required this.streetAddress,
-    required this.photoURL,
-    required this.rating,
-    required this.cityName,
-    required this.startTime,
-    required this.endTime,
-  });
+  Salon(
+      {required this.createdAt,
+      required this.name,
+      required this.description,
+      required this.streetAddress,
+      required this.photoURL,
+      required this.rating,
+      required this.cityName,
+      required this.startTime,
+      required this.endTime,
+      required this.isFavorite});
 
   final String name;
   final String description;
@@ -22,4 +22,5 @@ class Salon {
   final DateTime createdAt;
   final TimeOfDay startTime;
   final TimeOfDay endTime;
+  final bool isFavorite;
 }

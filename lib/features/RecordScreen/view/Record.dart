@@ -207,7 +207,7 @@ class _RecordScreenState extends State<RecordScreen> {
                               },
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             flex: 1,
                             child: DateSelector(),
                           ),
@@ -282,7 +282,7 @@ class _RecordScreenState extends State<RecordScreen> {
                           child: OfferCard(
                             title: offer.name,
                             description: offer.description,
-                            imagePath: "assets/images/google_logo.png",
+                            imagePath: "assets/images/salon.jpg",
                             address: "${offer.city_name}, ${offer.address}",
                             rating: offer.rating,
                           ),

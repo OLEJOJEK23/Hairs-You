@@ -75,6 +75,7 @@ class SalonsRepositoryImpl implements SalonsRepository {
   @override
   Future<Either<Failure, List<Salon>>> getSalons({
     String? salonID,
+    String? userID,
   }) async {
     try {
       final cachedData = await cacheManager.getData('salons');
@@ -83,7 +84,8 @@ class SalonsRepositoryImpl implements SalonsRepository {
             .map((e) => SalonsDTO.fromJson(e).toDomain())
             .toList());
       }
-      final response = await apiService.getSalons(salonID: salonID);
+      final response =
+          await apiService.getSalons(salonID: salonID, userID: userID);
       final salons = response.map((dto) => dto.toDomain()).toList();
 
       await cacheManager.saveData(

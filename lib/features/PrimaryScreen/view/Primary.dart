@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/booking.dart';
@@ -24,7 +23,6 @@ class PrimaryScreen extends StatefulWidget {
 
 class _PrimaryScreenState extends State<PrimaryScreen>
     with SingleTickerProviderStateMixin {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GetShortSalons _getShortSalons = GetIt.I<GetShortSalons>();
   final GetSpecialOffers _getSpecialOffers = GetIt.I<GetSpecialOffers>();
   final GetBookings _getBookings = GetIt.I<GetBookings>();
@@ -170,7 +168,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                                       "${_booking!.salonsCity}, ${_booking!.salonAddress}",
                                   visitDate: _booking!.bookingTime,
                                   master: _booking!.masterName,
-                                  service: _booking!.serviceID,
+                                  service: _booking!.serviceName,
                                   status: _booking!.status,
                                   onTap: () {},
                                 ),
@@ -209,7 +207,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                                   child: OfferCard(
                                     title: offer.name,
                                     description: offer.description,
-                                    imagePath: "assets/images/google_logo.png",
+                                    imagePath: "assets/images/salon.jpg",
                                     address:
                                         "${offer.city_name}, ${offer.address}",
                                     rating: offer.rating,
@@ -253,7 +251,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                                   child: OfferCard(
                                     title: offer.title,
                                     description: offer.description,
-                                    imagePath: "assets/images/google_logo.png",
+                                    imagePath: "assets/images/salon2.jpg",
                                     address: "${offer.city}, ${offer.address}",
                                   ),
                                 ),

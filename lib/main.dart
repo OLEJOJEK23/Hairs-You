@@ -12,6 +12,9 @@ import 'package:hairs_and_you/api/domain/repositories/reviews_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/salons_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/services_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/users_repository.dart';
+import 'package:hairs_and_you/api/domain/usecases/add_favorite_master.dart';
+import 'package:hairs_and_you/api/domain/usecases/add_favorite_salon.dart';
+import 'package:hairs_and_you/api/domain/usecases/delete_favorite_master.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_bookings.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_favorites.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_masters.dart';
@@ -34,6 +37,7 @@ import 'api/data/datasources/remote/api_service.dart';
 import 'api/data/repositories/place_repository_impl.dart';
 import 'api/data/repositories/salons_repository_impl.dart';
 import 'api/domain/repositories/place_repository.dart';
+import 'api/domain/usecases/delete_favorite_salon.dart';
 import 'api/domain/usecases/get_nearby_salons.dart';
 import 'api/domain/usecases/get_place_suggestions.dart';
 import 'api/domain/usecases/get_services.dart';
@@ -138,6 +142,14 @@ Future<void> main() async {
   GetIt.I
       .registerLazySingleton(() => GetFavorites(GetIt.I<FavoriteRepository>()));
   GetIt.I.registerLazySingleton(() => GetBookings(GetIt.I<UsersRepository>()));
+  GetIt.I.registerLazySingleton(
+      () => AddFavoriteSalon(GetIt.I<FavoriteRepository>()));
+  GetIt.I.registerLazySingleton(
+      () => AddFavoriteMaster(GetIt.I<FavoriteRepository>()));
+  GetIt.I.registerLazySingleton(
+      () => DeleteFavoriteMaster(GetIt.I<FavoriteRepository>()));
+  GetIt.I.registerLazySingleton(
+      () => DeleteFavoriteSalon(GetIt.I<FavoriteRepository>()));
 
   runApp(const HairsAndYouApp());
 }

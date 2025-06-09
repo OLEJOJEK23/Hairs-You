@@ -14,7 +14,6 @@ abstract class SalonsRepository {
 
   Future<Either<Failure, List<SalonsTypes>>> getSalonsTypes();
 
-  Future<Either<Failure, List<Salon>>> getSalons({
-    String? salonID,
-  });
+  Future<Either<Failure, List<Salon>>> getSalons(
+      {String? salonID, String? userID});
 }

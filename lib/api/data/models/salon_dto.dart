@@ -17,6 +17,7 @@ class SalonsDTO {
     required this.city_name,
     required this.start_time,
     required this.end_time,
+    required this.is_favorite,
   });
 
   final String name;
@@ -28,6 +29,7 @@ class SalonsDTO {
   final String created_at;
   final String start_time;
   final String end_time;
+  final bool is_favorite;
 
   factory SalonsDTO.fromJson(Map<String, dynamic> json) =>
       _$SalonsDTOFromJson(json);
@@ -53,6 +55,7 @@ class SalonsDTO {
       startTime: parseTime(start_time),
       endTime: parseTime(end_time),
       createdAt: DateTime.parse(created_at),
+      isFavorite: is_favorite,
     );
   }
 }

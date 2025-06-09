@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../domain/entities/booking.dart';
@@ -30,15 +29,13 @@ class BookingDto {
   final String service_name;
   final String status;
 
-  DateFormat formatter = DateFormat('dd.MM.yyyy HH:mm');
-
   factory BookingDto.fromJson(Map<String, dynamic> json) =>
       _$BookingDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$BookingDtoToJson(this);
 
   Booking toDomain() => Booking(
-      bookingTime: formatter.format(DateTime.parse(booking_time)),
+      bookingTime: booking_time,
       masterID: master_id,
       masterName: master_name,
       salonAddress: salon_address,

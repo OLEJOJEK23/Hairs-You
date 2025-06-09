@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/widgets/FavoriteButtonWidget.dart';
 
 import '../../../widgets/RatingDisplay.dart';
 
-class FavoriteCard extends StatelessWidget {
+class FavoriteCard extends StatefulWidget {
   final String name;
   final String address;
   final double? rating;
   final String imagePath;
   final String? experience;
-  final VoidCallback onRemove;
+  final String type;
+  final String id;
   final VoidCallback onClick;
 
   const FavoriteCard({
@@ -18,15 +20,23 @@ class FavoriteCard extends StatelessWidget {
     required this.address,
     this.rating,
     required this.imagePath,
-    required this.onRemove,
+    required this.type,
+    required this.id,
     this.experience,
   });
+
+  @override
+  State<FavoriteCard> createState() => _FavoriteCardState();
+}
+
+class _FavoriteCardState extends State<FavoriteCard> {
+  bool favorite = true;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return GestureDetector(
-      onTap: onClick,
+      onTap: widget.onClick,
       child: Card(
         elevation: 20,
         shape: RoundedRectangleBorder(
@@ -41,10 +51,10 @@ class FavoriteCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.asset(
-                  imagePath,
+                  widget.imagePath,
                   width: 100,
                   height: 100,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) =>
                       const Icon(Icons.error),
                 ),
@@ -56,29 +66,28 @@ class FavoriteCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      widget.name,
                       style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      address,
+                      widget.address,
                       style: theme.textTheme.bodySmall,
                     ),
                     const SizedBox(height: 8),
-                    experience == null
-                        ? RatingDisplay(rating: rating!)
+                    widget.experience == null
+                        ? RatingDisplay(rating: widget.rating!)
                         : Text(
-                            experience!,
+                            widget.experience!,
                             style: theme.textTheme.bodySmall,
                           ),
                   ],
                 ),
               ),
               // Remove Button
-              IconButton(
-                icon: const Icon(Icons.delete_outline),
-                color: Colors.redAccent,
-                onPressed: onRemove,
+              FavoriteButton(
+                type: widget.type,
+                id: widget.id,
               ),
             ],
           ),

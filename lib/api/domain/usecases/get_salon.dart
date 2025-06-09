@@ -11,7 +11,8 @@ class GetSalons {
 
   Future<Either<Failure, List<Salon>>> call({
     String? salonID,
+    String? userID,
   }) async {
-    return await repository.getSalons(salonID: salonID);
+    return await repository.getSalons(salonID: salonID, userID: userID);
   }
 }

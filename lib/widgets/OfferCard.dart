@@ -46,7 +46,7 @@ class _OfferCardState extends State<OfferCard> {
                       widget.imagePath,
                       width: double.infinity,
                       height: 150,
-                      fit: BoxFit.contain,
+                      fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => Container(
                         height: 150,
                         color: theme.colorScheme.surface,

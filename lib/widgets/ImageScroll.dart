@@ -77,7 +77,7 @@ class _ImageScrollState extends State<ImageScroll> {
               return Image.asset(
                 widget.imageUrls[index - 1],
                 // Сдвигаем индекс из-за фиктивного начала
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 width: double.infinity,
               );
             },

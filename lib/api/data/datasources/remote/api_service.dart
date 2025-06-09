@@ -60,6 +60,7 @@ abstract class ApiService {
   @GET(Endpoints.getSalons)
   Future<List<SalonsDTO>> getSalons({
     @Query('salon_id') String? salonID,
+    @Query('user_id') String? userID,
   });
 
   @GET(Endpoints.getSalonsTypes)
@@ -85,5 +86,27 @@ abstract class ApiService {
   Future<List<BookingDto>> getBookings({
     @Query('user_id') required String userID,
     @Query('status') String? status,
+  });
+
+  @POST(Endpoints.favoriteMaster)
+  Future<Map<String, String>> addFavoriteMaster({
+    @Body() required Map<String, dynamic> body,
+  });
+
+  @POST(Endpoints.favoriteSalon)
+  Future<Map<String, String>> addFavoriteSalon({
+    @Body() required Map<String, dynamic> body,
+  });
+
+  @DELETE(Endpoints.favoriteMaster)
+  Future<Map<String, String>> removeFavoriteMaster({
+    @Query('user_id') required String userID,
+    @Query('master_id') required String masterID,
+  });
+
+  @DELETE(Endpoints.favoriteSalon)
+  Future<Map<String, String>> removeFavoriteSalon({
+    @Query('user_id') required String userID,
+    @Query('salon_id') required String salonID,
   });
 }

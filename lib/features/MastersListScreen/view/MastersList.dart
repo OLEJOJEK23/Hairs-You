@@ -34,8 +34,6 @@ class _MastersListScreenState extends State<MastersListScreen> {
     context.router.pushNamed('/master');
   }
 
-  void _toggleFavorite(int index) {}
-
   Future<void> _fetchMasters() async {
     final state = context.read<BookingBloc>().state;
     setState(() {
@@ -104,7 +102,6 @@ class _MastersListScreenState extends State<MastersListScreen> {
                         master: master,
                         index: index,
                         onSelectMaster: () => _selectMaster(master.fullName),
-                        onToggleFavorite: _toggleFavorite,
                       ),
                     );
                   },

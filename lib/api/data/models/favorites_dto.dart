@@ -29,7 +29,7 @@ class FavoritesDto {
       favoriteMasters: favoriteMasters.map((dto) => dto.toDomain()).toList(),
       favoriteSalons: favoriteSalons.map((dto) => dto.toDomain()).toList(),
     );
-    
+
     return favorites;
   }
 }

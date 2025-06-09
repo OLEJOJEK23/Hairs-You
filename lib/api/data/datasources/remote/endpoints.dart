@@ -11,4 +11,6 @@ class Endpoints {
   static const String getUsers = '/users';
   static const String getFavorites = '/favorites';
   static const String getBookings = '/bookings';
+  static const String favoriteMaster = '/favorites/master';
+  static const String favoriteSalon = '/favorites/salon';
 }

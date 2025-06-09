@@ -27,8 +27,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     _fetchFavorites();
   }
 
-  void _removeFromFavorites(int index) {}
-
   void _onSalonOfferTapped(BuildContext context, String id) {
     context.router.pushNamed("/establishment/$id");
   }
@@ -80,48 +78,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       _favorites!.favoriteSalons.isEmpty)
               ? Center(
                   child: Text(
-                    "Нет избранных заведений",
+                    "Нет избранных заведений и мастеров",
                     style: theme.textTheme.bodyMedium,
                   ),
                 )
               : CustomScrollView(
                   slivers: [
-                    // Мастера
-                    if (_favorites!.favoriteMasters.isNotEmpty) ...[
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                          child: Text(
-                            "Избранные мастера",
-                            style: theme.textTheme.titleMedium,
-                          ),
-                        ),
-                      ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final favorite = _favorites!.favoriteMasters[index];
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: FavoriteCard(
-                                onClick: () => _onMasterOfferTapped(
-                                    context, favorite.masterID),
-                                name: favorite.name,
-                                address: favorite.description,
-                                experience: favorite.experience,
-                                imagePath: "assets/images/google_logo.png",
-                                onRemove: () => _removeFromFavorites(index),
-                              ),
-                            );
-                          },
-                          childCount: _favorites!.favoriteMasters.length,
-                        ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 16),
-                      ),
-                    ],
                     // Салоны
                     if (_favorites!.favoriteSalons.isNotEmpty) ...[
                       SliverToBoxAdapter(
@@ -147,13 +109,51 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 address:
                                     "${favorite.cityName}, ${favorite.streetAddress}",
                                 rating: favorite.rating,
-                                imagePath: "assets/images/google_logo.png",
-                                onRemove: () => _removeFromFavorites(index),
+                                imagePath: "assets/images/salon.jpg",
+                                type: "salon",
+                                id: favorite.salonId,
                               ),
                             );
                           },
                           childCount: _favorites!.favoriteSalons.length,
                         ),
+                      ),
+                    ],
+                    // Мастера
+                    if (_favorites!.favoriteMasters.isNotEmpty) ...[
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                          child: Text(
+                            "Избранные мастера",
+                            style: theme.textTheme.titleMedium,
+                          ),
+                        ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final favorite = _favorites!.favoriteMasters[index];
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: FavoriteCard(
+                                onClick: () => _onMasterOfferTapped(
+                                    context, favorite.masterID),
+                                name: favorite.name,
+                                address: favorite.description,
+                                experience: favorite.experience,
+                                imagePath: "assets/images/master1.jpg",
+                                type: "master",
+                                id: favorite.masterID,
+                              ),
+                            );
+                          },
+                          childCount: _favorites!.favoriteMasters.length,
+                        ),
+                      ),
+                      const SliverToBoxAdapter(
+                        child: SizedBox(height: 16),
                       ),
                     ],
                   ],
