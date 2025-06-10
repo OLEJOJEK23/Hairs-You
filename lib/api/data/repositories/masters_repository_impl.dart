@@ -18,6 +18,7 @@ class MastersRepositoryImpl implements MastersRepository {
   Future<Either<Failure, List<Master>>> getMasters({
     String? salonID,
     String? userID,
+    String? masterID,
   }) async {
     try {
       final cachedData = await cacheManager.getData('masters');
@@ -26,8 +27,8 @@ class MastersRepositoryImpl implements MastersRepository {
             .map((e) => MasterDto.fromJson(e).toDomain())
             .toList());
       }
-      final response =
-          await apiService.getMasters(salonID: salonID, userID: userID);
+      final response = await apiService.getMasters(
+          salonID: salonID, userID: userID, masterID: masterID);
       final masters = response.map((dto) => dto.toDomain()).toList();
 
       await cacheManager.saveData(

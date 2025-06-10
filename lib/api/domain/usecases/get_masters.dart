@@ -11,7 +11,9 @@ class GetMasters {
   Future<Either<Failure, List<Master>>> call({
     String? salonID,
     String? userID,
+    String? masterID,
   }) async {
-    return await repository.getMasters(salonID: salonID, userID: userID);
+    return await repository.getMasters(
+        salonID: salonID, userID: userID, masterID: masterID);
   }
 }

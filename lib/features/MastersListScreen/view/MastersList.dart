@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/master.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_masters.dart';
+import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/features/MastersListScreen/widgets/masterCard.dart';
 
 import '../../../blocks/booking_block/booking_bloc.dart';
@@ -22,7 +22,6 @@ class _MastersListScreenState extends State<MastersListScreen> {
   bool _isMastersLoading = false;
   String? _mastersError;
   List<Master> _masters = [];
-  final user = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void initState() {
@@ -30,8 +29,8 @@ class _MastersListScreenState extends State<MastersListScreen> {
     super.initState();
   }
 
-  void _selectMaster(String masterName) {
-    context.router.pushNamed('/master');
+  void _selectMaster(String id) {
+    context.router.pushNamed('/master/$id');
   }
 
   Future<void> _fetchMasters() async {
@@ -40,7 +39,8 @@ class _MastersListScreenState extends State<MastersListScreen> {
       _isMastersLoading = true;
       _mastersError = null;
     });
-    final result = await _getMasters(userID: user, salonID: state.salonId);
+    final result = await _getMasters(
+        userID: AuthController.userID, salonID: state.salonId);
     result.fold(
       (failure) => setState(() {
         _mastersError = failure.message;
@@ -100,7 +100,7 @@ class _MastersListScreenState extends State<MastersListScreen> {
                       ),
                       child: MasterCard(
                         master: master,
-                        onSelectMaster: () => _selectMaster(master.fullName),
+                        onSelectMaster: () => _selectMaster(master.id),
                       ),
                     );
                   },

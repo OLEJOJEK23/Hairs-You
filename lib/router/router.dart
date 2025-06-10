@@ -81,7 +81,7 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
           page: MasterRoute.page,
-          path: '/master',
+          path: '/master/:id',
         ),
         AutoRoute(
           page: MapRoute.page,

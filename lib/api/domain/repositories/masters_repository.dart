@@ -6,5 +6,6 @@ abstract class MastersRepository {
   Future<Either<Failure, List<Master>>> getMasters({
     String? salonID,
     String? userID,
+    String? masterID,
   });
 }

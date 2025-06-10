@@ -70,6 +70,7 @@ abstract class ApiService {
   Future<List<MasterDto>> getMasters({
     @Query('salon_id') String? salonID,
     @Query('user_id') String? userID,
+    @Query('master_id') String? masterID,
   });
 
   @GET(Endpoints.getUsers)

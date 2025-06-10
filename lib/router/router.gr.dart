@@ -212,10 +212,18 @@ class MapRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MasterScreen]
-class MasterRoute extends PageRouteInfo<void> {
-  const MasterRoute({List<PageRouteInfo>? children})
-      : super(
+class MasterRoute extends PageRouteInfo<MasterRouteArgs> {
+  MasterRoute({
+    Key? key,
+    required String id,
+    List<PageRouteInfo>? children,
+  }) : super(
           MasterRoute.name,
+          args: MasterRouteArgs(
+            key: key,
+            id: id,
+          ),
+          rawPathParams: {'id': id},
           initialChildren: children,
         );
 
@@ -224,9 +232,31 @@ class MasterRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const MasterScreen();
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<MasterRouteArgs>(
+          orElse: () => MasterRouteArgs(id: pathParams.getString('id')));
+      return MasterScreen(
+        key: args.key,
+        id: args.id,
+      );
     },
   );
+}
+
+class MasterRouteArgs {
+  const MasterRouteArgs({
+    this.key,
+    required this.id,
+  });
+
+  final Key? key;
+
+  final String id;
+
+  @override
+  String toString() {
+    return 'MasterRouteArgs{key: $key, id: $id}';
+  }
 }
 
 /// generated route for

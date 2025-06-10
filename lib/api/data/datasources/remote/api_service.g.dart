@@ -334,11 +334,13 @@ class _ApiService implements ApiService {
   Future<List<MasterDto>> getMasters({
     String? salonID,
     String? userID,
+    String? masterID,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'salon_id': salonID,
       r'user_id': userID,
+      r'master_id': masterID,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
