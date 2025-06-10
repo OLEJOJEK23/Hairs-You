@@ -100,7 +100,6 @@ class _MastersListScreenState extends State<MastersListScreen> {
                       ),
                       child: MasterCard(
                         master: master,
-                        index: index,
                         onSelectMaster: () => _selectMaster(master.fullName),
                       ),
                     );

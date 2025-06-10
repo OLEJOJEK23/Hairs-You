@@ -4,13 +4,11 @@ import 'package:hairs_and_you/widgets/FavoriteButtonWidget.dart';
 
 class MasterCard extends StatefulWidget {
   final Master master;
-  final int index;
   final VoidCallback onSelectMaster;
 
   const MasterCard({
     super.key,
     required this.master,
-    required this.index,
     required this.onSelectMaster,
   });
 
@@ -42,43 +40,24 @@ class _MasterCardState extends State<MasterCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.index == 0
-              ? SizedBox(
-                  height: 180, // Высота фото
-                  width: double.infinity,
-                  child: Image.asset(
-                    "assets/images/master1.jpg",
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: theme.colorScheme.surfaceContainerHigh,
-                      child: const Center(
-                        child: Icon(
-                          Icons.image_not_supported,
-                          color: Colors.grey,
-                          size: 50,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              : SizedBox(
-                  height: 180, // Высота фото
-                  width: double.infinity,
-                  child: Image.asset(
-                    "assets/images/master2.jpg",
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: theme.colorScheme.surfaceContainerHigh,
-                      child: const Center(
-                        child: Icon(
-                          Icons.image_not_supported,
-                          color: Colors.grey,
-                          size: 50,
-                        ),
-                      ),
-                    ),
+          SizedBox(
+            height: 180, // Высота фото
+            width: double.infinity,
+            child: Image.asset(
+              "assets/images/master1.jpg",
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: theme.colorScheme.surfaceContainerHigh,
+                child: const Center(
+                  child: Icon(
+                    Icons.image_not_supported,
+                    color: Colors.grey,
+                    size: 50,
                   ),
                 ),
+              ),
+            ),
+          ),
           // Информация о мастере
           Padding(
             padding: const EdgeInsets.all(16.0),
