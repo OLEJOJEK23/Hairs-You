@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/domain/entities/master.dart';
+import 'package:hairs_and_you/api/domain/usecases/add_booking.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/widgets/FavoriteButtonWidget.dart';
 import 'package:hairs_and_you/widgets/ImageScroll.dart';
@@ -22,6 +23,7 @@ class MasterScreen extends StatefulWidget {
 
 class _MasterScreenState extends State<MasterScreen> {
   final GetMasters _getMasters = GetIt.I<GetMasters>();
+
   late Master _master;
   bool _isMastersLoading = false;
   String? _mastersError;
@@ -48,8 +50,10 @@ class _MasterScreenState extends State<MasterScreen> {
       _isMastersLoading = true;
       _mastersError = null;
     });
-    final result =
-        await _getMasters(userID: AuthController.userID, masterID: widget.id);
+    final result = await _getMasters(
+        userID: AuthController.userID,
+        salonID: context.read<BookingBloc>().state.salonId,
+        masterID: widget.id);
     result.fold(
       (failure) => setState(() {
         _mastersError = failure.message;
@@ -68,30 +72,30 @@ class _MasterScreenState extends State<MasterScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          _master.fullName,
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: theme.scaffoldBackgroundColor,
-        surfaceTintColor: theme.scaffoldBackgroundColor,
-        actions: [
-          FavoriteButton(
-            type: "master",
-            id: _master.id,
-            initialFavorite: _master.isFavorite,
+    return _isMastersLoading
+        ? Center(
+            child: CircularProgressIndicator(
+              color: theme.primaryColor,
+            ),
           )
-        ],
-      ),
-      body: _isMastersLoading
-          ? Center(
-              child: CircularProgressIndicator(
-                color: theme.primaryColor,
+        : Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "Выбор мастера",
               ),
-            )
-          : Container(
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: theme.scaffoldBackgroundColor,
+              surfaceTintColor: theme.scaffoldBackgroundColor,
+              actions: [
+                FavoriteButton(
+                  type: "master",
+                  id: _master.id,
+                  initialFavorite: _master.isFavorite,
+                )
+              ],
+            ),
+            body: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -110,7 +114,7 @@ class _MasterScreenState extends State<MasterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Scrollable list of photos with indicator
-                      ImageScroll(
+                      const ImageScroll(
                         imageUrls: ['assets/images/google_logo.png'],
                       ),
                       const SizedBox(height: 16),
@@ -158,7 +162,7 @@ class _MasterScreenState extends State<MasterScreen> {
                 ),
               ),
             ),
-    );
+          );
   }
 }
 
@@ -176,6 +180,7 @@ class BookingConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final AddBooking _addBooking = GetIt.I<AddBooking>();
     return BlocBuilder<BookingBloc, BookingState>(
       builder: (context, state) {
         // Форматируем данные для отображения
@@ -217,31 +222,17 @@ class BookingConfirmationDialog extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                // Подготовка данных для POST-запроса
-                final bookingData = {
-                  'user_id': AuthController.userID,
-                  // Заменить на AuthService.getUserId()
-                  'salon_id': state.salonId,
-                  'service_id': state.selectedService?.id,
-                  'date_time': state.selectedDateTime?.toIso8601String(),
-                  'master_id': masterId,
-                };
-
-                // TODO: Реализовать POST-запрос позже
-                print(bookingData);
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Запись подтверждена для $masterName'),
-                    duration: const Duration(seconds: 2),
-                  ),
+              onPressed: () async {
+                await _addBooking(
+                  userID: AuthController.userID,
+                  salonID: state.salonId!,
+                  serviceID: state.selectedService!.id,
+                  dateTime: state.selectedDateTime!,
+                  masterID: masterId,
                 );
-
-                // Очищаем состояние бронирования
-                context.read<BookingBloc>().add(const ClearBooking());
-
-                Navigator.of(context).pop(); // Закрываем диалог
+                if (context.mounted) {
+                  context.router.replaceNamed('/');
+                }
               },
               style: theme.elevatedButtonTheme.style,
               child: Text(

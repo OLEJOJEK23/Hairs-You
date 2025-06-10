@@ -69,4 +69,34 @@ class UsersRepositoryImpl implements UsersRepository {
       return Left(ServerFailure('Unexpected error: $e'));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> createBooking(
+      {required String userId,
+      required String salonId,
+      required String serviceId,
+      required DateTime bookingTime,
+      required String masterId}) async {
+    try {
+      final response = await apiService.addBooking(body: {
+        'user_id': userId,
+        'salon_id': salonId,
+        'service_id': serviceId,
+        'booking_time': bookingTime.toString(),
+        'master_id': masterId,
+      });
+
+      if (response.success) {
+        return const Right(null);
+      } else {
+        return Left(ServerFailure(
+            'Failed to create booking: ${response.message ?? 'Unknown error'}'));
+      }
+    } on DioException catch (e) {
+      return Left(ServerFailure(
+          "API error: ${e.message ?? 'Unknown error'}, status: ${e.response?.statusCode}, data: ${e.response?.data}"));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
+    }
+  }
 }

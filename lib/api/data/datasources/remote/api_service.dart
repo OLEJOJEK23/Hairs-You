@@ -12,6 +12,7 @@ import 'package:retrofit/retrofit.dart';
 
 import '../../../core/network/network_config.dart';
 import '../../models/autocomplete_response_dto.dart';
+import '../../models/booking_response.dart';
 import '../../models/nearby_response_dto.dart';
 import '../../models/short_salons_dto.dart';
 import 'endpoints.dart';
@@ -109,5 +110,10 @@ abstract class ApiService {
   Future<Map<String, String>> removeFavoriteSalon({
     @Query('user_id') required String userID,
     @Query('salon_id') required String salonID,
+  });
+
+  @POST(Endpoints.getBookings)
+  Future<BookingResponseDto> addBooking({
+    @Body() required Map<String, dynamic> body,
   });
 }

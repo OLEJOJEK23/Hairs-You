@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ActiveRecordCard extends StatelessWidget {
   const ActiveRecordCard({
@@ -23,6 +24,8 @@ class ActiveRecordCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    DateFormat formatter = DateFormat('dd.MM.yyyy HH:mm');
+    String formattedDate = formatter.format(DateTime.parse(visitDate));
     return Column(
       children: [
         Padding(
@@ -146,7 +149,7 @@ class ActiveRecordCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        "Дата визита: $visitDate",
+                        "Дата визита: $formattedDate",
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: Colors.white.withValues(alpha: 0.9),
                           fontSize: 16,

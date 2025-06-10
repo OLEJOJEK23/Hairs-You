@@ -12,4 +12,12 @@ abstract class UsersRepository {
     required String userID,
     String? status,
   });
+
+  Future<Either<Failure, void>> createBooking({
+    required String userId,
+    required String salonId,
+    required String serviceId,
+    required DateTime bookingTime,
+    required String masterId,
+  });
 }

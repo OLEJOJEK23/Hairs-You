@@ -37,6 +37,7 @@ import 'api/data/datasources/remote/api_service.dart';
 import 'api/data/repositories/place_repository_impl.dart';
 import 'api/data/repositories/salons_repository_impl.dart';
 import 'api/domain/repositories/place_repository.dart';
+import 'api/domain/usecases/add_booking.dart';
 import 'api/domain/usecases/delete_favorite_salon.dart';
 import 'api/domain/usecases/get_nearby_salons.dart';
 import 'api/domain/usecases/get_place_suggestions.dart';
@@ -150,6 +151,7 @@ Future<void> main() async {
       () => DeleteFavoriteMaster(GetIt.I<FavoriteRepository>()));
   GetIt.I.registerLazySingleton(
       () => DeleteFavoriteSalon(GetIt.I<FavoriteRepository>()));
+  GetIt.I.registerLazySingleton(() => AddBooking(GetIt.I<UsersRepository>()));
 
   runApp(const HairsAndYouApp());
 }
