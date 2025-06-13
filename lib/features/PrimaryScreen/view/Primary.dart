@@ -207,7 +207,7 @@ class _PrimaryScreenState extends State<PrimaryScreen>
                                   child: OfferCard(
                                     title: offer.name,
                                     description: offer.description,
-                                    imagePath: "assets/images/salon.jpg",
+                                    imagePath: offer.photoURL,
                                     address:
                                         "${offer.city_name}, ${offer.address}",
                                     rating: offer.rating,

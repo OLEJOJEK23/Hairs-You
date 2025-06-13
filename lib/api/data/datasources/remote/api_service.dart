@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:hairs_and_you/api/data/models/booking_dto.dart';
 import 'package:hairs_and_you/api/data/models/favorites_dto.dart';
 import 'package:hairs_and_you/api/data/models/master_dto.dart';
+import 'package:hairs_and_you/api/data/models/photos_dto.dart';
 import 'package:hairs_and_you/api/data/models/review_dto.dart';
 import 'package:hairs_and_you/api/data/models/salon_dto.dart';
 import 'package:hairs_and_you/api/data/models/salons_types_dto.dart';
@@ -115,5 +116,11 @@ abstract class ApiService {
   @POST(Endpoints.getBookings)
   Future<BookingResponseDto> addBooking({
     @Body() required Map<String, dynamic> body,
+  });
+
+  @GET(Endpoints.getPhotos)
+  Future<List<PhotosDto>> getPhotos({
+    @Query('entity_type') required String entityType,
+    @Query('entity_id') required String entityID,
   });
 }

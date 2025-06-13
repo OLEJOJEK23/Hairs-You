@@ -2,9 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hairs_and_you/api/domain/entities/photo.dart';
 import 'package:hairs_and_you/api/domain/entities/review.dart';
 import 'package:hairs_and_you/api/domain/entities/salon.dart';
 import 'package:hairs_and_you/api/domain/entities/service.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_photos.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_salon.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_services.dart';
@@ -36,21 +38,16 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   final GetReviews _getReviews = GetIt.I<GetReviews>();
   final GetSalons _getSalons = GetIt.I<GetSalons>();
   final GetServices _getServices = GetIt.I<GetServices>();
+  final GetPhotos _getPhotos = GetIt.I<GetPhotos>();
   bool _isReviewsLoading = false;
   bool _isSalonLoading = false;
   bool _isServicesLoading = false;
+  bool _isPhotosLoading = false;
   String? _reviewsError;
   String? _salonError;
   String? _servicesError;
-
-  final List<String> _imageUrls = [
-    'assets/images/salon.jpg',
-    'assets/images/barber.jpg',
-    'assets/images/google_logo.png',
-    'assets/images/google_logo.png',
-    'assets/images/google_logo.png',
-    'assets/images/google_logo.png',
-  ];
+  String? _photosError;
+  List<Photo> _imageUrls = [];
   late Salon _salon;
   List<Review> _reviews = [];
   List<Services> _services = [];
@@ -68,6 +65,7 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     _fetchReviews();
     _fetchServices();
     _fetchSalon();
+    _fetchPhotos();
   }
 
   String formatTimeOfDay(TimeOfDay time) {
@@ -119,6 +117,27 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
     }
   }
 
+  Future<void> _fetchPhotos() async {
+    setState(() {
+      _isPhotosLoading = true;
+      _photosError = null;
+    });
+    final result = await _getPhotos(entityID: widget.id, entityType: "salon");
+    result.fold(
+      (failure) => setState(() {
+        _photosError = failure.message;
+        _isPhotosLoading = true;
+      }),
+      (photos) => setState(() {
+        _imageUrls = photos;
+        _isPhotosLoading = false;
+      }),
+    );
+    if (_photosError != null) {
+      print(_photosError);
+    }
+  }
+
   Future<void> _fetchSalon() async {
     setState(() {
       _isSalonLoading = true;
@@ -133,7 +152,6 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
       }),
       (salon) => setState(() {
         _salon = salon[0];
-        print(_salon.isFavorite);
         context.read<BookingBloc>().add(SelectSalon(widget.id, _salon));
         _isSalonLoading = false;
       }),
@@ -164,7 +182,10 @@ class _EstablishmentScreenState extends State<EstablishmentScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body: _isSalonLoading || _isServicesLoading || _isReviewsLoading
+      body: _isSalonLoading ||
+              _isServicesLoading ||
+              _isReviewsLoading ||
+              _isPhotosLoading
           ? Center(
               child: CircularProgressIndicator(
                 color: theme.primaryColor,

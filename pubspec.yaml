@@ -60,6 +60,7 @@ dependencies:
   retrofit: ^4.4.0
   json_annotation: ^4.9.0
   dartz: ^0.10.1
+  cached_network_image: ^3.4.1
 
 
 dev_dependencies:

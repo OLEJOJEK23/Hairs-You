@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hairs_and_you/api/domain/entities/photo.dart';
 
 class ImageScroll extends StatefulWidget {
-  final List<String> imageUrls;
+  final List<Photo> imageUrls;
 
   const ImageScroll({super.key, required this.imageUrls});
 
@@ -74,8 +76,8 @@ class _ImageScrollState extends State<ImageScroll> {
                 // Фиктивные элементы для перехода
                 return const SizedBox.shrink();
               }
-              return Image.asset(
-                widget.imageUrls[index - 1],
+              return CachedNetworkImage(
+                imageUrl: widget.imageUrls[index - 1].photoURL,
                 // Сдвигаем индекс из-за фиктивного начала
                 fit: BoxFit.cover,
                 width: double.infinity,

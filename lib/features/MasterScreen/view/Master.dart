@@ -6,7 +6,6 @@ import 'package:hairs_and_you/api/domain/entities/master.dart';
 import 'package:hairs_and_you/api/domain/usecases/add_booking.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/widgets/FavoriteButtonWidget.dart';
-import 'package:hairs_and_you/widgets/ImageScroll.dart';
 
 import '../../../api/domain/usecases/get_masters.dart';
 import '../../../blocks/booking_block/booking_bloc.dart';
@@ -114,9 +113,9 @@ class _MasterScreenState extends State<MasterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Scrollable list of photos with indicator
-                      const ImageScroll(
-                        imageUrls: ['assets/images/google_logo.png'],
-                      ),
+                      //const ImageScroll(
+                      //  imageUrls: ['assets/images/google_logo.png'],
+                      //),
                       const SizedBox(height: 16),
                       // Full name
                       Text(

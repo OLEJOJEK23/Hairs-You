@@ -282,7 +282,7 @@ class _RecordScreenState extends State<RecordScreen> {
                           child: OfferCard(
                             title: offer.name,
                             description: offer.description,
-                            imagePath: "assets/images/salon.jpg",
+                            imagePath: offer.photoURL,
                             address: "${offer.city_name}, ${offer.address}",
                             rating: offer.rating,
                           ),

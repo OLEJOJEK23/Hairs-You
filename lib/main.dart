@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hairs_and_you/api/data/repositories/favorites_repository_impl.dart';
 import 'package:hairs_and_you/api/data/repositories/masters_repository_impl.dart';
+import 'package:hairs_and_you/api/data/repositories/photos_repository_impl.dart';
 import 'package:hairs_and_you/api/data/repositories/reviews_repository_impl.dart';
 import 'package:hairs_and_you/api/data/repositories/services_repository_impl.dart';
 import 'package:hairs_and_you/api/data/repositories/users_repository_impl.dart';
 import 'package:hairs_and_you/api/domain/repositories/favorite_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/masters_repository.dart';
+import 'package:hairs_and_you/api/domain/repositories/photos_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/reviews_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/salons_repository.dart';
 import 'package:hairs_and_you/api/domain/repositories/services_repository.dart';
@@ -18,6 +20,7 @@ import 'package:hairs_and_you/api/domain/usecases/delete_favorite_master.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_bookings.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_favorites.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_masters.dart';
+import 'package:hairs_and_you/api/domain/usecases/get_photos.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_reviews.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_salon.dart';
 import 'package:hairs_and_you/api/domain/usecases/get_salons_types.dart';
@@ -122,6 +125,12 @@ Future<void> main() async {
       cacheManager: GetIt.I<CacheManager>(),
     ),
   );
+  GetIt.I.registerLazySingleton<PhotosRepository>(
+    () => PhotosRepositoryImpl(
+      apiService: GetIt.I<ApiService>(instanceName: 'backend'),
+      cacheManager: GetIt.I<CacheManager>(),
+    ),
+  );
 
   // Регистрация use cases
   GetIt.I
@@ -152,6 +161,7 @@ Future<void> main() async {
   GetIt.I.registerLazySingleton(
       () => DeleteFavoriteSalon(GetIt.I<FavoriteRepository>()));
   GetIt.I.registerLazySingleton(() => AddBooking(GetIt.I<UsersRepository>()));
+  GetIt.I.registerLazySingleton(() => GetPhotos(GetIt.I<PhotosRepository>()));
 
   runApp(const HairsAndYouApp());
 }

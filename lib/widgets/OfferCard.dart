@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/widgets/RatingDisplay.dart';
 
@@ -42,12 +43,12 @@ class _OfferCardState extends State<OfferCard> {
                 // Изображение с рейтингом
                 Stack(
                   children: [
-                    Image.asset(
-                      widget.imagePath,
+                    CachedNetworkImage(
+                      imageUrl: widget.imagePath,
                       width: double.infinity,
                       height: 150,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
+                      errorWidget: (context, error, stackTrace) => Container(
                         height: 150,
                         color: theme.colorScheme.surface,
                         child: Icon(
