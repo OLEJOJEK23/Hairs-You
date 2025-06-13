@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/api/domain/entities/master.dart';
 import 'package:hairs_and_you/widgets/FavoriteButtonWidget.dart';
@@ -43,10 +44,10 @@ class _MasterCardState extends State<MasterCard> {
           SizedBox(
             height: 180, // Высота фото
             width: double.infinity,
-            child: Image.asset(
-              "assets/images/master1.jpg",
+            child: CachedNetworkImage(
+              imageUrl: widget.master.photoURL,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
+              errorWidget: (context, error, stackTrace) => Container(
                 color: theme.colorScheme.surfaceContainerHigh,
                 child: const Center(
                   child: Icon(

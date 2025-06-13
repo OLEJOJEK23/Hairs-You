@@ -109,7 +109,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 address:
                                     "${favorite.cityName}, ${favorite.streetAddress}",
                                 rating: favorite.rating,
-                                imagePath: "assets/images/salon.jpg",
+                                imagePath: favorite.photoURL,
                                 type: "salon",
                                 id: favorite.salonId,
                               ),
@@ -143,7 +143,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 name: favorite.name,
                                 address: favorite.description,
                                 experience: favorite.experience,
-                                imagePath: "assets/images/master1.jpg",
+                                imagePath: favorite.photoURL,
                                 type: "master",
                                 id: favorite.masterID,
                               ),

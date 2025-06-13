@@ -7,8 +7,11 @@ import 'package:hairs_and_you/api/domain/usecases/add_booking.dart';
 import 'package:hairs_and_you/controllers/Auth_contoroller.dart';
 import 'package:hairs_and_you/widgets/FavoriteButtonWidget.dart';
 
+import '../../../api/domain/entities/photo.dart';
 import '../../../api/domain/usecases/get_masters.dart';
+import '../../../api/domain/usecases/get_photos.dart';
 import '../../../blocks/booking_block/booking_bloc.dart';
+import '../../../widgets/ImageScroll.dart';
 
 @RoutePage()
 class MasterScreen extends StatefulWidget {
@@ -22,10 +25,13 @@ class MasterScreen extends StatefulWidget {
 
 class _MasterScreenState extends State<MasterScreen> {
   final GetMasters _getMasters = GetIt.I<GetMasters>();
-
   late Master _master;
   bool _isMastersLoading = false;
   String? _mastersError;
+  String? _photosError;
+  bool _isPhotosLoading = false;
+  final GetPhotos _getPhotos = GetIt.I<GetPhotos>();
+  List<Photo> _imageUrls = [];
 
   void _selectMaster() {
     // Открываем диалог подтверждения
@@ -42,6 +48,7 @@ class _MasterScreenState extends State<MasterScreen> {
   void initState() {
     super.initState();
     _fetchMaster();
+    _fetchPhotos();
   }
 
   Future<void> _fetchMaster() async {
@@ -68,10 +75,31 @@ class _MasterScreenState extends State<MasterScreen> {
     }
   }
 
+  Future<void> _fetchPhotos() async {
+    setState(() {
+      _isPhotosLoading = true;
+      _photosError = null;
+    });
+    final result = await _getPhotos(entityID: widget.id, entityType: "master");
+    result.fold(
+      (failure) => setState(() {
+        _photosError = failure.message;
+        _isPhotosLoading = true;
+      }),
+      (photos) => setState(() {
+        _imageUrls = photos;
+        _isPhotosLoading = false;
+      }),
+    );
+    if (_photosError != null) {
+      print(_photosError);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return _isMastersLoading
+    return _isMastersLoading || _isPhotosLoading
         ? Center(
             child: CircularProgressIndicator(
               color: theme.primaryColor,
@@ -113,9 +141,9 @@ class _MasterScreenState extends State<MasterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Scrollable list of photos with indicator
-                      //const ImageScroll(
-                      //  imageUrls: ['assets/images/google_logo.png'],
-                      //),
+                      ImageScroll(
+                        imageUrls: _imageUrls,
+                      ),
                       const SizedBox(height: 16),
                       // Full name
                       Text(

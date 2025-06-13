@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hairs_and_you/widgets/FavoriteButtonWidget.dart';
 
@@ -50,12 +51,12 @@ class _FavoriteCardState extends State<FavoriteCard> {
               // Image
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  widget.imagePath,
+                child: CachedNetworkImage(
+                  imageUrl: widget.imagePath,
                   width: 100,
-                  height: 100,
+                  height: 200,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) =>
+                  errorWidget: (context, error, stackTrace) =>
                       const Icon(Icons.error),
                 ),
               ),
