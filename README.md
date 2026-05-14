@@ -54,25 +54,16 @@
 - Dependency Injection через **GetIt**
 
 ## Структура проекта
+### Структура проекта
+
+```bash
 lib/
-├── api/                    # API, репозитории, DTO
-├── core/                   # Ядро приложения (DI, router, theme, utils)
-├── features/               # Основные модули (Feature-first)
-│   ├── auth/
-│   ├── home/
-│   ├── salons/
-│   ├── masters/
-│   ├── booking/
-│   ├── profile/
-│   ├── favorites/
-│   └── map/
-├── shared/                 # Переиспользуемые компоненты
-│   ├── widgets/
-│   └── models/
-├── blocks/                 # BLoC / Cubit
+├── api/
+├── core/          # di, router, theme, utils
+├── features/      # auth, home, salons, masters, booking, profile...
+├── shared/        # widgets, models
+├── blocks/        # BLoC + Cubit
 ├── assets/
-│   ├── images/
-│   └── icons/
 └── main.dart
 
 ###Автор
