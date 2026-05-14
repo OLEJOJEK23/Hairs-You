@@ -55,23 +55,28 @@
 
 ## Структура проекта
 lib/
-├── api/              # API слой (data + domain)
-├── features/         # Feature-first модули
-│   ├── HomeScreen
-│   ├── Salons
-│   ├── MasterScreen
-│   ├── BookingScreen
-│   ├── ProfileScreen
-│   └── ...
-├── blocks/           # BLoC / Cubit
-├── router/           # AutoRoute конфигурация
-├── theme/            # Темизация
-├── widgets/          # Общие виджеты
-└── ...
+├── api/                    # API, репозитории, DTO
+├── core/                   # Ядро приложения (DI, router, theme, utils)
+├── features/               # Основные модули (Feature-first)
+│   ├── auth/
+│   ├── home/
+│   ├── salons/
+│   ├── masters/
+│   ├── booking/
+│   ├── profile/
+│   ├── favorites/
+│   └── map/
+├── shared/                 # Переиспользуемые компоненты
+│   ├── widgets/
+│   └── models/
+├── blocks/                 # BLoC / Cubit
+├── assets/
+│   ├── images/
+│   └── icons/
+└── main.dart
 
 ###Автор
 OLEJOJEK23
 Flutter-разработчик | Mobile Engineer
-
 Telegram: @@kys_bitch
 Email: bashmachenkovoleg@yandex.ru
