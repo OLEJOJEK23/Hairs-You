@@ -55,28 +55,12 @@
 
 ```bash
 lib/
-├── api/                    # API слой, репозитории, DTO
-├── core/                   # Ядро приложения
-│   ├── di/                 # Dependency Injection (GetIt)
-│   ├── router/             # AutoRoute
-│   ├── theme/              # Темизация
-│   └── utils/              # Утилиты
-├── features/               # Feature-first модули
-│   ├── auth/
-│   ├── home/
-│   ├── salons/
-│   ├── masters/
-│   ├── booking/
-│   ├── profile/
-│   ├── favorites/
-│   └── map/
-├── shared/                 # Общие компоненты
-│   ├── widgets/
-│   └── models/
-├── blocks/                 # BLoC / Cubit
+├── api/
+├── core/          # di, router, theme, utils
+├── features/      # auth, home, salons, masters, booking, profile...
+├── shared/        # widgets, models
+├── blocks/        # BLoC + Cubit
 ├── assets/
-│   ├── images/
-│   └── icons/
 └── main.dart
 ```
 
