@@ -51,19 +51,6 @@
 - Репозитории с кэшированием (CacheManager)
 - Dependency Injection через **GetIt**
 
-### Структура проекта
-
-```bash
-lib/
-├── api/
-├── core/          # di, router, theme, utils
-├── features/      # auth, home, salons, masters, booking, profile...
-├── shared/        # widgets, models
-├── blocks/        # BLoC + Cubit
-├── assets/
-└── main.dart
-```
-
 ### Автор
 
 OLEJOJEK23
