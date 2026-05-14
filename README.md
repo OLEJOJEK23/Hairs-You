@@ -54,3 +54,24 @@
 - Dependency Injection через **GetIt**
 
 ## Структура проекта
+lib/
+├── api/              # API слой (data + domain)
+├── features/         # Feature-first модули
+│   ├── HomeScreen
+│   ├── Salons
+│   ├── MasterScreen
+│   ├── BookingScreen
+│   ├── ProfileScreen
+│   └── ...
+├── blocks/           # BLoC / Cubit
+├── router/           # AutoRoute конфигурация
+├── theme/            # Темизация
+├── widgets/          # Общие виджеты
+└── ...
+
+###Автор
+OLEJOJEK23
+Flutter-разработчик | Mobile Engineer
+
+Telegram: @@kys_bitch
+Email: bashmachenkovoleg@yandex.ru
