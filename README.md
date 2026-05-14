@@ -84,5 +84,5 @@ lib/
 
 OLEJOJEK23
 - **Flutter-разработчик | Mobile Engineer**
-- **Telegram: @@kys_bitch**
+- **Telegram: @kys_bitch**
 - **Email: bashmachenkovoleg@yandex.ru**
