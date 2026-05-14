@@ -81,7 +81,8 @@ lib/
 ```
 
 ###Автор
+
 OLEJOJEK23
-Flutter-разработчик | Mobile Engineer
-Telegram: @@kys_bitch
-Email: bashmachenkovoleg@yandex.ru
+- **Flutter-разработчик | Mobile Engineer**
+- **Telegram: @@kys_bitch**
+- **Email: bashmachenkovoleg@yandex.ru**
