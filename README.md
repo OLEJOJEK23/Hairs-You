@@ -64,7 +64,7 @@ lib/
 └── main.dart
 ```
 
-###Автор
+### Автор
 
 OLEJOJEK23
 - **Flutter-разработчик | Mobile Engineer**
