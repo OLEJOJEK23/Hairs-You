@@ -10,8 +10,6 @@
 
 **Hairs & You** — это удобная платформа для поиска салонов красоты, барбершопов и независимых мастеров. Приложение позволяет быстро находить услуги, просматривать портфолио мастеров, читать отзывы, записываться на приём и отслеживать свои записи.
 
-Проект разработан как полноценное клиентское приложение с современным стеком и чистой архитектурой.
-
 ### Основные возможности
 
 - **Авторизация** — вход по номеру телефона (OTP), Google Sign-In
@@ -53,18 +51,34 @@
 - Репозитории с кэшированием (CacheManager)
 - Dependency Injection через **GetIt**
 
-## Структура проекта
 ### Структура проекта
 
 ```bash
 lib/
-├── api/
-├── core/          # di, router, theme, utils
-├── features/      # auth, home, salons, masters, booking, profile...
-├── shared/        # widgets, models
-├── blocks/        # BLoC + Cubit
+├── api/                    # API слой, репозитории, DTO
+├── core/                   # Ядро приложения
+│   ├── di/                 # Dependency Injection (GetIt)
+│   ├── router/             # AutoRoute
+│   ├── theme/              # Темизация
+│   └── utils/              # Утилиты
+├── features/               # Feature-first модули
+│   ├── auth/
+│   ├── home/
+│   ├── salons/
+│   ├── masters/
+│   ├── booking/
+│   ├── profile/
+│   ├── favorites/
+│   └── map/
+├── shared/                 # Общие компоненты
+│   ├── widgets/
+│   └── models/
+├── blocks/                 # BLoC / Cubit
 ├── assets/
+│   ├── images/
+│   └── icons/
 └── main.dart
+```
 
 ###Автор
 OLEJOJEK23
